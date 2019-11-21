@@ -1,18 +1,121 @@
-/* eslint no-console:0 */
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-//
-// To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
-// layout file, like app/views/layouts/application.html.slim
+import Vue from 'vue'
+import App from '../app'
 
+import iconSet from 'quasar/icon-set/fontawesome-v5.js'
+import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
+import '../../assets/styles/quasar.styl'
+import 'quasar/dist/quasar.ie.polyfills'
+import {
+    Quasar,
+    QLayout,
+    QList,
+    QItemSection,
+    QItemLabel,
+    QItem,
+    QHeader,
+    QFooter,
+    QTab,
+    QTabs,
+    QRouteTab,
+    QTabPanel,
+    QTabPanels,
+    QDrawer,
+    QPageContainer,
+    QPage,
+    QToolbar,
+    QToolbarTitle,
+    QBtn,
+    QBtnGroup,
+    QImg,
+    QBadge,
+    QBreadcrumbs,
+    QBreadcrumbsEl,
+    QIcon,
+    QPageSticky,
+    QPageScroller,
+    QAvatar,
+    QTable,
+    QTh,
+    QTr,
+    QTd,
+    QInput,
+    QCard,
+    QCardSection,
+    QCardActions,
+    QForm,
+    QSlideTransition,
+    QToggle,
+    QSpinner,
+    QField,
+    QDialog,
+    QEditor,
+    Notify,
+    Ripple,
+    ClosePopup,
+    QSelect
+} from 'quasar'
 
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+Vue.use(Quasar, {
+    config: {},
+    components: {
+        Quasar,
+        QLayout,
+        QList,
+        QItemSection,
+        QItemLabel,
+        QItem,
+        QHeader,
+        QFooter,
+        QTab,
+        QTabs,
+        QRouteTab,
+        QTabPanel,
+        QTabPanels,
+        QDrawer,
+        QPageContainer,
+        QPage,
+        QToolbar,
+        QToolbarTitle,
+        QBtn,
+        QBtnGroup,
+        QImg,
+        QBadge,
+        QBreadcrumbs,
+        QBreadcrumbsEl,
+        QIcon,
+        QPageSticky,
+        QPageScroller,
+        QAvatar,
+        QTable,
+        QTh,
+        QTr,
+        QTd,
+        QInput,
+        QCard,
+        QCardSection,
+        QCardActions,
+        QForm,
+        QSlideTransition,
+        QToggle,
+        QSpinner,
+        QField,
+        QDialog,
+        QEditor,
+        QSelect
+    },
+    directives: {
+        Ripple,
+        ClosePopup
+    },
+    iconSet: iconSet,
+    plugins: {
+        Notify
+    },
+});
 
-console.log('Hello World from Webpacker')
+document.addEventListener('DOMContentLoaded', () => {
+    const app = new Vue({
+        render: h => h(App),
+    }).$mount();
+    document.body.appendChild(app.$el)
+});
