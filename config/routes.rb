@@ -3,6 +3,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
 
-  resources :books
+	namespace :users do
+		resources :index, only: :user do
+			get :user, on: :collection
+		end
+	end
 
+  resources :books
 end
