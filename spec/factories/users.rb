@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :user do
     first_name { 'Ivan' }
     last_name { 'Ivanov' }
-    admin :false
+    admin { 'false' }
     password { '12345678' }
   end
 end
