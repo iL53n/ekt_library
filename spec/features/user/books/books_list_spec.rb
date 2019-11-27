@@ -13,7 +13,7 @@ feature 'User can see all books', %q{
     background do
       visit new_user_session_path
       sign_in(user)
-      visit books_index_path
+      visit book_index_path
     end
 
     scenario 'show all books' do
