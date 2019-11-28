@@ -1,8 +1,14 @@
 <template lang="pug">
   div
     | {{ user.email }}
-    q-btn(color="white" size="10px")
-      a(:href="'/users/sign_out'" data-method="delete") Выйти
+    q-btn(
+      type="a"
+      href="/users/sign_out"
+      color="white"
+      size="10px"
+      text-color="primary"
+      label="Выйти"
+    )
 </template>
 
 <script>

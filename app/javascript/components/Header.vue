@@ -5,7 +5,7 @@
         q-btn(flat round dense icon="menu")
         a(href="/")
           img(src="../images/Logo.png" alt="EKTlibrary" width="50" align="middle")
-        q-toolbar-title EKT group library
+        q-toolbar-title БИБЛИОТЕКА ЕКТ
           q-badge(align="top" color="orange") v1.0.0b
         div
           profile-menu

@@ -1,8 +1,8 @@
 <template lang="pug">
   q-footer
     q-toolbar(class="bg-primary glossy text-white")
-      q-toolbar-title Корпоративная библиотека ЗАО "ЕКТ групп"
-      | Минск 2019
+      q-toolbar Корпоративная библиотека ЗАО "ЕКТ групп"
+      | Минск
 </template>
 
 <script></script>
