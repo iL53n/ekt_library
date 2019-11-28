@@ -1,44 +1,30 @@
 <template lang="pug">
-  div(class="q-pa-md q-gutter-y-sm")
-    q-toolbar(class="bg-primary text-white")
-      q-btn(flat round dense icon="menu")
-      a(href="/")
-        img(src="../images/Logo.png" alt="EKTlibrary" width="50" align="middle")
-      q-toolbar-title EKT group library
-        q-badge(align="top" color="orange") v1.0.0b
-      | {{ user.email }}
-      q-btn(flat round dense icon="more_vert")
+  div
+    q-header
+      q-toolbar(class="bg-primary glossy text-white")
+        q-btn(flat round dense icon="menu")
+        a(href="/")
+          img(src="../images/Logo.png" alt="EKTlibrary" width="50" align="middle")
+        q-toolbar-title EKT group library
+          q-badge(align="top" color="orange") v1.0.0b
+        div
+          profile-menu
+        q-btn(flat round dense icon="more_vert")
 </template>
 
 <script>
-	import { backendGetUser } from '../api/index'
+  import ProfileMenu from './Profile'
 
 	export default {
 		data: function () {
-			return {
-				user: {}
-			}
+			return {}
 		},
 		created() {
-			this.fetchUser();
 		},
 		methods: {
-			fetchUser() {
-				backendGetUser()
-					.then((response) => {
-						this.user = response.data.user
-					})
-					.catch((error) => {
-						console.log(error);
-						this.error = true
-					})
-					.finally(() => {
-						this.loading = false
-					});
-			}
 		},
 		components: {
-			backendGetUser
+      ProfileMenu
 		}
 	}
 </script>
