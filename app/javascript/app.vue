@@ -1,47 +1,23 @@
 <template lang="pug">
-  div(class="q-pa-md q-gutter-y-sm")
-    q-toolbar(class="bg-grey-3")
-      q-btn(flat round dense icon="menu")
-      q-toolbar-title
-        | Test
-        | {{ user.email }}
-      q-btn(flat round dense icon="more_vert")
+  div
+    header-component
 </template>
 
 <script>
-  import { backendGetUser } from './api/index'
+  import HeaderComponent from './components/Header'
 
   export default {
     data: function () {
       return {
-      	user: {
-      		email: '123'
-        }
+
       }
     },
     created() {
-    	this.fetchUser();
     },
     methods: {
-    	fetchUser() {
-				backendGetUser()
-					.then((response) => {
-						this.user = response.data.user
-						console.log('<>');
-						console.log(response.data);
-						console.log('<>');
-					})
-					.catch((error) => {
-						console.log(error);
-						//this.error = true
-					})
-					.finally(() => {
-						//this.loading = false
-					});
-      }
     },
     components: {
-    	backendGetUser
+			HeaderComponent
     }
   }
 </script>
