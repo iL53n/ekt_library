@@ -2,11 +2,19 @@
   div(class="q-pa-md")
     q-layout(view="lhh lpR lff" container style="height: 95vh" class="shadow-5 rounded-borders")
       header-component
+      q-page-container
+        q-page(padding style="padding-top: 66px")
+
+          books-table
+
+        q-page-scroller(position="bottom")
+          q-btn(fab icon="keyboard_arrow_up" color="red")
       footer-component
 </template>
 
 <script>
   import HeaderComponent from './components/Header'
+  import BooksTable from './components/BooksTable'
   import FooterComponent from './components/Footer'
 
   export default {
@@ -21,6 +29,7 @@
     },
     components: {
 			HeaderComponent,
+			BooksTable,
       FooterComponent
     }
   }
