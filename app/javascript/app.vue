@@ -5,7 +5,7 @@
       q-page-container
         q-page(padding style="padding-top: 66px")
 
-          books-table
+          router-view
 
         q-page-scroller(position="bottom")
           q-btn(fab icon="keyboard_arrow_up" color="red")

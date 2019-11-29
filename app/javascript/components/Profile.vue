@@ -5,15 +5,15 @@
       q-menu(auto-close transition-show="scale" transition-hide="scale")
         q-list(style="min-width: 100px")
           div(v-if="user.admin")
-          q-item(v-close-popup)
-            q-item-section
-              q-btn(
-                href=""
-                color="negative"
-                size="10px"
-                text-color="white"
-                label="Панель администратора"
-              )
+            q-item(v-close-popup)
+              q-item-section
+                q-btn(
+                  to="/admin_books"
+                  color="negative"
+                  size="10px"
+                  text-color="white"
+                  label="Панель администратора"
+                )
           q-item(v-close-popup)
             q-item-section {{ user.first_name }}
             q-item-section {{ user.last_name }}
@@ -29,7 +29,7 @@
           q-item(v-close-popup)
             q-item-section
               q-btn(
-                href="/users/sign_out"
+                to="/users/sign_out"
                 color="primary"
                 size="10px"
                 text-color="white"

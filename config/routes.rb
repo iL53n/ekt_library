@@ -12,5 +12,5 @@ Rails.application.routes.draw do
 
   resources :books
 
-	get '/*slug', to: 'application#index'
+	get '/*slug', to: 'books#index'
 end
