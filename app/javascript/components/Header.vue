@@ -9,7 +9,6 @@
           q-badge(align="top" color="orange") v1.0.0b
         div
           profile-menu
-        q-btn(flat round dense icon="more_vert")
 </template>
 
 <script>

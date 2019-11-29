@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from '../app'
+import Router from '../../router'
 
 import iconSet from 'quasar/icon-set/material-icons'
 import '@quasar/extras/material-icons/material-icons.css'
@@ -52,7 +53,8 @@ import {
     Notify,
     Ripple,
     ClosePopup,
-    QSelect
+    QSelect,
+    QMenu
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -101,7 +103,8 @@ Vue.use(Quasar, {
         QField,
         QDialog,
         QEditor,
-        QSelect
+        QSelect,
+        QMenu
     },
     directives: {
         Ripple,
@@ -116,6 +119,7 @@ Vue.use(Quasar, {
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({
         render: h => h(App),
+        Router
     }).$mount();
     document.body.appendChild(app.$el)
 });
