@@ -63,6 +63,8 @@
 
 <script>
   import { backendPostBook } from '../api'
+  import { Notify } from 'quasar'
+
 	export default {
 		data: function () {
 			return {
@@ -76,6 +78,20 @@
 		methods: {
 			addClient() {
         backendPostBook(this.book)
+					.then((response) => {
+						Notify.create({
+							message: "Книга '" + this.book.title + "' создана!",
+							color: 'positive',
+							position: 'top'
+						});
+						this.$emit('add-book');
+						this.book = {};
+						this.errors = {};
+						// this.$refs.title.resetValidation();
+					})
+					.catch((error) => {
+						this.errors = error.response.data.errors;
+					});
       }
 		},
 		components: {

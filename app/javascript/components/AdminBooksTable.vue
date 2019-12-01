@@ -19,7 +19,7 @@
             :columns="columns",
             row-key="id"
             no-data-label="Нет информации о книгах!")
-        new-book
+        new-book(@add-book="fetchBooks")
 </template>
 
 <script>
