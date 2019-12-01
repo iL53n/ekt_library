@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root 'application#index'
 
-
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
 
 	namespace :users do
@@ -12,5 +11,5 @@ Rails.application.routes.draw do
 
   resources :books
 
-	get '/*slug', to: 'books#index'
+	get '/*slug', to: 'application#index'
 end

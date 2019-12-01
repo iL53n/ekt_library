@@ -19,10 +19,12 @@
             :columns="columns",
             row-key="id"
             no-data-label="Нет информации о книгах!")
+        new-book
 </template>
 
 <script>
   import { backendGetBooks } from '../api/index'
+  import NewBook from './CreateBook'
 
   export default {
 		data() {
@@ -59,7 +61,8 @@
       }
     },
     components: {
-			backendGetBooks
+			backendGetBooks,
+      NewBook
     }
 	}
 </script>
