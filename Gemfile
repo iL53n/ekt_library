@@ -14,6 +14,8 @@ gem 'webpacker', '~> 4.x'
 gem 'slim-rails'
 gem 'devise'
 gem 'database_cleaner'
+gem 'active_model_serializers'
+gem 'oj'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

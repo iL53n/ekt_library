@@ -5,5 +5,6 @@ class Users::IndexController < ApplicationController
 
 	def user
 		@user = current_user
+		render json: @user
 	end
 end
