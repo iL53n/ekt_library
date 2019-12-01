@@ -7,3 +7,9 @@ export function backendGetUser () {
 export function backendGetBooks () {
 	return axios.get('/books');
 }
+
+export function backendPostBook (params) {
+	return axios.post('/books', params);
+}
+
+

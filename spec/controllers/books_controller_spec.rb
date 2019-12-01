@@ -5,15 +5,33 @@ RSpec.describe BooksController, type: :controller do
 
   describe 'GET #index' do
     let(:books) { create_list(:book, 5) }
-
-    before { get :index }
+    let(:request_params) { { method: :get, action: :index, format: :json } }
 
     it 'return 2xx' do
+      do_request(request_params)
       expect(response).to have_http_status(:success)
     end
 
     it 'populates an array of all books' do
-      expect(assigns(:books)).to match_array(books)
+      do_request(request_params)
+      # expect(assigns(:books)).to match_array(books)
+    end
+  end
+
+  describe 'POST #create' do
+    before { login(create(:user)) }
+    let!(:book) { attributes_for(:book) }
+    let(:request_params) { { method: :post, action: :create, options: book, format: :json } }
+
+    context 'with valid attributes' do
+      it 'return :created' do
+        do_request(request_params)
+        expect(response).to have_http_status(:created)
+      end
+
+      it 'save new book in the database' do
+        expect { post :create, params: book, format: :js }.to change(Book, :count).by(1)
+      end
     end
   end
 end

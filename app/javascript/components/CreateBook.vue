@@ -1,10 +1,11 @@
 <template lang="pug">
   div
     q-btn(color='primary' rounded label="Новая книга")
-      q-menu(anchor="center right" self="bottom left")
+      q-menu(anchor="center right" self="center left")
         q-card(style="width: 300px")
           q-form
             q-card-section(class="q-gutter-y-md column")
+              q-item-section
               q-input(
                 filled
                 ref="title"
@@ -12,34 +13,43 @@
                 placeholder="Наименование книги"
                 v-model="book.title"
                 type="text"
-                lazy-rules
-                :rules="[val => val !== null && val !== '' || 'Наименование не может быть пустым']"
-                :dense="dense"
               )
-                q-input(
-                  filled
-                  ref="title"
-                  label="Автор *"
-                  placeholder="Автор(-ы) книги"
-                  v-model="book.author"
-                  type="text"
-                  lazy-rules
-                  :rules="[val => val !== null && val !== '' || 'Поле автор не может быть пустым']"
-                  :dense="dense"
-                )
-                  q-input(
-                    filled
-                    ref="title"
-                    label="Статус *"
-                    placeholder="ВРЕМЕННОЕ поле_удл_статусы - реализация другой итерации"
-                    v-model="book.status"
-                    type="text"
-                    :dense="dense"
-                  )
+              q-input(
+                filled
+                ref="author"
+                label="Автор *"
+                placeholder="Автор(-ы) книги"
+                v-model="book.author"
+                type="text"
+              )
+              q-input(
+                filled
+                ref="image"
+                label="Изображение *"
+                placeholder="ВРЕМЕННОЕ поле_изм_статусы - реализация в другой итерации"
+                v-model="book.image"
+                type="text"
+              )
+              q-input(
+                filled
+                ref="description"
+                label="Описание *"
+                placeholder="Описание книги"
+                v-model="book.description"
+                type="textarea"
+              )
+              q-input(
+                filled
+                ref="status"
+                label="Статус *"
+                placeholder="ВРЕМЕННОЕ поле_удл_статусы - реализация в другой итерации"
+                v-model="book.status"
+                type="text"
+              )
               q-btn(
                 color="primary"
                 label="СОХРАНИТЬ"
-                @click=""
+                @click="addClient"
                 type="submit"
                 v-close-popup="hide"
               )
@@ -52,15 +62,24 @@
 </template>
 
 <script>
+  import { backendPostBook } from '../api'
 	export default {
 		data: function () {
-			return {}
+			return {
+				book: {},
+        errors: {},
+        hide: true
+      }
 		},
 		created() {
 		},
 		methods: {
+			addClient() {
+        backendPostBook(this.book)
+      }
 		},
 		components: {
+			backendPostBook
 		}
 	}
 </script>

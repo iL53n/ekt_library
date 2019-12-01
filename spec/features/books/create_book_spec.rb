@@ -21,8 +21,10 @@ feature 'Admin can create new book', %q{
 			click_on 'Новая книга'
 			fill_in 'Наименование', with: 'Test_title'
 			fill_in 'Автор', with: 'Test_author'
+			fill_in 'Изображение', with: 'Test_image'
+			fill_in 'Описание', with: 'Test_description'
 			fill_in 'Статус', with: 'OK'
-			click_on 'Сохранить'
+			click_on 'СОХРАНИТЬ'
 
 			within '.q-table' do
 				expect(page).to have_content 'Test_title'
