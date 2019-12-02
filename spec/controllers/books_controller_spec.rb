@@ -34,4 +34,18 @@ RSpec.describe BooksController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    before { login(create(:user)) }
+    let!(:book) { create(:book) }
+
+    it 'return :success' do
+      delete :destroy, params: { id: book }
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'deletes the book' do
+      expect { delete :destroy, params: { id: book } }.to change(Book, :count).by(-1)
+    end
+  end
 end
