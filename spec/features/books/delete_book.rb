@@ -23,7 +23,7 @@ feature 'Admin can delete book', %q{
         expect(page).to have_content book.title
         expect(page).to have_content book.author
 
-        click_on 'УДАЛИТЬ'
+        click_on 'Удалить'
 
         expect(page).to_not have_content book.title
         expect(page).to_not have_content book.author

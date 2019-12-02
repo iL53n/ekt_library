@@ -21,13 +21,14 @@
             no-data-label="Нет информации о книгах!")
             template(v-slot:body-cell-action="props")
               q-td(align="right")
-                q-btn(push color="white" text-color="negative" label="Удалить"  @click="" method="delete")
+                q-btn(push color="white" text-color="negative" label="Удалить"  @click="deleteBook(props.row)" method="delete")
         new-book(@add-book="fetchBooks")
 </template>
 
 <script>
-  import { backendGetBooks } from '../api/index'
+	import { backendDeleteBook, backendGetBooks } from '../api/index'
   import NewBook from './CreateBook'
+  import { Notify } from 'quasar'
 
   export default {
 		data() {
@@ -62,11 +63,27 @@
 					.finally(() => {
 						this.loading = false
 					});
+      },
+      deleteBook(book) {
+        backendDeleteBook(book.id)
+          .then((response) => {
+            this.fetchBooks();
+            Notify.create({
+              message: "Книга '" + book.title + "' удалена!",
+              color: 'negative'
+            })
+          })
+					.catch((error) => {
+						console.log(error);
+						this.error = true
+					});
       }
     },
     components: {
 			backendGetBooks,
-      NewBook
+      backendDeleteBook,
+      NewBook,
+      Notify
     }
 	}
 </script>

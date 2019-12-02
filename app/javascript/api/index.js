@@ -12,4 +12,8 @@ export function backendPostBook (params) {
 	return axios.post('/books', params);
 }
 
+export function backendDeleteBook (id) {
+	return axios.delete('books/' + id);
+}
+
 
