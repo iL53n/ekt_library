@@ -21,6 +21,7 @@
             no-data-label="Нет информации о книгах!")
             template(v-slot:body-cell-action="props")
               q-td(align="right")
+                q-btn(push color="white" text-color="secondary" label="Редактировать"  @click="editBook(props.row)")
                 q-btn(push color="white" text-color="negative" label="Удалить"  @click="deleteBook(props.row)" method="delete")
         new-book(@add-book="fetchBooks")
 </template>
@@ -39,7 +40,7 @@
 					{ name: 'title', align: 'center', label: 'Наименование', field: 'title', sortable: true },
 					{ name: 'author', align: 'center', label: 'Автор', field: 'author', sortable: true },
 					{ name: 'status', label: 'Статус', field: 'status', sortable: true },
-					{ name: 'action', align: 'center', field: ['delete'] }
+					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
 				data: [],
 				title: '',
