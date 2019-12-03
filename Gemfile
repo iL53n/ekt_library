@@ -12,6 +12,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'webpacker', '~> 4.x'
 gem 'slim-rails'
+gem 'devise'
+gem 'database_cleaner'
+gem 'active_model_serializers'
+gem 'oj'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -32,6 +36,8 @@ group :test do
   gem 'shoulda-matchers'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'launchy'
+  gem 'rails-controller-testing'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
