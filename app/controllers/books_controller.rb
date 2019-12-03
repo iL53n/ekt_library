@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_book, only: %i[show update destroy]
+  before_action :load_book, only: %i[show update destroy edit]
 
   def index
     @books = Book.all

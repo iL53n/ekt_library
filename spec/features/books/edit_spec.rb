@@ -24,12 +24,15 @@ feature 'Admin can edit book', %q{
         expect(page).to have_content book.author
 
         click_on 'Редактировать'
-        within '.q-form' do
-          fill_in 'Наименование', with: 'Test_new_title'
-          fill_in 'Автор', with: 'Test_new_author'
-          click_on 'СОХРАНИТЬ'
-        end
+      end
 
+      within '.q-form' do
+        fill_in 'Наименование', with: 'Test_new_title'
+        fill_in 'Автор', with: 'Test_new_author'
+        click_on 'СОХРАНИТЬ'
+      end
+
+      within '.q-table' do
         expect(page).to_not have_content 'Test_new_title'
         expect(page).to_not have_content 'Test_new_author'
       end

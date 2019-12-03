@@ -14,7 +14,7 @@
 
 <script>
   import HeaderComponent from './components/Header'
-  import BooksTable from './components/BooksTable'
+  import BooksTable from './components/Tables/BooksTable'
   import FooterComponent from './components/Footer'
 
   export default {

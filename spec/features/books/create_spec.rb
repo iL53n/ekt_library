@@ -28,10 +28,10 @@ feature 'Admin can create new book', %q{
 				click_on 'СОХРАНИТЬ'
       end
 
-			within '.q-table' do
-				expect(page).to have_content 'Test_title'
+      within '.q-table' do
+        expect(page).to have_content 'Test_title'
 				expect(page).to have_content 'Test_author'
-			end
+      end
 		end
 	end
 end
