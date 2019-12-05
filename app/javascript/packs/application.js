@@ -55,7 +55,10 @@ import {
     ClosePopup,
     QSelect,
     QMenu,
-    QSeparator
+    QSeparator,
+    QBar,
+    QSpace,
+    QParallax
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -106,7 +109,10 @@ Vue.use(Quasar, {
         QEditor,
         QSelect,
         QMenu,
-        QSeparator
+        QSeparator,
+        QBar,
+        QSpace,
+        QParallax
     },
     directives: {
         Ripple,
