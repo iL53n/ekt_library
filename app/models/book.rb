@@ -5,4 +5,6 @@ class Book < ApplicationRecord
             :description,
             :image,
             :status, presence: true
+
+  # has_one_attached :image
 end
