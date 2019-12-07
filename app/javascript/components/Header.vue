@@ -11,17 +11,15 @@
           profile-menu
 
     q-drawer(show-if-above v-model="left" side="left" elevated)
-      q-scroll-area(class="fit")
-        div(class="q-pa-sm")
-          q-tabs(v-model="tab" vertical class="text-teal")
-            q-route-tab(to="/admin_books" name="books" icon="library_books" label="Книги")
-            q-route-tab(to="/categories" name="categories" icon="all_inbox" label="Категории")
-            q-route-tab(to="/users" name="users" icon="supervised_user_circle" label="Пользователи")
-
+        q-scroll-area(class="fit")
+          div(class="q-pa-sm")
+            q-tabs(v-model="tab" vertical class="text-teal")
+              admin-left-menu
 </template>
 
 <script>
   import ProfileMenu from './Profile'
+  import AdminLeftMenu from './AdminLeftMenu'
 
 	export default {
 		data: function () {
@@ -34,7 +32,8 @@
 		methods: {
 		},
 		components: {
-      ProfileMenu
+      ProfileMenu,
+      AdminLeftMenu
 		}
 	}
 </script>

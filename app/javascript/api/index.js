@@ -4,10 +4,15 @@ export function backendGetUser () {
 	return axios.get('/users/index/user');
 }
 
+export function backendGetUsers () {
+	return axios.get('/users/index/users');
+}
+
 export function backendGetBooks () {
 	return axios.get('/books');
+}
 
-}export function backendGetBook (id) {
+export function backendGetBook (id) {
 	return axios.get('/books/' + id);
 }
 

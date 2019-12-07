@@ -1,7 +1,10 @@
 class Users::IndexController < ApplicationController
   before_action :authenticate_user!
 
-	def index; end
+  def users
+    @users = User.all
+    render json: @users
+  end
 
   def user
     @user = current_user

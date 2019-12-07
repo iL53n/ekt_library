@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 	namespace :users do
 		resources :index, only: :user do
 			get :user, on: :collection
+			get :users, on: :collection
 		end
 	end
 
