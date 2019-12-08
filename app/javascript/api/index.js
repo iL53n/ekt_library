@@ -1,11 +1,15 @@
 import axios from 'axios'
 
-export function backendGetUser () {
-	return axios.get('/users/index/user');
+export function backendCurrentUser () {
+	return axios.get('/users/index/me');
 }
 
 export function backendGetUsers () {
-	return axios.get('/users/index/users');
+	return axios.get('/users/index');
+}
+
+export function backendPostUser (params) {
+	return axios.post('/users/index', params);
 }
 
 export function backendGetBooks () {

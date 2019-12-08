@@ -58,7 +58,8 @@ import {
     QSeparator,
     QBar,
     QSpace,
-    QParallax
+    QParallax,
+    QScrollArea
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -112,7 +113,8 @@ Vue.use(Quasar, {
         QSeparator,
         QBar,
         QSpace,
-        QParallax
+        QParallax,
+        QScrollArea,
     },
     directives: {
         Ripple,

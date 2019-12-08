@@ -17,6 +17,8 @@
             :title="title",
             :data="data",
             :columns="columns",
+            :pagination.sync="pagination",
+            :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет информации о пользователях!")
             template(v-slot:body-cell-action="props")
@@ -25,13 +27,13 @@
                 q-btn(text-color="negative" label="Удалить"  @click="deleteUser(props.row)" method="delete")
 
           q-btn(push color="primary" size="15px" @click="newUser()" label="Новый пользователь")
-        router-view(@add-book="fetchUsers" @edit-book="fetchUsers")
+        router-view(@add-user="fetchUsers" @edit-user="fetchUsers")
 </template>
 
 <script>
 	import { backendGetUsers } from '../../api'
-  import NewUser from '../BooksForm/CreateUser'
-  import EditUser from '../BooksForm/EditUser'
+  import NewUser from '../UsersForm/CreateUser'
+  // import EditUser from '../UsersForm/EditUser'
   import { Notify } from 'quasar'
 
   export default {
@@ -47,6 +49,9 @@
 					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
 				data: [],
+        pagination: {
+          rowsPerPage: 5
+        },
 				title: '',
 				loading: true
 			}
@@ -73,7 +78,7 @@
 				this.$router.push({ name: 'createUser'})
       },
       editUser(book) {
-        this.$router.push({ name: 'editUser', params: { id: user.id } })
+        //this.$router.push({ name: 'editUser', params: { id: user.id } })
       },
       deleteUser(user) {
         backendDeleteUser(user.id)
@@ -92,7 +97,7 @@
     },
     components: {
       NewUser,
-      EditUser,
+      // EditUser,
       Notify
     }
 	}

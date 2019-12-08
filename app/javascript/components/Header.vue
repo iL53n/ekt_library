@@ -11,10 +11,10 @@
           profile-menu
 
     q-drawer(show-if-above v-model="left" side="left" elevated)
-        q-scroll-area(class="fit")
-          div(class="q-pa-sm")
-            q-tabs(v-model="tab" vertical class="text-teal")
-              admin-left-menu
+      q-scroll-area(class="fit")
+        div(class="q-pa-sm")
+          q-tabs(vertical class="text-teal")
+            admin-left-menu
 </template>
 
 <script>

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-	import { backendGetUser } from '../api/index'
+	import { backendCurrentUser } from '../api/index'
 
 	export default {
 		data: function () {
@@ -51,7 +51,7 @@
 		},
 		methods: {
 			fetchUser() {
-				backendGetUser()
+				backendCurrentUser()
 					.then((response) => {
 						this.user = response.data.user
 					})
@@ -65,7 +65,7 @@
 			}
 		},
 		components: {
-			backendGetUser
+			backendCurrentUser
 		}
 	}
 </script>
