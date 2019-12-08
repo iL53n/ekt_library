@@ -16,7 +16,7 @@ feature 'Admin can edit book', %q{
       visit '/admin_books'
     end
 
-    scenario 'delete book' do
+    scenario 'edit book' do
       expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
 
       within '.q-table' do
