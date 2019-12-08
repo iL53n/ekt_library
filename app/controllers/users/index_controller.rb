@@ -1,6 +1,7 @@
 class Users::IndexController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
+  before_action :load_user, only: :destroy
 
   def index
     @users = User.all
@@ -24,7 +25,15 @@ class Users::IndexController < ApplicationController
 
   def show; end
 
+  def destroy
+    @user.destroy
+  end
+
   private
+
+  def load_user
+    @user ||= User.find(params[:id])
+  end
 
   def user_params
     params.permit(:id, :first_name, :last_name, :email, :admin, :password)

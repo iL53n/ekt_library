@@ -12,6 +12,10 @@ export function backendPostUser (params) {
 	return axios.post('/users/index', params);
 }
 
+export function backendDeleteUser (id) {
+	return axios.delete('/users/index/' + id);
+}
+
 export function backendGetBooks () {
 	return axios.get('/books');
 }

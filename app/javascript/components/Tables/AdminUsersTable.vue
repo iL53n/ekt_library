@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	import { backendGetUsers } from '../../api'
+	import { backendGetUsers, backendDeleteUser } from '../../api'
   import NewUser from '../UsersForm/CreateUser'
   // import EditUser from '../UsersForm/EditUser'
   import { Notify } from 'quasar'
@@ -50,7 +50,7 @@
         ],
 				data: [],
         pagination: {
-          rowsPerPage: 5
+          rowsPerPage: 10
         },
 				title: '',
 				loading: true
@@ -85,7 +85,7 @@
           .then((response) => {
             this.fetchUsers();
             Notify.create({
-              message: "Пользователь '" + book.title + "' удален!",
+              message: "Пользователь '" + user.email + "' удален!",
               color: 'negative'
             })
           })
