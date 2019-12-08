@@ -19,7 +19,6 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { login(create(:user)) }
     let!(:book) { attributes_for(:book) }
     let(:request_params) { { method: :post, action: :create, options: book, format: :json } }
 
@@ -36,7 +35,6 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(create(:user)) }
     let!(:book) { create(:book) }
 
     it 'return :success' do
@@ -50,10 +48,8 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe 'GET #show' do
-    before do
-      login(create(:user))
-      get :show, params: { id: book.id }
-    end
+    before { get :show, params: { id: book.id } }
+
     let!(:book) { create(:book) }
 
     it 'return 2xx' do
@@ -66,7 +62,6 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { login(create(:user)) }
     let!(:book) { create(:book) }
 
     context 'with valid attributes' do
@@ -76,7 +71,7 @@ RSpec.describe BooksController, type: :controller do
       end
 
       it 'changes book attributes' do
-        patch :update, params: { id: book.id, book: { title: 'new_title', author: 'new_author' } }, format: :js
+        patch :update, params: { id: book, book: { title: 'new_title', author: 'new_author' } }, format: :js
         book.reload
 
         expect(book.title).to eq('new_title')
