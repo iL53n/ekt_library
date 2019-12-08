@@ -33,7 +33,7 @@
 <script>
 	import { backendGetUsers, backendDeleteUser } from '../../api'
   import NewUser from '../UsersForm/CreateUser'
-  // import EditUser from '../UsersForm/EditUser'
+  import EditUser from '../UsersForm/EditUser'
   import { Notify } from 'quasar'
 
   export default {
@@ -77,8 +77,8 @@
       newUser() {
 				this.$router.push({ name: 'createUser'})
       },
-      editUser(book) {
-        //this.$router.push({ name: 'editUser', params: { id: user.id } })
+      editUser(user) {
+        this.$router.push({ name: 'editUser', params: { id: user.id } })
       },
       deleteUser(user) {
         backendDeleteUser(user.id)
@@ -97,7 +97,7 @@
     },
     components: {
       NewUser,
-      // EditUser,
+      EditUser,
       Notify
     }
 	}

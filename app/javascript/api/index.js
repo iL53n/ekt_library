@@ -8,8 +8,16 @@ export function backendGetUsers () {
 	return axios.get('/users/index');
 }
 
+export function backendGetUser (id) {
+	return axios.get('/users/index/' + id);
+}
+
 export function backendPostUser (params) {
 	return axios.post('/users/index', params);
+}
+
+export function backendPatchUser (user) {
+	return axios.patch('/users/index/' + user.id, user);
 }
 
 export function backendDeleteUser (id) {

@@ -1,7 +1,7 @@
 class Users::IndexController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_user, only: :destroy
+  before_action :load_user, only: %i[show update destroy]
 
   def index
     @users = User.all
@@ -23,7 +23,17 @@ class Users::IndexController < ApplicationController
     render json: @user
   end
 
-  def show; end
+  def show
+    render json: @user, status: :ok
+  end
+
+  def update
+    if @user.update!(user_params)
+      render json: @user, status: :created
+    else
+      render json: { errors: @user.errors }, status: :unprocessable_entity
+    end
+  end
 
   def destroy
     @user.destroy

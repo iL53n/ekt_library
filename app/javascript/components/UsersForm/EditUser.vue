@@ -3,7 +3,7 @@
     q-dialog(
       :value="true"
       @hide="afterShow()"
-      position="left"
+      position="right"
       transition-show="flip-right"
     )
       q-card(style="width: 500px")
@@ -52,7 +52,7 @@
             q-btn(
               color="primary"
               label="СОХРАНИТЬ"
-              @click="addUser"
+              @click="updateUser"
               type="submit"
               v-close-popup="hide"
             )
@@ -65,45 +65,57 @@
 </template>
 
 <script>
-  import { backendPostUser } from '../../api'
-  import { Notify } from 'quasar'
+	import { backendGetUser, backendPatchUser } from '../../api'
+	import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
 			return {
-				user: {},
-        errors: {},
-        hide: true
-      }
+				user: this.getUser(),
+				errors: {},
+				hide: true
+			}
 		},
 		created() {
 		},
 		methods: {
-			addUser() {
-        backendPostUser(this.user)
+			getUser() {
+				backendGetUser(this.$route.params.id)
+					.then((response) => {
+						this.user = response.data.user
+					})
+					.catch((error) => {
+						console.log(error);
+						this.errors = true
+					})
+					.finally(() => {
+						this.loading = false
+					});
+      },
+			updateUser() {
+				backendPatchUser(this.user)
 					.then((response) => {
 						Notify.create({
-							message: "Пользователь '" + this.user.email + "' создан!",
+							message: "Пользователь '" + this.user.email + "' отредактирован!",
 							color: 'positive',
-							position: 'top'
+							position: 'right'
 						});
-						this.$emit('add-user');
+						this.$emit('edit-user');
 						this.user = {};
 						this.errors = {};
 						// this.$refs.title.resetValidation();
 					})
 					.catch((error) => {
-            console.log(error)
-						this.errors = true;
+						this.errors = error.response.data.errors;
 					});
-      },
-      afterShow() {
+			},
+			afterShow() {
 				this.$router.push("/admin_users");
-      }
+			}
 		},
 		components: {
-			backendPostUser,
-      Notify
+			backendGetUser,
+			backendPatchUser
 		}
 	}
 </script>
