@@ -9,24 +9,25 @@ feature 'Admin can create new category', %q{
   given(:user) { create(:user, admin: 'true') }
 
   describe 'Admin' do
-		background do
-			visit new_user_session_path
-			sign_in(user)
-			visit '/admin_category'
-		end
+    background do
+      visit new_user_session_path
+      sign_in(user)
+      visit '/admin_categories'
+    end
 
-		scenario 'create new category' do
-			expect(page).to have_content 'Категории(АДМИНИСТРИРОВАНИЕ)'
+    scenario 'create new category' do
+      expect(page).to have_content 'Категории(АДМИНИСТРИРОВАНИЕ)'
 
-			click_on 'Новая категория'
-			within '.q-form' do
-				fill_in 'Наименование', with: 'Test_title'
-				click_on 'СОХРАНИТЬ'
+      click_on 'Новая категория'
+
+      within '.q-form' do
+        fill_in 'Наименование', with: 'Test_title'
+        click_on 'СОХРАНИТЬ'
       end
 
       within '.q-table' do
         expect(page).to have_content 'Test_title'
       end
-		end
-	end
+    end
+  end
 end

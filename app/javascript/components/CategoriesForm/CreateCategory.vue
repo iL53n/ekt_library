@@ -1,0 +1,85 @@
+<template lang="pug">
+  div
+    q-dialog(
+      :value="true"
+      @hide="afterShow()"
+      position="left"
+      transition-show="flip-right"
+    )
+      q-card(style="width: 500px")
+        q-form
+          q-card-section(class="q-gutter-y-md column")
+            q-item-section
+            q-input(
+              filled
+              ref="first_name"
+              label="Наименование *"
+              placeholder="Наименование категории"
+              v-model="category.title"
+              type="text"
+            )
+            q-btn(
+              color="primary"
+              label="СОХРАНИТЬ"
+              @click="addCategory"
+              type="submit"
+              v-close-popup="hide"
+            )
+            q-btn(
+              flat
+              color="primary"
+              label="Закрыть"
+              v-close-popup
+            )
+</template>
+
+<script>
+  import { backendPostCategory } from '../../api'
+  import { Notify } from 'quasar'
+
+	export default {
+		data: function () {
+			return {
+				category: {},
+        errors: {},
+        hide: true
+      }
+		},
+		created() {
+		},
+		methods: {
+			addCategory() {
+        backendPostCategory(this.category)
+					.then((response) => {
+						Notify.create({
+							message: "Категория '" + this.category.email + "' создана!",
+							color: 'positive',
+							position: 'top'
+						});
+						this.$emit('add-category');
+						this.category = {};
+						this.errors = {};
+						// this.$refs.title.resetValidation();
+					})
+					.catch((error) => {
+            console.log(error)
+						this.errors = true;
+					});
+      },
+      afterShow() {
+				this.$router.push("/admin_categories");
+      }
+		},
+		components: {
+			backendPostCategory,
+      Notify
+		}
+	}
+</script>
+
+<style scoped>
+  p {
+    font-size: 2em;
+    text-align: center;
+  }
+</style>

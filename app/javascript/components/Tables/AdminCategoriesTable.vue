@@ -26,14 +26,14 @@
                 q-btn(push color="white" text-color="secondary" label="Редактировать"  @click="editCategory(props.row)")
                 q-btn(push color="white" text-color="negative" label="Удалить"  @click="deleteCategory(props.row)" method="delete")
 
-          q-btn(push color="primary" size="15px" @click="newCategory()" label="Новая книга")
+          q-btn(push color="primary" size="15px" @click="newCategory()" label="Новая категория")
         router-view(@add-category="fetchCategories" @edit-category="fetchCategories")
 </template>
 
 <script>
 	import { backendGetCategories } from '../../api'
-  // import NewCategory from '../CategorysForm/CreateCategory'
-  // import EditCategory from '../CategorysForm/EditCategory'
+  import NewCategory from '../CategoriesForm/CreateCategory'
+  // import EditCategory from '../CategoriesForm/EditCategory'
   import { Notify } from 'quasar'
 
   export default {
@@ -71,7 +71,7 @@
 					});
       },
       newCategory() {
-				// this.$router.push({ name: 'createCategory'})
+				this.$router.push({ name: 'createCategory'})
       },
       editCategory(category) {
         // this.$router.push({ name: 'editCategory', params: { id: category.id } })
@@ -92,7 +92,7 @@
       }
     },
     components: {
-      // NewCategory,
+      NewCategory,
       // EditCategory,
       Notify
     }

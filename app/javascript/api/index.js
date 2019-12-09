@@ -48,3 +48,6 @@ export function backendGetCategories () {
 	return axios.get('/categories');
 }
 
+export function backendPostCategory (params) {
+	return axios.post('/categories', params);
+}

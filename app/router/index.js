@@ -8,6 +8,7 @@ import AdminCategories from '../javascript/components/Tables/AdminCategoriesTabl
 import Books from '../javascript/components/Tables/BooksTable'
 import CreateBook from '../javascript/components/BooksForm/CreateBook'
 import CreateUser from '../javascript/components/UsersForm/CreateUser'
+import CreateCategory from '../javascript/components/CategoriesForm/CreateCategory'
 import EditBook from '../javascript/components/BooksForm/EditBook'
 import EditUser from '../javascript/components/UsersForm/EditUser'
 import ShowBook from '../javascript/components/BooksForm/ShowBook'
@@ -38,7 +39,7 @@ export default new VueRouter({
 		},
 		{ path: '/admin_categories', component: AdminCategories,
 			children: [
-				// { path: 'create', component: CreateCategory, name: 'createCategory' },
+				{ path: 'create', component: CreateCategory, name: 'createCategory' },
 				// { path: ':id/edit', component: EditCategory, name: 'editCategory' },
 			],
 		}
