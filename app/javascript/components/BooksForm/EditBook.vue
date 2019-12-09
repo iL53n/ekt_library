@@ -42,6 +42,18 @@
               v-model="book.description"
               type="textarea"
             )
+            q-select(
+              filled
+              multiple
+              label="Категории"
+              placeholder="Выберите категорию"
+              v-model="selectCategories"
+              :options="categories"
+              use-chips
+              stack-label
+              option-value="id"
+              option-label="title"
+            )
             q-input(
               filled
               ref="status"
@@ -66,24 +78,31 @@
 </template>
 
 <script>
-	import { backendGetBook, backendPatchBook } from '../../api'
+	import { backendGetBook, backendPatchBook, backendGetCategories } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
 			return {
 				book: this.getBook(),
+        categories: this.getCategories(),
+        selectCategories: [],
 				errors: {},
 				hide: true
 			}
 		},
 		created() {
 		},
+    watch: {
+		  book() {
+		    this.selectCategories = this.book.categories
+      }
+    },
 		methods: {
 			getBook() {
 				backendGetBook(this.$route.params.id)
 					.then((response) => {
-						console.log(response.data)
+						// console.log(response.data)
 						this.book = response.data.book
 					})
 					.catch((error) => {
@@ -94,7 +113,23 @@
 						this.loading = false
 					});
       },
+      getCategories() {
+				backendGetCategories()
+					.then((response) => {
+						console.log(response.data.categories)
+            this.categories = response.data.categories
+					})
+					.catch((error) => {
+						console.log(error);
+						this.errors = true
+					})
+					.finally(() => {
+						this.loading = false
+					});
+      },
 			updateBook() {
+        this.book.category_ids = this.selectCategories.map(cat => cat.id)
+
 				backendPatchBook(this.book)
 					.then((response) => {
 						Notify.create({
@@ -117,7 +152,8 @@
 		},
 		components: {
 			backendGetBook,
-			backendPatchBook
+			backendPatchBook,
+      backendGetCategories
 		}
 	}
 </script>

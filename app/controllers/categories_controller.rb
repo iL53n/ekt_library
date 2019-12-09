@@ -41,6 +41,8 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.permit(:title, books: [])
+    params.permit(:title,
+                  book_ids: [],
+                  books: [])
   end
 end
