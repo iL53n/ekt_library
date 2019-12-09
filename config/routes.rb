@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :books
+  resources :categories
 
   get '/*slug', to: 'application#index'
 end

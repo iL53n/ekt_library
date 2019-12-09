@@ -1,7 +1,7 @@
 FactoryBot.define do
-  sequence :title do |n|
-    "title_#{n}"
-  end
+  # sequence :title do |n|
+  #   "title_#{n}"
+  # end
 
   factory :category do
     title
