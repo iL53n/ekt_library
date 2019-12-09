@@ -47,6 +47,20 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    before { get :show, params: { id: category.id } }
+
+    let!(:category) { create(:category) }
+
+    it 'return 2xx' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns the requested book to @book' do
+      expect(assigns(:category)).to eq(category)
+    end
+  end
+
   describe 'PATCH #update' do
     let(:category) { create(:category) }
 

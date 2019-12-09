@@ -33,7 +33,7 @@
 <script>
 	import { backendGetCategories, backendDeleteCategory } from '../../api'
   import NewCategory from '../CategoriesForm/CreateCategory'
-  // import EditCategory from '../CategoriesForm/EditCategory'
+  import EditCategory from '../CategoriesForm/EditCategory'
   import { Notify } from 'quasar'
 
   export default {
@@ -74,7 +74,7 @@
 				this.$router.push({ name: 'createCategory'})
       },
       editCategory(category) {
-        // this.$router.push({ name: 'editCategory', params: { id: category.id } })
+        this.$router.push({ name: 'editCategory', params: { id: category.id } })
       },
       deleteCategory(category) {
         backendDeleteCategory(category.id)
@@ -93,7 +93,7 @@
     },
     components: {
       NewCategory,
-      // EditCategory,
+      EditCategory,
       Notify
     }
 	}

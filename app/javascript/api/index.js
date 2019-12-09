@@ -48,8 +48,16 @@ export function backendGetCategories () {
 	return axios.get('/categories');
 }
 
+export function backendGetCategory (id) {
+	return axios.get('/categories/' + id);
+}
+
 export function backendPostCategory (params) {
 	return axios.post('/categories', params);
+}
+
+export function backendPatchCategory (category) {
+	return axios.patch('/categories/' + category.id, category);
 }
 
 export function backendDeleteCategory (id) {

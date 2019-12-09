@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_category, only: %i[update destroy]
+  before_action :load_category, only: %i[show update destroy]
 
   def index
     @categories = Category.all
@@ -16,6 +16,10 @@ class CategoriesController < ApplicationController
     else
       render json: { errors: @category.errors }, status: :unprocessable_entity
     end
+  end
+
+  def show
+    render json: @category, status: :ok
   end
 
   def update

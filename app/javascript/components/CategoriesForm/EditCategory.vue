@@ -3,7 +3,7 @@
     q-dialog(
       :value="true"
       @hide="afterShow()"
-      position="left"
+      position="right"
       transition-show="flip-right"
     )
       q-card(style="width: 500px")
@@ -21,7 +21,7 @@
             q-btn(
               color="primary"
               label="СОХРАНИТЬ"
-              @click="addCategory"
+              @click="updateCategory"
               type="submit"
               v-close-popup="hide"
             )
@@ -34,45 +34,57 @@
 </template>
 
 <script>
-  import { backendPostCategory } from '../../api'
-  import { Notify } from 'quasar'
+	import { backendGetCategory, backendPatchCategory } from '../../api'
+	import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
 			return {
-				category: {},
-        errors: {},
-        hide: true
-      }
+				category: this.getCategory(),
+				errors: {},
+				hide: true
+			}
 		},
 		created() {
 		},
 		methods: {
-			addCategory() {
-        backendPostCategory(this.category)
+			getCategory() {
+				backendGetCategory(this.$route.params.id)
+					.then((response) => {
+						this.category = response.data.category
+					})
+					.catch((error) => {
+						console.log(error);
+						this.errors = true
+					})
+					.finally(() => {
+						this.loading = false
+					});
+      },
+			updateCategory() {
+				backendPatchCategory(this.category)
 					.then((response) => {
 						Notify.create({
-							message: "Категория '" + this.category.title + "' создана!",
+							message: "Категория '" + this.category.title + "' отредактирована!",
 							color: 'positive',
-							position: 'top'
+							position: 'right'
 						});
-						this.$emit('add-category');
+						this.$emit('edit-category');
 						this.category = {};
 						this.errors = {};
 						// this.$refs.title.resetValidation();
 					})
 					.catch((error) => {
-            console.log(error)
-						this.errors = true;
+						this.errors = error.response.data.errors;
 					});
-      },
-      afterShow() {
+			},
+			afterShow() {
 				this.$router.push("/admin_categories");
-      }
+			}
 		},
 		components: {
-			backendPostCategory,
-      Notify
+			backendGetCategory,
+			backendPatchCategory
 		}
 	}
 </script>

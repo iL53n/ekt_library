@@ -23,8 +23,8 @@
             no-data-label="Нет информации о пользователях!")
             template(v-slot:body-cell-action="props")
               q-td(align="right")
-                q-btn(text-color="secondary" label="Редактировать"  @click="editUser(props.row)")
-                q-btn(text-color="negative" label="Удалить"  @click="deleteUser(props.row)" method="delete")
+                q-btn(push text-color="secondary" label="Редактировать"  @click="editUser(props.row)")
+                q-btn(push text-color="negative" label="Удалить"  @click="deleteUser(props.row)" method="delete")
 
           q-btn(push color="primary" size="15px" @click="newUser()" label="Новый пользователь")
         router-view(@add-user="fetchUsers" @edit-user="fetchUsers")

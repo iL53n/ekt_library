@@ -11,6 +11,7 @@ import CreateUser from '../javascript/components/UsersForm/CreateUser'
 import CreateCategory from '../javascript/components/CategoriesForm/CreateCategory'
 import EditBook from '../javascript/components/BooksForm/EditBook'
 import EditUser from '../javascript/components/UsersForm/EditUser'
+import EditCategory from '../javascript/components/CategoriesForm/EditCategory'
 import ShowBook from '../javascript/components/BooksForm/ShowBook'
 
 
@@ -40,7 +41,7 @@ export default new VueRouter({
 		{ path: '/admin_categories', component: AdminCategories,
 			children: [
 				{ path: 'create', component: CreateCategory, name: 'createCategory' },
-				// { path: ':id/edit', component: EditCategory, name: 'editCategory' },
+				{ path: ':id/edit', component: EditCategory, name: 'editCategory' },
 			],
 		}
 	]
