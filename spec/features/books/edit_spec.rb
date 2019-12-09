@@ -33,8 +33,8 @@ feature 'Admin can edit book', %q{
       end
 
       within '.q-table' do
-        expect(page).to_not have_content 'Test_new_title'.upcase
-        expect(page).to_not have_content 'Test_new_author'
+        expect(page).to have_content 'Test_new_title'.upcase
+        expect(page).to have_content 'Test_new_author'
       end
     end
   end
