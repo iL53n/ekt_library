@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	import { backendGetCategories } from '../../api'
+	import { backendGetCategories, backendDeleteCategory } from '../../api'
   import NewCategory from '../CategoriesForm/CreateCategory'
   // import EditCategory from '../CategoriesForm/EditCategory'
   import { Notify } from 'quasar'
@@ -42,7 +42,7 @@
 				columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'title', required: true, label: 'Наименование', align: 'left', field: 'title', sortable: true },
-					// { name: 'action', align: 'center', field: ['edit', 'delete'] }
+					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
 				data: [],
         pagination: {
@@ -77,18 +77,18 @@
         // this.$router.push({ name: 'editCategory', params: { id: category.id } })
       },
       deleteCategory(category) {
-        // backendDeleteCategory(category.id)
-        //   .then((response) => {
-        //     this.fetchCategorys();
-        //     Notify.create({
-        //       message: "Книга '" + category.title + "' удалена!",
-        //       color: 'negative'
-        //     })
-        //   })
-				// 	.catch((error) => {
-				// 		console.log(error);
-				// 		this.error = true
-				// 	});
+        backendDeleteCategory(category.id)
+          .then((response) => {
+            this.fetchCategories();
+            Notify.create({
+              message: "Категория '" + category.title + "' удалена!",
+              color: 'negative'
+            })
+          })
+					.catch((error) => {
+						console.log(error);
+						this.error = true
+					});
       }
     },
     components: {

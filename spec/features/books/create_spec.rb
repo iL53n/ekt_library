@@ -9,29 +9,29 @@ feature 'Admin can create new book', %q{
   given(:user) { create(:user, admin: 'true') }
 
   describe 'Admin' do
-		background do
-			visit new_user_session_path
-			sign_in(user)
-			visit '/admin_books'
-		end
+    background do
+      visit new_user_session_path
+      sign_in(user)
+      visit '/admin_books'
+    end
 
-		scenario 'create new book' do
-			expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
+    scenario 'create new book' do
+      expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
 
-			click_on 'Новая книга'
-			within '.q-form' do
-				fill_in 'Наименование', with: 'Test_title'
-				fill_in 'Автор', with: 'Test_author'
-				fill_in 'Изображение', with: 'Test_image'
-				fill_in 'Описание', with: 'Test_description'
-				fill_in 'Статус', with: 'OK'
-				click_on 'СОХРАНИТЬ'
+      click_on 'Новая книга'
+      within '.q-form' do
+        fill_in 'Наименование', with: 'Test_title'
+        fill_in 'Автор', with: 'Test_author'
+        fill_in 'Изображение', with: 'Test_image'
+        fill_in 'Описание', with: 'Test_description'
+        fill_in 'Статус', with: 'OK'
+        click_on 'СОХРАНИТЬ'
       end
 
       within '.q-table' do
         expect(page).to have_content 'Test_title'.upcase
-				expect(page).to have_content 'Test_author'
+        expect(page).to have_content 'Test_author'
       end
-		end
-	end
+    end
+  end
 end

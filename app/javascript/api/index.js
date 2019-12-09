@@ -51,3 +51,7 @@ export function backendGetCategories () {
 export function backendPostCategory (params) {
 	return axios.post('/categories', params);
 }
+
+export function backendDeleteCategory (id) {
+	return axios.delete('/categories/' + id);
+}
