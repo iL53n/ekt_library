@@ -20,7 +20,7 @@ feature 'Admin can edit book', %q{
       expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
 
       within '.q-table' do
-        expect(page).to have_content book.title
+        expect(page).to have_content book.title.upcase
         expect(page).to have_content book.author
 
         click_on 'Редактировать'
@@ -33,7 +33,7 @@ feature 'Admin can edit book', %q{
       end
 
       within '.q-table' do
-        expect(page).to_not have_content 'Test_new_title'
+        expect(page).to_not have_content 'Test_new_title'.upcase
         expect(page).to_not have_content 'Test_new_author'
       end
     end

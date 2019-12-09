@@ -29,7 +29,7 @@ feature 'Admin can create new book', %q{
       end
 
       within '.q-table' do
-        expect(page).to have_content 'Test_title'
+        expect(page).to have_content 'Test_title'.upcase
 				expect(page).to have_content 'Test_author'
       end
 		end
