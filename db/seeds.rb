@@ -8,33 +8,35 @@
 
 user_1 = User.create(email: 'user1@test.com',
                      password: '123456',
-                     first_name: 'FirstName1',
-                     last_name: 'LastName1')
+                     first_name: 'Иван',
+                     last_name: 'Иванов')
 user_2 = User.create(email: 'user2@test.com',
                      password: '123456',
-                     first_name: 'FirstName2',
-                     last_name: 'LastName2')
+                     first_name: 'Сергей',
+                     last_name: 'Сергеев')
 admin = User.create(email: 'admin@test.com',
                     password: '123456',
-                    first_name: 'FirstNameAdmin',
-                    last_name: 'LastNameAdmin',
+                    first_name: 'ИмяАдмин',
+                    last_name: 'ФамилияАдмин',
                     admin: 'true')
+category1 = Category.create(title: 'Бизнес')
+category2 = Category.create(title: 'Менеджмент')
 
-book1 = Book.create(title: 'Book1',
-                    author: 'Author',
-                    description: 'Description description description',
+book1 = Book.create(title: 'Стартап без бюджета',
+                    author: 'Майк Микаловиц',
+                    description: '«Никогда в жизни не занимались предпринимательством? Не знаете где взять стартовый...',
                     image: 'image',
-                    status: 'ok')
-book2 = Book.create(title: 'Book2',
-                    author: 'Author',
-                    description: 'Description description description',
+                    status: 'ok',
+                    categories: [category1])
+book2 = Book.create(title: 'Доставляя счастье',
+                    author: 'Тони Шей',
+                    description: 'Тони Шеи делится с читателями своим опытом ведения бизнеса, причем этот опыт поражает...',
                     image: 'image',
-                    status: 'ok')
-book3 = Book.create(title: 'Book3',
-                    author: 'Author',
-                    description: 'Description description description',
+                    status: 'ok',
+                    categories: [category1])
+book3 = Book.create(title: 'От хорошего к великому. Почему одни компании совершают прорыв, а другие нет',
+                    author: 'Джим Коллинз',
+                    description: 'В этой книге подробно описывается процесс создания так называемых «голубых океанов»—...',
                     image: 'image',
-                    status: 'ok')
-
-category1 = Category.create(title: 'Category1')
-category2 = Category.create(title: 'Category2')
+                    status: 'ok',
+                    categories: [category1, category2])
