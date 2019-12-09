@@ -44,4 +44,7 @@ export function backendDeleteBook (id) {
 	return axios.delete('/books/' + id);
 }
 
+export function backendGetCategories () {
+	return axios.get('/categories');
+}
 

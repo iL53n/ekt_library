@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 import AdminBooks from '../javascript/components/Tables/AdminBooksTable'
 import AdminUsers from '../javascript/components/Tables/AdminUsersTable'
+import AdminCategories from '../javascript/components/Tables/AdminCategoriesTable'
 import Books from '../javascript/components/Tables/BooksTable'
 import CreateBook from '../javascript/components/BooksForm/CreateBook'
 import CreateUser from '../javascript/components/UsersForm/CreateUser'
@@ -33,6 +34,12 @@ export default new VueRouter({
 			children: [
 				{ path: 'create', component: CreateUser, name: 'createUser' },
 				{ path: ':id/edit', component: EditUser, name: 'editUser' },
+			],
+		},
+		{ path: '/admin_categories', component: AdminCategories,
+			children: [
+				// { path: 'create', component: CreateCategory, name: 'createCategory' },
+				// { path: ':id/edit', component: EditCategory, name: 'editCategory' },
 			],
 		}
 	]
