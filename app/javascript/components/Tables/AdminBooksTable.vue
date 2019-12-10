@@ -13,23 +13,32 @@
               | Книги(АДМИНИСТРИРОВАНИЕ)
         div(class='q-pa-md')
           q-table(
+            separator="vertical"
             name="books",
             :title="title",
             :data="data",
             :columns="columns",
+            :pagination.sync="pagination",
+            :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет информации о книгах!")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
                 div
-                  q-badge(color="blue-grey-4" :label="props.row.author")
+                  q-chip(square outline color="blue-grey-6" :label="props.row.author")
             template(v-slot:body-cell-description="props")
-              div(class="book-description") {{ props.row.description }}
+              q-td(align="center")
+                div(class="book-description") {{ props.row.description }}
+            template(v-slot:body-cell-categories="props")
+              q-td(align="center")
+                div(v-for="category in props.row.categories")
+                  q-badge {{ category.title }}
             template(v-slot:body-cell-action="props")
               q-td(align="right")
-                q-btn(push color="white" text-color="secondary" label="Редактировать"  @click="editBook(props.row)")
-                q-btn(push color="white" text-color="negative" label="Удалить"  @click="deleteBook(props.row)" method="delete")
+                q-btn-group(flat)
+                  q-btn(flat color="white" text-color="secondary"  size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
+                  q-btn(flat color="white" text-color="negative"  size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
 
           q-btn(push color="primary" size="15px" @click="newBook()" label="Новая книга")
         router-view(@add-book="fetchBooks" @edit-book="fetchBooks")
@@ -50,6 +59,7 @@
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
           { name: 'title', required: true, label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
           { name: 'description', required: true, label: 'Описание', align: 'left', field: row => row.description, format: val => '${val}' },
+          { name: 'categories', required: true, label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
 					//{ name: 'title', align: 'center', label: 'Наименование', field: 'title', sortable: true },
 					//{ name: 'author', align: 'center', label: 'Автор', field: 'author', sortable: true },
 					{ name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
@@ -57,9 +67,12 @@
         ],
 				data: [],
 				title: '',
-				loading: true
+				loading: true,
+        pagination: {
+          rowsPerPage: 10
+        },
 			}
-			error: {}
+			// error: {}
 		},
     created() {
 			this.fetchBooks();
