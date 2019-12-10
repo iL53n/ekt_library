@@ -19,7 +19,7 @@ feature 'User can see all books', %q{
     scenario 'show all books' do
       books.each do |book|
         within '.q-table' do
-          expect(page).to have_content book.title
+          expect(page).to have_content book.title.upcase
         end
       end
     end

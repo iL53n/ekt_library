@@ -1,20 +1,22 @@
 <template lang="pug">
   div(class="q-pa-md")
     q-layout(view="lhh lpR lff" container style="height: 95vh" class="shadow-5 rounded-borders")
-      header-component
-      q-page-container
-        q-page(padding style="padding-top: 66px")
+      q-layout(view="hHh lpR fFf")
+        header-component
 
-          router-view
+        q-page-container
+          q-page(padding style="padding-top: 66px")
 
-        q-page-scroller(position="bottom")
-          q-btn(fab icon="keyboard_arrow_up" color="red")
-      footer-component
+            router-view
+
+          q-page-scroller(position="bottom")
+            q-btn(fab icon="keyboard_arrow_up" color="red")
+        footer-component
 </template>
 
 <script>
   import HeaderComponent from './components/Header'
-  import BooksTable from './components/BooksTable'
+  import BooksTable from './components/Tables/BooksTable'
   import FooterComponent from './components/Footer'
 
   export default {
