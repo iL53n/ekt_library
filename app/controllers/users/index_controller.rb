@@ -11,7 +11,7 @@ class Users::IndexController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if @user.save!
+    if @user.save
       render json: @user, status: :created
     else
       render json: { errors: @user.errors }, status: :unprocessable_entity

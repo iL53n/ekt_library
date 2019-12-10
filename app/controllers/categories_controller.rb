@@ -11,7 +11,7 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
 
-    if @category.save!
+    if @category.save
       render json: @category, status: :created
     else
       render json: { errors: @category.errors }, status: :unprocessable_entity
@@ -42,7 +42,6 @@ class CategoriesController < ApplicationController
 
   def category_params
     params.permit(:title,
-                  book_ids: [],
-                  books: [])
+                  book_ids: [])
   end
 end
