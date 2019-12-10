@@ -1,29 +1,39 @@
 <template lang="pug">
   div
-    q-header
-      q-toolbar(class="bg-primary glossy text-white")
-        q-btn(flat round dense icon="menu")
+    q-header(elevated class="bg-primary glossy text-white" view="hHh lpR fFf")
+      q-toolbar
+        q-btn(flat round dense icon="menu" @click="left = !left")
         a(href="/")
           img(src="../images/Logo.png" alt="EKTlibrary" width="50" align="middle")
         q-toolbar-title БИБЛИОТЕКА ЕКТ
           q-badge(align="top" color="orange") v1.0.0b
         div
           profile-menu
+
+    q-drawer(show-if-above v-model="left" side="left" elevated)
+      q-scroll-area(class="fit")
+        div(class="q-pa-sm")
+          q-tabs(vertical class="text-teal")
+            admin-left-menu
 </template>
 
 <script>
   import ProfileMenu from './Profile'
+  import AdminLeftMenu from './AdminLeftMenu'
 
 	export default {
 		data: function () {
-			return {}
+			return {
+			  left: false
+      }
 		},
 		created() {
 		},
 		methods: {
 		},
 		components: {
-      ProfileMenu
+      ProfileMenu,
+      AdminLeftMenu
 		}
 	}
 </script>
