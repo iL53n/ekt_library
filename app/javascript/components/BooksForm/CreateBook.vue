@@ -3,7 +3,7 @@
     q-dialog(
       :value="true"
       @hide="afterShow()"
-      :position="left"
+      position="left"
       transition-show="flip-right"
     )
       q-card(style="width: 500px")
@@ -42,6 +42,18 @@
               v-model="book.description"
               type="textarea"
             )
+            q-select(
+              filled
+              multiple
+              label="Категории"
+              placeholder="Выберите категорию"
+              v-model="selectCategories"
+              :options="categories"
+              use-chips
+              stack-label
+              option-value="id"
+              option-label="title"
+            )
             q-input(
               filled
               ref="status"
@@ -66,19 +78,26 @@
 </template>
 
 <script>
-  import { backendPostBook } from '../../api'
+  import { backendPostBook, backendGetCategories } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
 			return {
 				book: {},
+        categories: this.getCategories(),
+        selectCategories: [],
         errors: {},
         hide: true
       }
 		},
 		created() {
 		},
+    watch: {
+      book() {
+        this.selectCategories = this.book.categories
+      }
+    },
 		methods: {
 			addBook() {
         backendPostBook(this.book)
@@ -97,12 +116,27 @@
 						this.errors = error.response.data.errors;
 					});
       },
+      getCategories() {
+        backendGetCategories()
+            .then((response) => {
+              console.log(response.data.categories)
+              this.categories = response.data.categories
+            })
+            .catch((error) => {
+              console.log(error);
+              this.errors = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+      },
       afterShow() {
 				this.$router.push("/admin_books");
       }
 		},
 		components: {
-			backendPostBook
+			backendPostBook,
+      backendGetCategories
 		}
 	}
 </script>

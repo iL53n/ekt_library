@@ -3,7 +3,7 @@
     q-dialog(
       :value="true"
       @hide="afterShow()"
-      :position="right"
+      position="right"
       transition-show="flip-right"
     )
       q-card(style="width: 500px")

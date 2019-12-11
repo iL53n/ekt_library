@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :category do
-    title
+    title { 'test-categories' }
   end
 end

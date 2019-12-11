@@ -13,7 +13,7 @@
               | Книги(АДМИНИСТРИРОВАНИЕ)
         div(class='q-pa-md')
           q-table(
-            separator="vertical"
+            separator="cell"
             name="books",
             :title="title",
             :data="data",
@@ -25,6 +25,7 @@
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
             template(v-slot:body-cell-description="props")
@@ -40,7 +41,7 @@
                   q-btn(flat color="white" text-color="secondary"  size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
                   q-btn(flat color="white" text-color="negative"  size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
 
-          q-btn(push color="primary" size="15px" @click="newBook()" label="Новая книга")
+          q-btn(push color="primary" size="15px" @click="newBook()" icon="add" label="Новая книга")
         router-view(@add-book="fetchBooks" @edit-book="fetchBooks")
 </template>
 
