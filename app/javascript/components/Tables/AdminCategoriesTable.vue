@@ -13,6 +13,7 @@
               | Категории(АДМИНИСТРИРОВАНИЕ)
         div(class='q-pa-md')
           q-table(
+            separator="cell"
             name="categories",
             :title="title",
             :data="data",
@@ -21,12 +22,16 @@
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет информации о категориях!")
+            template(v-slot:body-cell-books="props")
+              q-td(align="center")
+                div(class="book-count") {{ props.row.books.length }}
             template(v-slot:body-cell-action="props")
               q-td(align="right")
-                q-btn(push color="white" text-color="secondary" label="Редактировать"  @click="editCategory(props.row)")
-                q-btn(push color="white" text-color="negative" label="Удалить"  @click="deleteCategory(props.row)" method="delete")
+                q-btn-group(flat)
+                  q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editCategory(props.row)")
+                  q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteCategory(props.row)" method="delete")
 
-          q-btn(push color="primary" size="15px" @click="newCategory()" label="Новая категория")
+          q-btn(push color="primary" size="15px" @click="newCategory()" icon="add" label="Новая категория")
         router-view(@add-category="fetchCategories" @edit-category="fetchCategories")
 </template>
 
@@ -42,6 +47,7 @@
 				columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'title', required: true, label: 'Наименование', align: 'left', field: 'title', sortable: true },
+          { name: 'books', required: true, label: 'Количество книг', align: 'center', field: 'books.count', sortable: true },
 					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
 				data: [],

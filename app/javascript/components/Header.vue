@@ -11,7 +11,8 @@
         div
           profile-menu
 
-    q-drawer(show-if-above v-model="left" side="left" elevated)
+    // q-drawer(show-if-above v-model="left" side="left" elevated)
+    q-drawer(v-model="left" side="left" elevated)
       q-scroll-area(class="fit")
         div(class="q-pa-sm")
           q-tabs(vertical class="text-teal")

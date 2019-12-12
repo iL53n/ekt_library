@@ -17,20 +17,42 @@
             name="books",
             :title="title",
             :data="data",
+            :filter="filter",
             :columns="columns",
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет информации о книгах!")
+            template(v-slot:top)
+              q-space
+              div(style="min-width: 250px; max-width: 400px")
+                q-select(
+                  v-model="select_categories"
+                  multiple
+                  :options="categories"
+                  use-chips
+                  emit-value
+                  stack-label
+                  label="Отбор по категории")
+                  template(v-if="select_categories" v-slot:append)
+                    q-icon(name="cancel" @click.stop="select_categories = null" class="cursor-pointer")
+              //q-input(borderless dense debounce="300" color="primary" v-model="filter" placeholder="Поиск") //Фильтр
+                template(v-slot:append)
+                  q-icon(name="search")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                  q-badge(color="green" icon="edit" floating) 7
+                  //{{ props.row.comments.length }}
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
             template(v-slot:body-cell-description="props")
               q-td(align="center")
                 div(class="book-description") {{ props.row.description }}
+            template(v-slot:body-cell-raiting="props")
+              q-td(align="center")
+                q-rating(v-model="ratingModel", readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star")
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
                 div(v-for="category in props.row.categories")
@@ -38,15 +60,16 @@
             template(v-slot:body-cell-action="props")
               q-td(align="right")
                 q-btn-group(flat)
-                  q-btn(flat color="white" text-color="secondary"  size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
-                  q-btn(flat color="white" text-color="negative"  size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
+                  q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
+                  q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
 
-          q-btn(push color="primary" size="15px" @click="newBook()" icon="add" label="Новая книга")
+          q-page-sticky(position="bottom-left" :offset="[18, 18]", @click="newBook()")
+            q-btn(fab color="primary" @click="newBook()" icon="add" name="Новая книга")
         router-view(@add-book="fetchBooks" @edit-book="fetchBooks")
 </template>
 
 <script>
-	import { backendDeleteBook, backendGetBooks } from '../../api'
+	import { backendDeleteBook, backendGetBooks, backendGetCategories } from '../../api'
   import NewBook from '../BooksForm/CreateBook'
   import EditBook from '../BooksForm/EditBook'
   import ShowBook from '../BooksForm/ShowBook'
@@ -58,9 +81,10 @@
 				columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', required: true, label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          { name: 'description', required: true, label: 'Описание', align: 'left', field: row => row.description, format: val => '${val}' },
-          { name: 'categories', required: true, label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
+          { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
+          { name: 'description', label: 'Описание', align: 'left', field: row => row.description, format: val => '${val}' },
+          { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
+          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
 					//{ name: 'title', align: 'center', label: 'Наименование', field: 'title', sortable: true },
 					//{ name: 'author', align: 'center', label: 'Автор', field: 'author', sortable: true },
 					{ name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
@@ -68,7 +92,11 @@
         ],
 				data: [],
 				title: '',
-				loading: true,
+        filter: '',
+        select_categories: null,
+        categories: this.getCategories(),
+        loading: true,
+        ratingModel: 3,
         pagination: {
           rowsPerPage: 10
         },
@@ -114,7 +142,20 @@
 						console.log(error);
 						this.error = true
 					});
-      }
+      },
+      getCategories() {
+        backendGetCategories()
+          .then((response) => {
+            this.categories = response.data.categories.map(cat => cat.title)
+          })
+          .catch((error) => {
+            console.log(error);
+            this.errors = true
+          })
+          .finally(() => {
+            this.loading = false
+          });
+      },
     },
     components: {
       NewBook,
