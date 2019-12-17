@@ -10,7 +10,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :books
+  resources :books do
+    member do
+      patch :booking
+    end
+  end
+
   resources :categories
 
   get '/*slug', to: 'application#index'

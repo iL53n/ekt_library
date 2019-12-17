@@ -57,6 +57,15 @@
               q-td(align="center")
                 div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
+            template(v-slot:body-cell-user="props")
+              q-td(align="center")
+                div(v-if="props.row.user")
+                  | {{ props.row.user.last_name }} {{ props.row.user.first_name }}
+            template(v-slot:body-cell-booking="props")
+              q-td
+                q-btn-group(flat)
+                  div(v-if="props.row.status != 'Зарезервирована'")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Зарезервировать"  @click="booking(props.row)")
             template(v-slot:body-cell-action="props")
               q-td(align="right")
                 q-btn-group(flat)
@@ -69,7 +78,7 @@
 </template>
 
 <script>
-	import { backendDeleteBook, backendGetBooks, backendGetCategories } from '../../api'
+	import { backendDeleteBook, backendGetBooks, backendGetCategories, backendBookingBook } from '../../api'
   import NewBook from '../BooksForm/CreateBook'
   import EditBook from '../BooksForm/EditBook'
   import ShowBook from '../BooksForm/ShowBook'
@@ -88,6 +97,8 @@
 					//{ name: 'title', align: 'center', label: 'Наименование', field: 'title', sortable: true },
 					//{ name: 'author', align: 'center', label: 'Автор', field: 'author', sortable: true },
 					{ name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
+					{ name: 'user', align: 'center', label: 'Пользователь', field: row => row.user, format: val => '${val}', sortable: true },
+					{ name: 'booking', align: 'center' },
 					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
 				data: [],
@@ -119,6 +130,21 @@
 					.finally(() => {
 						this.loading = false
 					});
+      },
+      booking(book) {
+        backendBookingBook(book)
+          .then((response) => {
+            this.fetchBooks();
+            Notify.create({
+              message: "Книга '" + book.title + "' зарезервирована!",
+              color: 'positive',
+              position: 'top'
+            })
+          })
+          .catch((error) => {
+            console.log(error);
+            this.error = true
+          });
       },
       newBook() {
 				this.$router.push({ name: 'createBook'})
