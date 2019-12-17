@@ -64,8 +64,12 @@
             template(v-slot:body-cell-booking="props")
               q-td
                 q-btn-group(flat)
-                  div(v-if="props.row.status != 'Зарезервирована'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Зарезервировать"  @click="booking(props.row)")
+                  div(v-if="props.row.status == 'В наличии'")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Зарезервировать"  @click="bookingBook(props.row)")
+                  div(v-if="props.row.status == 'Зарезервирована'")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Выдать"  @click="giveOutBook(props.row)")
+                  div(v-if="props.row.status == 'На руках'")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Вернуть книгу"  @click="returnBook(props.row)")
             template(v-slot:body-cell-action="props")
               q-td(align="right")
                 q-btn-group(flat)
@@ -78,7 +82,7 @@
 </template>
 
 <script>
-	import { backendDeleteBook, backendGetBooks, backendGetCategories, backendBookingBook } from '../../api'
+	import { backendDeleteBook, backendGetBooks, backendGetCategories, backendBookingBook, backendGiveOutBook, backendReturnBook } from '../../api'
   import NewBook from '../BooksForm/CreateBook'
   import EditBook from '../BooksForm/EditBook'
   import ShowBook from '../BooksForm/ShowBook'
@@ -131,12 +135,42 @@
 						this.loading = false
 					});
       },
-      booking(book) {
+      bookingBook(book) {
         backendBookingBook(book)
           .then((response) => {
             this.fetchBooks();
             Notify.create({
               message: "Книга '" + book.title + "' зарезервирована!",
+              color: 'positive',
+              position: 'top'
+            })
+          })
+          .catch((error) => {
+            console.log(error);
+            this.error = true
+          });
+      },
+      giveOutBook(book) {
+        backendGiveOutBook(book)
+            .then((response) => {
+              this.fetchBooks();
+              Notify.create({
+                message: "Книга '" + book.title + "' выдана!",
+                color: 'positive',
+                position: 'top'
+              })
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            });
+      },
+      returnBook(book) {
+        backendReturnBook(book)
+          .then((response) => {
+            this.fetchBooks();
+            Notify.create({
+              message: "Книга '" + book.title + "' возвращена!",
               color: 'positive',
               position: 'top'
             })

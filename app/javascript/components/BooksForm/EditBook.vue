@@ -54,13 +54,12 @@
               option-value="id"
               option-label="title"
             )
-            q-input(
+            q-select(
               filled
-              ref="status"
-              label="Статус *"
-              placeholder="ВРЕМЕННОЕ поле_удл_статусы - реализация в другой итерации"
+              label="Статус"
+              placeholder="Выберите статус"
               v-model="book.status"
-              type="text"
+              :options="statuses"
             )
             q-btn(
               color="primary"
@@ -87,6 +86,7 @@
 				book: this.getBook(),
         categories: this.getCategories(),
         selectCategories: [],
+        statuses: ['В наличии', 'Зарезервирована', 'На руках'],
 				errors: {},
 				hide: true
 			}

@@ -67,3 +67,11 @@ export function backendDeleteCategory (id) {
 export function backendBookingBook (book) {
 	return axios.patch('/books/' + book.id + '/booking');
 }
+
+export function backendGiveOutBook (book) {
+	return axios.patch('/books/' + book.id + '/give_out');
+}
+
+export function backendReturnBook (book) {
+	return axios.patch('/books/' + book.id + '/return');
+}

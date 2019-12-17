@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   resources :books do
     member do
-      patch :booking
+      patch :booking, :give_out, :return
     end
   end
 
