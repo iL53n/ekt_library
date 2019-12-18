@@ -69,7 +69,7 @@ export function backendBookingBook (book) {
 }
 
 export function backendGiveOutBook (book) {
-	return axios.patch('/books/' + book.id + '/give_out');
+	return axios.patch('/books/' + book.id + '/give_out', book);
 }
 
 export function backendReturnBook (book) {

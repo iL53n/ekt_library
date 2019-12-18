@@ -47,7 +47,7 @@
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
-            template(v-slot:body-cell-description="props")
+            //template(v-slot:body-cell-description="props")
               q-td(align="center")
                 div(class="book-description") {{ props.row.description }}
             template(v-slot:body-cell-raiting="props")
@@ -65,20 +65,23 @@
               q-td
                 q-btn-group(flat)
                   div(v-if="props.row.status == 'В наличии'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Зарезервировать"  @click="bookingBook(props.row)")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="book" label="Зарезервировать"  @click="bookingBook(props.row)")
                   div(v-if="props.row.status == 'Зарезервирована'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Выдать"  @click="giveOutBook(props.row)")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="eject" label="Выдать"  @click="giveOutBook(props.row)")
                   div(v-if="props.row.status == 'На руках'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="edit" label="Вернуть книгу"  @click="returnBook(props.row)")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть книгу"  @click="returnBook(props.row)")
             template(v-slot:body-cell-action="props")
-              q-td(align="right")
-                q-btn-group(flat)
-                  q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
-                  q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
+              q-td
+                q-btn(flat dense color="blue-grey-6" icon="menu_open")
+                  q-menu(auto-close transition-show="scale" transition-hide="scale")
+                    q-item(v-close-popup)
+                      q-item-section(align="left")
+                        q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
+                        q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
 
           q-page-sticky(position="bottom-left" :offset="[18, 18]", @click="newBook()")
             q-btn(fab color="primary" @click="newBook()" icon="add" name="Новая книга")
-        router-view(@add-book="fetchBooks" @edit-book="fetchBooks")
+        router-view(@add-book="fetchBooks" @edit-book="fetchBooks" @give-out-book="fetchBooks")
 </template>
 
 <script>
@@ -95,7 +98,7 @@
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          { name: 'description', label: 'Описание', align: 'left', field: row => row.description, format: val => '${val}' },
+          //{ name: 'description', label: 'Описание', align: 'left', field: row => row.description, format: val => '${val}' },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
 					//{ name: 'title', align: 'center', label: 'Наименование', field: 'title', sortable: true },
@@ -150,21 +153,21 @@
             this.error = true
           });
       },
-      giveOutBook(book) {
-        backendGiveOutBook(book)
-            .then((response) => {
-              this.fetchBooks();
-              Notify.create({
-                message: "Книга '" + book.title + "' выдана!",
-                color: 'positive',
-                position: 'top'
-              })
-            })
-            .catch((error) => {
-              console.log(error);
-              this.error = true
-            });
-      },
+      // giveOutBook(book) {
+      //   backendGiveOutBook(book)
+      //     .then((response) => {
+      //       this.fetchBooks();
+      //       Notify.create({
+      //         message: "Книга '" + book.title + "' выдана!",
+      //         color: 'positive',
+      //         position: 'top'
+      //       })
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //       this.error = true
+      //     });
+      // },
       returnBook(book) {
         backendReturnBook(book)
           .then((response) => {
@@ -188,6 +191,9 @@
       },
       showBook(book) {
         this.$router.push({ name: 'showBook', params: { id: book.id } })
+      },
+      giveOutBook(book) {
+        this.$router.push({ name: 'giveOutBook', params: { id: book.id } })
       },
       deleteBook(book) {
         backendDeleteBook(book.id)

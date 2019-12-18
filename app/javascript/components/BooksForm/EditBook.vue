@@ -4,7 +4,7 @@
       :value="true"
       @hide="afterShow()"
       position="right"
-      transition-show="flip-right"
+      transition-show="flip-left"
     )
       q-card(style="width: 500px")
         q-form
@@ -61,6 +61,15 @@
               v-model="book.status"
               :options="statuses"
             )
+            q-select(
+              filled
+              label="Пользователь"
+              placeholder="Выберите пользователя"
+              v-model="book.user"
+              :options="users"
+              option-value="id"
+              :option-label="(user) => [user.last_name, user.first_name]"
+            )
             q-btn(
               color="primary"
               label="СОХРАНИТЬ"
@@ -77,7 +86,7 @@
 </template>
 
 <script>
-	import { backendGetBook, backendPatchBook, backendGetCategories } from '../../api'
+	import { backendGetBook, backendPatchBook, backendGetCategories, backendGetUsers } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
@@ -87,7 +96,7 @@
         categories: this.getCategories(),
         selectCategories: [],
         statuses: ['В наличии', 'Зарезервирована', 'На руках'],
-				errors: {},
+        users: this.getUsers(),
 				hide: true
 			}
 		},
@@ -127,9 +136,23 @@
 						this.loading = false
 					});
       },
+      getUsers() {
+        backendGetUsers()
+            .then((response) => {
+              // console.log(response.data.users)
+              this.users = response.data.users
+            })
+            .catch((error) => {
+              console.log(error);
+              this.errors = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+      },
 			updateBook() {
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
-
+        this.book.user_id = this.book.user.id
 				backendPatchBook(this.book)
 					.then((response) => {
 						Notify.create({

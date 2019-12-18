@@ -2,6 +2,7 @@ class BooksController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :load_book, only: %i[show update destroy booking give_out return]
+  before_action :load_user, only: %i[update give_out]
 
   def index
     @books = Book.all
@@ -23,6 +24,7 @@ class BooksController < ApplicationController
   end
 
   def update
+    @book.user = @user
     if @book.update!(book_params)
       render json: @book, status: :created
     else
@@ -35,24 +37,25 @@ class BooksController < ApplicationController
   end
 
   def booking
-    user ||= current_user
-    set_status('Зарезервирована', user)
+    set_status('Зарезервирована', current_user)
   end
 
   def give_out
-    user ||= current_user
-    set_status('На руках', user)
+    set_status('На руках', @user)
   end
 
   def return
-    user = nil
-    set_status('В наличии', user)
+    set_status('В наличии', nil)
   end
 
   private
 
   def set_status(status, user)
-    @book.update(status: status, user: user)
+    @book.update!(status: status, user: user)
+  end
+
+  def load_user
+    @user = User.find(params[:user_id])
   end
 
   def load_book
@@ -66,7 +69,7 @@ class BooksController < ApplicationController
                   :author,
                   :image,
                   :status,
-                  category_ids: []
+                  category_ids: [],
     )
   end
 end
