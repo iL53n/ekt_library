@@ -9,6 +9,11 @@ class BooksController < ApplicationController
     render json: @books
   end
 
+  def reading
+    @books = Book.all.reading(current_user)
+    render json: @books
+  end
+
   def create
     @book = Book.new(book_params)
 
@@ -69,7 +74,6 @@ class BooksController < ApplicationController
                   :author,
                   :image,
                   :status,
-                  category_ids: [],
-    )
+                  category_ids: [])
   end
 end

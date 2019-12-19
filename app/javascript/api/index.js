@@ -28,6 +28,10 @@ export function backendGetBooks () {
 	return axios.get('/books');
 }
 
+export function backendGetReadingBooks () {
+	return axios.get('/books/reading');
+}
+
 export function backendGetBook (id) {
 	return axios.get('/books/' + id);
 }

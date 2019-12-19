@@ -5,7 +5,7 @@
         header-component
 
         q-page-container
-          q-page(padding style="padding-top: 66px")
+          q-page(padding style="padding-top: 20px")
 
             router-view
 
@@ -16,7 +16,7 @@
 
 <script>
   import HeaderComponent from './components/Header'
-  import BooksTable from './components/Tables/BooksTable'
+  import BooksTable from './components/Tables/User/BooksTable'
   import FooterComponent from './components/Footer'
 
   export default {

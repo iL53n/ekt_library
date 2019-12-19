@@ -29,10 +29,10 @@
 </template>
 
 <script>
-  import { backendDeleteBook, backendGetBooks } from '../../api'
-  import NewBook from '../BooksForm/CreateBook'
-  import EditBook from '../BooksForm/EditBook'
-  import ShowBook from '../BooksForm/ShowBook'
+  import { backendDeleteBook, backendGetBooks } from '../../../api'
+  import NewBook from '../../BooksForm/CreateBook'
+  import EditBook from '../../BooksForm/EditBook'
+  import ShowBook from '../../BooksForm/ShowBook'
   import { Notify } from 'quasar'
 
   export default {

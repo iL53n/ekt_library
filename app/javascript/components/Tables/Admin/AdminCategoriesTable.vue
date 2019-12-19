@@ -36,9 +36,9 @@
 </template>
 
 <script>
-	import { backendGetCategories, backendDeleteCategory } from '../../api'
-  import NewCategory from '../CategoriesForm/CreateCategory'
-  import EditCategory from '../CategoriesForm/EditCategory'
+	import { backendGetCategories, backendDeleteCategory } from '../../../api'
+  import NewCategory from '../../CategoriesForm/CreateCategory'
+  import EditCategory from '../../CategoriesForm/EditCategory'
   import { Notify } from 'quasar'
 
   export default {

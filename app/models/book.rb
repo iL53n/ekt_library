@@ -9,4 +9,7 @@ class Book < ApplicationRecord
   has_and_belongs_to_many :categories
   belongs_to :user, optional: true
   # has_one_attached :image
+
+  scope :reserved, ->(current_user) { where(status: 'Зарезервирована', user: current_user) }
+  scope :reading,  ->(current_user) { where(status: 'На руках', user: current_user) }
 end

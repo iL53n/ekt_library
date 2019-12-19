@@ -2,10 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
-import AdminBooks from '../javascript/components/Tables/AdminBooksTable'
-import AdminUsers from '../javascript/components/Tables/AdminUsersTable'
-import AdminCategories from '../javascript/components/Tables/AdminCategoriesTable'
-import Books from '../javascript/components/Tables/BooksTable'
+import AdminBooks from '../javascript/components/Tables/Admin/AdminBooksTable'
+import AdminUsers from '../javascript/components/Tables/Admin/AdminUsersTable'
+import AdminCategories from '../javascript/components/Tables/Admin/AdminCategoriesTable'
+import Books from '../javascript/components/Tables/User/BooksTable'
+import ReadingBooks from '../javascript/components/Tables/User/ReadingTable'
 import CreateBook from '../javascript/components/BooksForm/CreateBook'
 import CreateUser from '../javascript/components/UsersForm/CreateUser'
 import CreateCategory from '../javascript/components/CategoriesForm/CreateCategory'
@@ -24,9 +25,10 @@ export default new VueRouter({
 		{
 			path: '/list_books', component: Books,
 			children: [
-				{ path: ':id/', component: ShowBook, name: 'showBook' }
+				{ path: ':id/', component: ShowBook, name: 'showBook' },
 			],
 		},
+		{ path: '/reading_books', component: ReadingBooks, name: 'readingBooks' },
 		{ path: '/admin_books', component: AdminBooks,
 			children: [
 				{ path: 'create', component: CreateBook, name: 'createBook' },
