@@ -6,6 +6,7 @@ import AdminBooks from '../javascript/components/Tables/Admin/AdminBooksTable'
 import AdminUsers from '../javascript/components/Tables/Admin/AdminUsersTable'
 import AdminCategories from '../javascript/components/Tables/Admin/AdminCategoriesTable'
 import Books from '../javascript/components/Tables/User/BooksTable'
+import ReservedBooks from '../javascript/components/Tables/User/ReservedTable'
 import ReadingBooks from '../javascript/components/Tables/User/ReadingTable'
 import CreateBook from '../javascript/components/BooksForm/CreateBook'
 import CreateUser from '../javascript/components/UsersForm/CreateUser'
@@ -15,7 +16,6 @@ import EditUser from '../javascript/components/UsersForm/EditUser'
 import EditCategory from '../javascript/components/CategoriesForm/EditCategory'
 import ShowBook from '../javascript/components/BooksForm/ShowBook'
 import GiveOutBook from '../javascript/components/BooksForm/BookingMenu'
-
 
 export default new VueRouter({
 	mode: 'history',
@@ -28,6 +28,7 @@ export default new VueRouter({
 				{ path: ':id/', component: ShowBook, name: 'showBook' },
 			],
 		},
+		{ path: '/reserved_books', component: ReservedBooks, name: 'bookingBooks' },
 		{ path: '/reading_books', component: ReadingBooks, name: 'readingBooks' },
 		{ path: '/admin_books', component: AdminBooks,
 			children: [

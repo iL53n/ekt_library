@@ -13,6 +13,8 @@
           profile-menu
 
       q-tabs(expand position="top" class="bg-primary text-white" dense inline-label align="center")
+        q-route-tab(to="/list_books" icon="library_books" label="Все книги")
+        q-separator(dark vertical)
         q-route-tab(to="/reserved_books" icon="book" label="Зарезервировал")
         q-separator(dark vertical)
         q-route-tab(to="/reading_books" name="readingBooks" icon="chrome_reader_mode" label="Читаю")

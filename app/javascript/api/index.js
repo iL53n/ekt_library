@@ -32,6 +32,10 @@ export function backendGetReadingBooks () {
 	return axios.get('/books/reading');
 }
 
+export function backendGetReservedBooks () {
+	return axios.get('/books/reserved');
+}
+
 export function backendGetBook (id) {
 	return axios.get('/books/' + id);
 }

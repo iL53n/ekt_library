@@ -17,7 +17,7 @@
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
-            no-data-label="Нет книг на руках!")
+            no-data-label="Нет зарезервированных книг!")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import { backendGetReadingBooks, backendGetCategories} from '../../../api'
+  import { backendGetReservedBooks, backendGetCategories} from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -67,7 +67,7 @@
     },
     methods: {
       fetchBooks() {
-        backendGetReadingBooks()
+        backendGetReservedBooks()
             .then((response) => {
               this.data = response.data.books
             })
@@ -93,7 +93,7 @@
             });
       },
       showBook(book) {
-        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/reading_books' } })
+        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/reserved_books' } })
       },
     },
     components: {

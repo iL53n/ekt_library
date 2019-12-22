@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :books do
+    get :reserved, on: :collection
     get :reading, on: :collection
     member do
       patch :booking, :give_out, :return

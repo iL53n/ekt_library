@@ -9,6 +9,11 @@ class BooksController < ApplicationController
     render json: @books
   end
 
+  def reserved
+    @books = Book.all.booking(current_user)
+    render json: @books
+  end
+
   def reading
     @books = Book.all.reading(current_user)
     render json: @books

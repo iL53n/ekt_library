@@ -7,9 +7,6 @@
       div(v-if="error")
         p Error!
       div(v-else)
-        q-page-sticky(expand position="top")
-          q-toolbar(class="bg-secondary glossy text-white")
-            q-toolbar-title(align="middle") {{ this.title }}
         div(class='q-pa-md')
           q-table(
             name="books",
@@ -48,7 +45,7 @@
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
         ],
         data: [],
-        title: 'Список книг',
+        title: '',
         loading: true
       }
       error: {}
@@ -71,7 +68,7 @@
             });
       },
       showBook(book) {
-        this.$router.push({ name: 'showBook', params: { id: book.id } })
+        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/list_books' } })
       },
     },
     components: {
