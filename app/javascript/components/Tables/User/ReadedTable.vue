@@ -17,7 +17,7 @@
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
-            no-data-label="Нет книг на руках!")
+            no-data-label="Нет прочитанных книг :( ")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { backendGetReadingBooks, backendGetCategories} from '../../../api'
+  import { backendGetReadedBooks, backendGetCategories } from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -45,7 +45,7 @@
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
-          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
+          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' }
         ],
         data: [],
         title: '',
@@ -63,8 +63,9 @@
     },
     methods: {
       fetchBooks() {
-        backendGetReadingBooks()
+        backendGetReadedBooks()
             .then((response) => {
+              console.log(response.data.books)
               this.data = response.data.books
             })
             .catch((error) => {
@@ -89,7 +90,7 @@
             });
       },
       showBook(book) {
-        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/reading_books' } })
+        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/readed_books' } })
       },
     },
     components: {

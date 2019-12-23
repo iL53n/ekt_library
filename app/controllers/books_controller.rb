@@ -19,6 +19,11 @@ class BooksController < ApplicationController
     render json: @books
   end
 
+  def readed
+    @books = Book.all.readed(current_user)
+    render json: @books
+  end
+
   def create
     @book = Book.new(book_params)
 
@@ -55,6 +60,8 @@ class BooksController < ApplicationController
   end
 
   def return
+    @user = @book.user
+    @book.readings.create(user: @user)
     set_status('В наличии', nil)
   end
 

@@ -19,7 +19,7 @@
         q-separator(dark vertical)
         q-route-tab(to="/reading_books" name="readingBooks" icon="chrome_reader_mode" label="Читаю")
         q-separator(dark vertical)
-        q-route-tab(to="/done_books" icon="done_all" label="Прочитал")
+        q-route-tab(to="/readed_books" icon="done_all" label="Прочитал")
         q-separator(dark vertical)
         q-route-tab(to="/wish_list" icon="favorite_border" label="Список желаний")
 
