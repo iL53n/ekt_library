@@ -2,7 +2,7 @@
   div
     q-header(elevated class="bg-primary text-white" view="hHh lpR fFf")
       q-toolbar
-        q-btn(flat round dense icon="menu" @click="left = !left")
+        q-btn(color="red" flat round dense icon="menu" @click="left = !left")
         a(href="/")
           img(src="../images/Logo.png" alt="EKTlibrary" width="50" align="middle")
 
