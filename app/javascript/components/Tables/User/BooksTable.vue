@@ -62,6 +62,10 @@
                 q-btn-group(flat)
                   div(v-if="props.row.status == 'В наличии'")
                     q-btn(flat color="white" text-color="primary" size="12px" icon="book" label="Зарезервировать"  @click="bookingBook(props.row)")
+                  div(v-if="props.row.status == 'Зарезервирована'")
+                    q-btn(flat color="grey" text-color="grey" size="12px" icon="book" label="Зарезервировать" disable)
+                  div(v-if="props.row.status == 'На руках'")
+                    q-btn(flat color="grey" text-color="grey" size="12px" icon="book" label="Зарезервировать" disable)
             template(v-slot:body-cell-wishlist="props")
               q-td
                 q-btn(flat round color="green-5" size="12px" icon="favorite_border" @click="addWish(props.row)")
@@ -103,7 +107,7 @@
           rowsPerPage: 10
         },
       }
-      // error: {}
+      error: {}
     },
     created() {
       this.fetchBooks();
@@ -148,8 +152,12 @@
               })
             })
             .catch((error) => {
-              console.log(error);
               this.error = true
+              Notify.create({
+                message: "Ошибка: '" + book.errors + "'.",
+                color: 'positive',
+                position: 'top'
+              })
             });
       },
       showBook(book) {

@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_book, only: %i[show update destroy booking give_out return add_wishlist]
+  before_action :load_book, only: %i[show update destroy booking give_out return add_wish]
   before_action :load_user, only: %i[update give_out]
 
   def index
@@ -12,7 +12,7 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
 
-    if @book.save!
+    if @book.save
       render json: @book, status: :created
     else
       render json: { errors: @book.errors }, status: :unprocessable_entity
@@ -68,7 +68,13 @@ class BooksController < ApplicationController
   end
 
   def add_wish
-    @book.wishes.create(user: current_user)
+    @book.wishes.new(user: current_user)
+
+    if @book.save
+      render json: @book, status: :created
+    else
+      render json: { errors: @book.errors }, status: :unprocessable_entity
+    end
   end
 
   private
