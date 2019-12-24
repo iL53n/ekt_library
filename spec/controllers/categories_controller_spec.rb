@@ -12,7 +12,7 @@ RSpec.describe CategoriesController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it 'populates an array of all categorys' do
+    it 'populates an array of all categories' do
       do_request(request_params)
       expect(assigns(:categories)).to match_array(categories)
     end
