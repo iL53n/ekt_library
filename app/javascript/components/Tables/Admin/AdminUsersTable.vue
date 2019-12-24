@@ -31,9 +31,9 @@
 </template>
 
 <script>
-	import { backendGetUsers, backendDeleteUser } from '../../api'
-  import NewUser from '../UsersForm/CreateUser'
-  import EditUser from '../UsersForm/EditUser'
+	import { backendGetUsers, backendDeleteUser } from '../../../api'
+  import NewUser from '../../UsersForm/CreateUser'
+  import EditUser from '../../UsersForm/EditUser'
   import { Notify } from 'quasar'
 
   export default {

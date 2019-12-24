@@ -82,5 +82,7 @@ RSpec.describe BooksController, type: :controller do
     context 'with invalid attributes' do
       #
     end
+
+    # ToDo: Добавить тесты на таблицы и изменение статусов
   end
 end

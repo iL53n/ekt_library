@@ -3,7 +3,7 @@
     q-dialog(
       :value="true"
       @hide="afterShow()"
-      :position="left"
+      position="left"
       transition-show="flip-right"
     )
       q-card(style="width: 500px")
@@ -42,13 +42,24 @@
               v-model="book.description"
               type="textarea"
             )
-            q-input(
+            q-select(
               filled
-              ref="status"
-              label="Статус *"
-              placeholder="ВРЕМЕННОЕ поле_удл_статусы - реализация в другой итерации"
+              multiple
+              label="Категории"
+              placeholder="Выберите категорию"
+              v-model="selectCategories"
+              :options="categories"
+              use-chips
+              stack-label
+              option-value="id"
+              option-label="title"
+            )
+            q-select(
+              filled
+              label="Статус"
+              placeholder="Выберите статус"
               v-model="book.status"
-              type="text"
+              :options="statuses"
             )
             q-btn(
               color="primary"
@@ -66,19 +77,29 @@
 </template>
 
 <script>
-  import { backendPostBook } from '../../api'
+  import { backendPostBook, backendGetCategories } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
 			return {
-				book: {},
+				book: {
+				  status: 'В наличии'
+        },
+        categories: this.getCategories(),
+        selectCategories: [],
+        statuses: ['В наличии', 'Зарезервирована', 'На руках'],
         errors: {},
         hide: true
       }
 		},
 		created() {
 		},
+    watch: {
+      book() {
+        this.selectCategories = this.book.categories
+      }
+    },
 		methods: {
 			addBook() {
         backendPostBook(this.book)
@@ -97,12 +118,27 @@
 						this.errors = error.response.data.errors;
 					});
       },
+      getCategories() {
+        backendGetCategories()
+            .then((response) => {
+              console.log(response.data.categories)
+              this.categories = response.data.categories
+            })
+            .catch((error) => {
+              console.log(error);
+              this.errors = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+      },
       afterShow() {
 				this.$router.push("/admin_books");
       }
 		},
 		components: {
-			backendPostBook
+			backendPostBook,
+      backendGetCategories
 		}
 	}
 </script>

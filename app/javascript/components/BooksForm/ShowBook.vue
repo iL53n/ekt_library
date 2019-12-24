@@ -55,7 +55,7 @@
 					});
       },
 			afterShow() {
-				this.$router.push("/list_books");
+				this.$router.push(this.$route.params.url);
 			}
 		},
 		components: {

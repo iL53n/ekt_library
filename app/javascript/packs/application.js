@@ -59,7 +59,12 @@ import {
     QBar,
     QSpace,
     QParallax,
-    QScrollArea
+    QScrollArea,
+    QChip,
+    QTooltip,
+    QRating,
+    QFab,
+    QFabAction
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -115,6 +120,11 @@ Vue.use(Quasar, {
         QSpace,
         QParallax,
         QScrollArea,
+        QChip,
+        QTooltip,
+        QRating,
+        QFab,
+        QFabAction
     },
     directives: {
         Ripple,

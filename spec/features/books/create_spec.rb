@@ -7,6 +7,7 @@ feature 'Admin can create new book', %q{
 }, js: true do
 
   given(:user) { create(:user, admin: 'true') }
+  given!(:category) { create(:category) }
 
   describe 'Admin' do
     background do
@@ -25,12 +26,14 @@ feature 'Admin can create new book', %q{
         fill_in 'Изображение', with: 'Test_image'
         fill_in 'Описание', with: 'Test_description'
         fill_in 'Статус', with: 'OK'
+        # select 'test-categories', :from => 'Категории'
         click_on 'СОХРАНИТЬ'
       end
 
       within '.q-table' do
         expect(page).to have_content 'Test_title'.upcase
         expect(page).to have_content 'Test_author'
+        # expect(page).to have_content 'test-categories'
       end
     end
   end

@@ -28,7 +28,7 @@ class Users::IndexController < ApplicationController
   end
 
   def update
-    if @user.update!(user_params)
+    if @user.update(user_params)
       render json: @user, status: :created
     else
       render json: { errors: @user.errors }, status: :unprocessable_entity

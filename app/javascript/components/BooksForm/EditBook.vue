@@ -3,8 +3,8 @@
     q-dialog(
       :value="true"
       @hide="afterShow()"
-      :position="right"
-      transition-show="flip-right"
+      position="right"
+      transition-show="flip-left"
     )
       q-card(style="width: 500px")
         q-form
@@ -54,13 +54,21 @@
               option-value="id"
               option-label="title"
             )
-            q-input(
+            q-select(
               filled
-              ref="status"
-              label="Статус *"
-              placeholder="ВРЕМЕННОЕ поле_удл_статусы - реализация в другой итерации"
+              label="Статус"
+              placeholder="Выберите статус"
               v-model="book.status"
-              type="text"
+              :options="statuses"
+            )
+            q-select(
+              filled
+              label="Пользователь"
+              placeholder="Выберите пользователя"
+              v-model="book.user"
+              :options="users"
+              option-value="id"
+              :option-label="(user) => [user.last_name, user.first_name]"
             )
             q-btn(
               color="primary"
@@ -78,7 +86,7 @@
 </template>
 
 <script>
-	import { backendGetBook, backendPatchBook, backendGetCategories } from '../../api'
+	import { backendGetBook, backendPatchBook, backendGetCategories, backendGetUsers } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
@@ -87,7 +95,8 @@
 				book: this.getBook(),
         categories: this.getCategories(),
         selectCategories: [],
-				errors: {},
+        statuses: ['В наличии', 'Зарезервирована', 'На руках'],
+        users: this.getUsers(),
 				hide: true
 			}
 		},
@@ -127,9 +136,23 @@
 						this.loading = false
 					});
       },
+      getUsers() {
+        backendGetUsers()
+            .then((response) => {
+              // console.log(response.data.users)
+              this.users = response.data.users
+            })
+            .catch((error) => {
+              console.log(error);
+              this.errors = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+      },
 			updateBook() {
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
-
+        this.book.user_id = this.book.user.id
 				backendPatchBook(this.book)
 					.then((response) => {
 						Notify.create({

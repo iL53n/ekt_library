@@ -29,12 +29,14 @@ feature 'Admin can edit book', %q{
       within '.q-form' do
         fill_in 'Наименование', with: 'Test_new_title'
         fill_in 'Автор', with: 'Test_new_author'
+        # select 'test-categories', :from => 'Категории'
         click_on 'СОХРАНИТЬ'
       end
 
       within '.q-table' do
         expect(page).to have_content 'Test_new_title'.upcase
         expect(page).to have_content 'Test_new_author'
+        # expect(page).to have_content 'test-categories'
       end
     end
   end

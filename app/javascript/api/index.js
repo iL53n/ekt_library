@@ -28,6 +28,26 @@ export function backendGetBooks () {
 	return axios.get('/books');
 }
 
+export function backendGetReadingBooks () {
+	return axios.get('/books/reading');
+}
+
+export function backendGetReservedBooks () {
+	return axios.get('/books/reserved');
+}
+
+export function backendGetReadedBooks () {
+	return axios.get('/books/readed');
+}
+
+export function backendGetWishList () {
+	return axios.get('/books/wishlist');
+}
+
+export function backendAddWish (book) {
+	return axios.patch('/books/' + book.id + '/add_wish', book);
+}
+
 export function backendGetBook (id) {
 	return axios.get('/books/' + id);
 }
@@ -62,4 +82,16 @@ export function backendPatchCategory (category) {
 
 export function backendDeleteCategory (id) {
 	return axios.delete('/categories/' + id);
+}
+
+export function backendBookingBook (book) {
+	return axios.patch('/books/' + book.id + '/booking');
+}
+
+export function backendGiveOutBook (book) {
+	return axios.patch('/books/' + book.id + '/give_out', book);
+}
+
+export function backendReturnBook (book) {
+	return axios.patch('/books/' + book.id + '/return');
 }

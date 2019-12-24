@@ -10,7 +10,17 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :books
+  resources :books do
+    get :reserved, on: :collection
+    get :readed, on: :collection
+    get :reading, on: :collection
+    get :wishlist, on: :collection
+
+    member do
+      patch :booking, :give_out, :return, :add_wish
+    end
+  end
+
   resources :categories
 
   get '/*slug', to: 'application#index'
