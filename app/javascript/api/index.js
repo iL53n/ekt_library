@@ -95,3 +95,22 @@ export function backendGiveOutBook (book) {
 export function backendReturnBook (book) {
 	return axios.patch('/books/' + book.id + '/return');
 }
+
+// Posts
+export function indexPosts () {
+	return axios.get('/posts/index');
+}
+export function createPost (post) {
+	return axios.post('/posts', post);
+}
+// export function showPost (id) {
+// 	return axios.get('/posts/' + id);
+// }
+// export function updatePost (post) {
+// 	return axios.patch('/posts/' + post.id, post);
+// }
+// export function destroyPost (id) {
+// 	return axios.delete('/posts/' + id);
+// }
+
+

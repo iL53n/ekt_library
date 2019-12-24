@@ -10,9 +10,9 @@ class User < ApplicationRecord
             :last_name,
             :email, presence: true
 
-  #has_many :books
-  has_many :readings
-  has_many :wishes
+  # has_many :books
+  # has_many :readings
+  # has_many :wishes
 
   has_many :posts
   has_many :books, through: :posts
