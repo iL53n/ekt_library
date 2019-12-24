@@ -25,5 +25,5 @@
         q-item-section(avatar)
           q-icon(name="favorite_border")
         q-item-section
-          | Список желаний
+          | Избранные
 </template>

@@ -1,26 +1,11 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_book, only: %i[show update destroy booking give_out return]
+  before_action :load_book, only: %i[show update destroy booking give_out return add_wishlist]
   before_action :load_user, only: %i[update give_out]
 
   def index
     @books = Book.all
-    render json: @books
-  end
-
-  def reserved
-    @books = Book.all.booking(current_user)
-    render json: @books
-  end
-
-  def reading
-    @books = Book.all.reading(current_user)
-    render json: @books
-  end
-
-  def readed
-    @books = Book.all.readed(current_user)
     render json: @books
   end
 
@@ -51,6 +36,24 @@ class BooksController < ApplicationController
     @book.destroy
   end
 
+  # ---------------------
+
+  def reserved
+    table('booking')
+  end
+
+  def reading
+    table('reading')
+  end
+
+  def readed
+    table('readed')
+  end
+
+  def wishlist
+    table('wishes')
+  end
+
   def booking
     set_status('Зарезервирована', current_user)
   end
@@ -60,9 +63,12 @@ class BooksController < ApplicationController
   end
 
   def return
-    @user = @book.user
-    @book.readings.create(user: @user)
+    @book.readings.create(user: @book.user)
     set_status('В наличии', nil)
+  end
+
+  def add_wish
+    @book.wishes.create(user: current_user)
   end
 
   private
@@ -73,6 +79,11 @@ class BooksController < ApplicationController
 
   def load_user
     @user = User.find(params[:user_id])
+  end
+
+  def table(filter)
+    @books = Book.all.send(filter, current_user)
+    render json: @books
   end
 
   def load_book

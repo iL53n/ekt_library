@@ -40,6 +40,14 @@ export function backendGetReadedBooks () {
 	return axios.get('/books/readed');
 }
 
+export function backendGetWishList () {
+	return axios.get('/books/wishlist');
+}
+
+export function backendAddWish (book) {
+	return axios.patch('/books/' + book.id + '/add_wish', book);
+}
+
 export function backendGetBook (id) {
 	return axios.get('/books/' + id);
 }

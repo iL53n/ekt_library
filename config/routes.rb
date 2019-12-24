@@ -14,8 +14,10 @@ Rails.application.routes.draw do
     get :reserved, on: :collection
     get :readed, on: :collection
     get :reading, on: :collection
+    get :wishlist, on: :collection
+
     member do
-      patch :booking, :give_out, :return
+      patch :booking, :give_out, :return, :add_wish
     end
   end
 

@@ -62,11 +62,14 @@
                 q-btn-group(flat)
                   div(v-if="props.row.status == 'В наличии'")
                     q-btn(flat color="white" text-color="primary" size="12px" icon="book" label="Зарезервировать"  @click="bookingBook(props.row)")
+            template(v-slot:body-cell-wishlist="props")
+              q-td
+                q-btn(flat round color="green-5" size="12px" icon="favorite_border" @click="addWish(props.row)")
         router-view
 </template>
 
 <script>
-  import { backendGetBooks, backendGetCategories, backendBookingBook } from '../../../api'
+  import { backendGetBooks, backendGetCategories, backendBookingBook, backendAddWish } from '../../../api'
   import NewBook from '../../BooksForm/CreateBook'
   import EditBook from '../../BooksForm/EditBook'
   import ShowBook from '../../BooksForm/ShowBook'
@@ -87,6 +90,7 @@
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
           { name: 'user', align: 'center', label: 'Пользователь', field: row => row.user, format: val => '${val}', sortable: true },
           { name: 'booking', align: 'center' },
+          { name: 'wishlist', align: 'center' },
         ],
         data: [],
         title: '',
@@ -124,6 +128,21 @@
               this.fetchBooks();
               Notify.create({
                 message: "Книга '" + book.title + "' зарезервирована!",
+                color: 'positive',
+                position: 'top'
+              })
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            });
+      },
+      addWish(book) {
+        backendAddWish(book)
+            .then((response) => {
+              this.fetchBooks();
+              Notify.create({
+                message: "Книга '" + book.title + "' добавлена в избранные!",
                 color: 'positive',
                 position: 'top'
               })

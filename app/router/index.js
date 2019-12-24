@@ -9,6 +9,7 @@ import Books from '../javascript/components/Tables/User/BooksTable'
 import ReservedBooks from '../javascript/components/Tables/User/ReservedTable'
 import ReadingBooks from '../javascript/components/Tables/User/ReadingTable'
 import ReadedBooks from '../javascript/components/Tables/User/ReadedTable'
+import WishList from '../javascript/components/Tables/User/WishList'
 import CreateBook from '../javascript/components/BooksForm/CreateBook'
 import CreateUser from '../javascript/components/UsersForm/CreateUser'
 import CreateCategory from '../javascript/components/CategoriesForm/CreateCategory'
@@ -31,6 +32,7 @@ export default new VueRouter({
 		},
 		{ path: '/reserved_books', component: ReservedBooks, name: 'bookingBooks' },
 		{ path: '/readed_books', component: ReadedBooks, name: 'readedBooks' },
+		{ path: '/wish_list', component: WishList, name: 'wishList' },
 		{ path: '/reading_books', component: ReadingBooks, name: 'readingBooks' },
 		{ path: '/admin_books', component: AdminBooks,
 			children: [
