@@ -1,10 +1,18 @@
 <template lang="pug">
   div
+    div(v-if="user.admin == true")
+      q-toggle(
+        v-model="show_admin"
+        checked-icon="check"
+        color="red"
+        label="Admin mode"
+        left-label
+        unchecked-icon="clear")
     | {{ user.email }}
     q-btn(flat round dense icon="account_circle")
       q-menu(auto-close transition-show="scale" transition-hide="scale")
         q-list(style="min-width: 100px")
-          div(v-if="user.admin")
+          div(v-if="show_admin")
             q-item(v-close-popup)
               q-item-section
                 q-btn(
@@ -43,7 +51,8 @@
 	export default {
 		data: function () {
 			return {
-				user: {}
+				user: {},
+        show_admin: true
 			}
 		},
 		created() {
