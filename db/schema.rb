@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_12_24_190621) do
 
   create_table "posts", force: :cascade do |t|
     t.string "title", null: false
+    t.boolean "active", default: true
     t.bigint "book_id"
     t.bigint "user_id"
     t.date "end_date"

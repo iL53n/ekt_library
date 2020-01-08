@@ -84,11 +84,11 @@
 		data: function () {
 			return {
 				book: {
-				  status: 'В наличии'
+				  status: 'available'
         },
         categories: this.getCategories(),
         selectCategories: [],
-        statuses: ['В наличии', 'Зарезервирована', 'На руках'],
+        statuses: ['available', 'booking', 'reading'],
         errors: {},
         hide: true
       }

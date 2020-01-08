@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    q-header(elevated class="bg-primary text-white" view="hHh lpR fFf")
+    q-header(elevated class="bg-primary text-white" view="hHh lpR fFf" container)
       q-toolbar
         q-btn(flat round dense icon="menu" @click="left = !left")
         a(href="/")

@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     div(v-if="user.admin == true")
-      q-toggle(
+      //q-toggle(
         v-model="show_admin"
         checked-icon="check"
         color="red"
