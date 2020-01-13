@@ -36,4 +36,8 @@ class Book < ApplicationRecord
   def active_post
     posts.exists? ? posts.where(active: true).first : nil
   end
+
+  def close_active_post
+    active_post.update!(active: false)
+  end
 end

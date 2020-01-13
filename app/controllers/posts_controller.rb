@@ -13,6 +13,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     @post.user = @user
+    @book.close_active_post
     @post.book = @book
 
     if @post.save
