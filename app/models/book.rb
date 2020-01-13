@@ -30,14 +30,18 @@ class Book < ApplicationRecord
   end
 
   def active_user
-    active_post.user if posts.exists?
+    active_post.user if posts?
   end
 
   def active_post
-    posts.exists? ? posts.where(active: true).first : nil
+    posts.where(active: true).first if posts?
   end
 
   def close_active_post
-    active_post.update!(active: false)
+    active_post.update!(active: false) if posts?
+  end
+
+  def posts?
+    posts.exists?
   end
 end
