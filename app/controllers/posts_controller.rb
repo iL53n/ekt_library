@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
     @post.user = @user
     # закрываем старую активную запись(post) к книге, чтобы создать новую(одновременно не может быть более одной активной)
-    @book.close_active_post
+    @book.close_active_post unless wish?
     # создаем новую запись к книге
     @post.book = @book
 
@@ -37,7 +37,11 @@ class PostsController < ApplicationController
   end
 
   def update_book
-    @book.update(status: params[:title], user_id: current_user.id) unless params[:title] == 'wish'
+    @book.update(status: params[:title], user_id: current_user.id) unless wish?
+  end
+
+  def wish?
+    params[:title] == 'wish'
   end
 
   def post_params

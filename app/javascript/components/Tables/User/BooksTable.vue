@@ -142,7 +142,7 @@
             });
       },
       addWish(book) {
-        createPost({ title: 'wish', book_id: book.id })
+        createPost({ title: 'wish', book_id: book.id, active: false })
             .then((response) => {
               this.fetchBooks();
               Notify.create({
