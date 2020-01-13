@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// users
 export function backendCurrentUser () {
 	return axios.get('/users/index/me');
 }
@@ -24,6 +25,7 @@ export function backendDeleteUser (id) {
 	return axios.delete('/users/index/' + id);
 }
 
+// books
 export function backendGetBooks () {
 	return axios.get('/books');
 }
@@ -64,6 +66,7 @@ export function backendDeleteBook (id) {
 	return axios.delete('/books/' + id);
 }
 
+// categories
 export function backendGetCategories () {
 	return axios.get('/categories');
 }

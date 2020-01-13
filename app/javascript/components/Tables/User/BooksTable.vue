@@ -17,7 +17,7 @@
             :columns="columns",
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
-            row-key="id"
+            row-key="name"
             no-data-label="Нет информации о книгах!")
             template(v-slot:top)
               q-space
@@ -85,16 +85,15 @@
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
-          // { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
           { name: 'status', align: 'center', label: 'Статус', field: row => row.status, format: val => '${val}', sortable: true },
           { name: 'user', align: 'center', label: 'Пользователь', field: row => row.user, format: val => '${val}', sortable: true },
           { name: 'booking', align: 'center' },
           { name: 'wishlist', align: 'center' },
         ],
         status_arr: {
+          'wish': 'WISH_del',
           'booking': 'Зарезервирована',
           'reading': 'На руках',
-          'available': 'Доступна'
         },
         data: [],
         title: '',
@@ -142,7 +141,7 @@
             });
       },
       addWish(book) {
-        backendAddWish(book)
+        createPost({ title: 'wish', book_id: book.id })
             .then((response) => {
               this.fetchBooks();
               Notify.create({

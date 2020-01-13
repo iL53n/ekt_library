@@ -11,6 +11,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+
     @post.user = @user
     @post.book = @book
 
@@ -33,8 +34,7 @@ class PostsController < ApplicationController
   end
 
   def update_book
-    @book.update(status: params[:title], user_id: current_user.id)
-
+    @book.update(status: params[:title], user_id: current_user.id) unless params[:title] == 'wish'
   end
 
   def post_params
