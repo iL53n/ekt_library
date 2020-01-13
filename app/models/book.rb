@@ -38,7 +38,7 @@ class Book < ApplicationRecord
   end
 
   def close_active_post
-    active_post.update!(active: false) if posts?
+    active_post.update!(active: false, end_date: Time.now) if posts?
   end
 
   def posts?
