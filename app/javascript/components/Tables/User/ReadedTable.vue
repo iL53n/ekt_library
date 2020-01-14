@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { backendGetReadedBooks, backendGetCategories } from '../../../api'
+  import { backendGetBooks, backendGetCategories } from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -63,7 +63,7 @@
     },
     methods: {
       fetchBooks() {
-        backendGetReadedBooks()
+        backendGetBooks({ filter: 'readed' })
             .then((response) => {
               console.log(response.data.books)
               this.data = response.data.books

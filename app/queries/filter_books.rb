@@ -10,7 +10,6 @@ class FilterBooks
   def call(params)
     books = filter(initial_scope)
     books
-    # initial_scope
   end
 
   private
@@ -23,6 +22,8 @@ class FilterBooks
       booking
     when 'wishes'
       wishes
+    else
+      initial_scope
     end
   end
 
