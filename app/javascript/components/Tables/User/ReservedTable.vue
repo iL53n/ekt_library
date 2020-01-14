@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import { backendGetReservedBooks, backendGetCategories} from '../../../api'
+  import { backendGetBooks, backendGetCategories} from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -67,7 +67,7 @@
     },
     methods: {
       fetchBooks() {
-        backendGetReservedBooks()
+        backendGetBooks({ filter: 'booking' })
             .then((response) => {
               this.data = response.data.books
             })

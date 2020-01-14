@@ -5,7 +5,9 @@ class BooksController < ApplicationController
   before_action :load_user, only: %i[update give_out]
 
   def index
-    @books = Book.all
+    filter_books = FilterBooks.new(Book.all, current_user, params)
+    @books = filter_books.call(filter_permitted_params)
+
     render json: @books
   end
 
@@ -104,5 +106,9 @@ class BooksController < ApplicationController
                   :image,
                   :status,
                   category_ids: [])
+  end
+
+  def filter_permitted_params
+    params.permit(:filter)
   end
 end

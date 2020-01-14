@@ -126,7 +126,7 @@
 		},
     methods: {
 			fetchBooks() {
-				backendGetBooks()
+        backendGetBooks({ filter: 'all' })
 					.then((response) => {
 						this.data = response.data.books
 					})

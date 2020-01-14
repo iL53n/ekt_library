@@ -26,8 +26,8 @@ export function backendDeleteUser (id) {
 }
 
 // books
-export function backendGetBooks () {
-	return axios.get('/books');
+export function backendGetBooks (params) {
+	return axios.get('/books', { params: params });
 }
 
 export function backendGetReadingBooks () {
