@@ -21,10 +21,16 @@ class FilterBooks
       initial_scope
     when 'booking'
       booking
+    when 'wishes'
+      wishes
     end
   end
 
   def booking
     initial_scope.joins(:posts).where(posts: { title: 'booking', user: @current_user, active: true })
+  end
+
+  def wishes
+    initial_scope.joins(:posts).where(posts: { title: 'wish', user: @current_user })
   end
 end
