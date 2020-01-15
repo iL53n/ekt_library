@@ -17,7 +17,7 @@
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
-            no-data-label="Нет прочитанных книг :( ")
+            no-data-label="НЕТ ЗАПИСЕЙ ")
             template(v-slot:body-cell-book="props")
               q-td(align="center")
                 | {{ props.row.book.title }}
@@ -35,9 +35,11 @@
       return {
         columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'title', align: 'center', label: 'Вид', field: 'title' },
+          { name: 'title', align: 'left', label: 'Title', field: 'title', sortable: true },
           { name: 'book', label: 'Наименование книги', align: 'center', format: val => '${val}', sortable: true },
           { name: 'user', label: 'Пользователь', align: 'center', format: val => '${val}', sortable: true },
+          { name: 'start_date', align: 'left', label: 'Start', field: 'start_date', sortable: true },
+          { name: 'end_date', align: 'left', label: 'End', field: 'end_date', sortable: true },
         ],
         data: [],
         title: '',
