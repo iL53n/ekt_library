@@ -83,8 +83,8 @@ export function backendReturnBook (book) {
 export function indexPosts () {
 	return axios.get('/posts');
 }
-export function createPost (post) {
-	return axios.post('/posts', post);
+export function createPost (params) {
+	return axios.post('/posts', params);
 }
 // export function showPost (id) {
 // 	return axios.get('/posts/' + id);

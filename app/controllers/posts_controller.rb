@@ -18,7 +18,7 @@ class PostsController < ApplicationController
     # создаем новую запись к книге
     @post.book = @book
 
-    if @post.save
+    if @post.save!
       render json: @post, status: :created
     else
       render json: { errors: @post.errors }, status: :unprocessable_entity
@@ -28,8 +28,7 @@ class PostsController < ApplicationController
   private
 
   def load_user
-    # @user = User.find(params[:user_id])
-    @user = current_user
+    @user = params[:user_id].nil? ? current_user : User.find(params[:user_id])
   end
 
   def load_book

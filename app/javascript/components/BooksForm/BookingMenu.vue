@@ -15,7 +15,7 @@
               filled
               label="Пользователь"
               placeholder="Выберите пользователя"
-              v-model="book.user"
+              v-model="book.active_user"
               :options="users"
               option-value="id"
               :option-label="(user) => [user.last_name, user.first_name]"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import { backendGetBook, backendGetUsers, backendGiveOutBook } from '../../api'
+  import { backendGetBook, backendGetUsers, createPost } from '../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -82,8 +82,7 @@
           });
       },
       giveOutBook() {
-        this.book.user_id = this.book.user.id
-        backendGiveOutBook(this.book)
+        createPost({ title: 'reading', book_id: this.book.id, user_id: this.book.active_user.id })
           .then((response) => {
             // console.log(response.data.book)
             Notify.create({

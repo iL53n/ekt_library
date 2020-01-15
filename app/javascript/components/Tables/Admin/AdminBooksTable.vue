@@ -57,19 +57,22 @@
               q-td(align="center")
                 div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
+            template(v-slot:body-cell-status="props")
+              q-td(align="center")
+                | {{ status_arr[props.row.status] }}
             template(v-slot:body-cell-user="props")
               q-td(align="center")
-                div(v-if="props.row.user")
-                  | {{ props.row.user.last_name }} {{ props.row.user.first_name }}
+                div(v-if="props.row.active_user")
+                  | {{ props.row.active_user.last_name }} {{ props.row.active_user.first_name }}
             template(v-slot:body-cell-booking="props")
               q-td
                 q-btn-group(flat)
-                  div(v-if="props.row.status == 'В наличии'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="book" label="Зарезервировать"  @click="bookingBook(props.row)")
-                  div(v-if="props.row.status == 'Зарезервирована'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="eject" label="Выдать"  @click="giveOutBook(props.row)")
-                  div(v-if="props.row.status == 'На руках'")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть книгу"  @click="returnBook(props.row)")
+                  div(v-if="props.row.status == 'available' || props.row.status == 'booking' ")
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="eject" label="Выдать" @click="giveOutBook(props.row)")
+                    q-btn(flat color="white" text-color="grey" size="12px" icon="get_app" label="Вернуть книгу" disable)
+                  div(v-if="props.row.status == 'reading'")
+                    q-btn(flat color="white" text-color="grey" size="12px" icon="eject" label="Выдать" disable)
+                    q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть книгу" @click="returnBook(props.row)")
             template(v-slot:body-cell-action="props")
               q-td
                 q-btn(flat dense color="blue-grey-6" icon="menu_open")
@@ -98,16 +101,18 @@
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          //{ name: 'description', label: 'Описание', align: 'left', field: row => row.description, format: val => '${val}' },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
-					//{ name: 'title', align: 'center', label: 'Наименование', field: 'title', sortable: true },
-					//{ name: 'author', align: 'center', label: 'Автор', field: 'author', sortable: true },
-					{ name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
+          { name: 'status', align: 'center', label: 'Статус', field: row => row.status, format: val => '${val}', sortable: true },
 					{ name: 'user', align: 'center', label: 'Пользователь', field: row => row.user, format: val => '${val}', sortable: true },
 					{ name: 'booking', align: 'center' },
 					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
+        status_arr: {
+          'booking': 'Зарезервирована',
+          'reading': 'На руках',
+          'available': 'Доступна'
+        },
 				data: [],
 				title: '',
         filter: '',
@@ -137,21 +142,6 @@
 					.finally(() => {
 						this.loading = false
 					});
-      },
-      bookingBook(book) {
-        backendBookingBook(book)
-          .then((response) => {
-            this.fetchBooks();
-            Notify.create({
-              message: "Книга '" + book.title + "' зарезервирована!",
-              color: 'positive',
-              position: 'top'
-            })
-          })
-          .catch((error) => {
-            console.log(error);
-            this.error = true
-          });
       },
       // giveOutBook(book) {
       //   backendGiveOutBook(book)

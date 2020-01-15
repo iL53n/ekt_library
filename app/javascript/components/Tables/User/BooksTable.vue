@@ -91,7 +91,6 @@
           { name: 'wishlist', align: 'center' },
         ],
         status_arr: {
-          'wish': 'WISH_del', // ToDo: удалить, только для разработки
           'booking': 'Зарезервирована',
           'reading': 'На руках',
           'available': 'Доступна'
