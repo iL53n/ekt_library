@@ -46,6 +46,10 @@ export function backendDeleteBook (id) {
 	return axios.delete('/books/' + id);
 }
 
+export function backendCloseBook (book) {
+	return axios.patch('/books/' + book.id + '/readed');
+}
+
 // categories
 export function backendGetCategories () {
 	return axios.get('/categories');
@@ -65,18 +69,6 @@ export function backendPatchCategory (category) {
 
 export function backendDeleteCategory (id) {
 	return axios.delete('/categories/' + id);
-}
-
-export function backendBookingBook (book) {
-	return axios.patch('/books/' + book.id + '/booking');
-}
-
-export function backendGiveOutBook (book) {
-	return axios.patch('/books/' + book.id + '/give_out', book);
-}
-
-export function backendReturnBook (book) {
-	return axios.patch('/books/' + book.id + '/return');
 }
 
 // Posts

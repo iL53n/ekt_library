@@ -40,7 +40,7 @@ class FilterBooks # ToDo: need refactoring
   end
 
   def readed
-    return_arr('readed', false)
+    return_arr('reading', false)
   end
 
   def wishes

@@ -88,7 +88,7 @@
 </template>
 
 <script>
-	import { backendDeleteBook, backendGetBooks, backendGetCategories, backendBookingBook, backendGiveOutBook, backendReturnBook } from '../../../api'
+	import { backendDeleteBook, backendGetBooks, backendGetCategories, backendCloseBook } from '../../../api'
   import NewBook from '../../BooksForm/CreateBook'
   import EditBook from '../../BooksForm/EditBook'
   import ShowBook from '../../BooksForm/ShowBook'
@@ -143,23 +143,8 @@
 						this.loading = false
 					});
       },
-      // giveOutBook(book) {
-      //   backendGiveOutBook(book)
-      //     .then((response) => {
-      //       this.fetchBooks();
-      //       Notify.create({
-      //         message: "Книга '" + book.title + "' выдана!",
-      //         color: 'positive',
-      //         position: 'top'
-      //       })
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //       this.error = true
-      //     });
-      // },
       returnBook(book) {
-        backendReturnBook(book)
+        backendCloseBook(book)
           .then((response) => {
             this.fetchBooks();
             Notify.create({

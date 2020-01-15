@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_user, :load_book, only: :create
+  before_action :load_user, only: :create
+  before_action :load_book, only: %i[create close_reading_post]
   after_action :update_book, only: :create
 
   def index
@@ -25,6 +26,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def close_reading_post
+    @book.update(status: 'available', user_id: nil)
+    @book.close_active_post
+  end
+
   private
 
   def load_user
@@ -36,7 +42,7 @@ class PostsController < ApplicationController
   end
 
   def update_book
-    @book.update(status: params[:title], user_id: current_user.id) unless wish?
+    @book.update(status: params[:title], user_id: @user.id) unless wish?
   end
 
   def wish?

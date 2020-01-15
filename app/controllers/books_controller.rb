@@ -1,8 +1,8 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
-  before_action :load_book, only: %i[show update destroy booking give_out return add_wish]
-  before_action :load_user, only: %i[update give_out]
+  before_action :load_book, only: %i[show update destroy]
+  before_action :load_user, only: %i[update]
 
   def index
     filter_books = FilterBooks.new(Book.all, current_user, params)
@@ -38,18 +38,7 @@ class BooksController < ApplicationController
     @book.destroy
   end
 
-  # ---------------------
-
-  def return
-    @book.readings.create(user: @book.user)
-    set_status('В наличии', nil)
-  end
-
   private
-
-  def set_status(status, user)
-    @book.update!(status: status, user: user)
-  end
 
   def load_user
     @user = User.find(params[:user_id])
