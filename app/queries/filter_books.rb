@@ -1,4 +1,4 @@
-class FilterBooks
+class FilterBooks # ToDo: need refactoring
   attr_accessor :initial_scope
 
   def initialize(initial_scope, current_user, params)
@@ -20,6 +20,10 @@ class FilterBooks
       initial_scope
     when 'booking'
       booking
+    when 'reading'
+      reading
+    when 'readed'
+      readed
     when 'wishes'
       wishes
     else
@@ -28,10 +32,24 @@ class FilterBooks
   end
 
   def booking
-    initial_scope.joins(:posts).where(posts: { title: 'booking', user: @current_user, active: true })
+    return_arr('booking', true)
+  end
+
+  def reading
+    return_arr('reading', true)
+  end
+
+  def readed
+    return_arr('readed', false)
   end
 
   def wishes
-    initial_scope.joins(:posts).where(posts: { title: 'wish', user: @current_user })
+    return_arr('wish', false)
+  end
+
+  def return_arr(title, active)
+    initial_scope.joins(:posts).where(posts: { title: title,
+                                               user: @current_user,
+                                               active: active })
   end
 end
