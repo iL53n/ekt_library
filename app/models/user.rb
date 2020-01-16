@@ -14,6 +14,6 @@ class User < ApplicationRecord
   # has_many :readings
   # has_many :wishes
 
-  has_many :posts
+  has_many :posts, dependent: :destroy
   has_many :books, through: :posts
 end
