@@ -95,13 +95,9 @@
 		},
 		created() {
 		},
-    watch: {
-      book() {
-        this.selectCategories = this.book.categories
-      }
-    },
 		methods: {
 			addBook() {
+        this.book.category_ids = this.selectCategories.map(cat => cat.id)
         backendPostBook(this.book)
 					.then((response) => {
 						Notify.create({
@@ -121,7 +117,6 @@
       getCategories() {
         backendGetCategories()
             .then((response) => {
-              console.log(response.data.categories)
               this.categories = response.data.categories
             })
             .catch((error) => {

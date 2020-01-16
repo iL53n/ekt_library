@@ -2,7 +2,6 @@ class BooksController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :load_book, only: %i[show update destroy]
-  before_action :load_user, only: %i[update]
 
   def index
     filter_books = FilterBooks.new(Book.all, current_user, params)
@@ -26,7 +25,6 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book.user = @user
     if @book.update!(book_params)
       render json: @book, status: :created
     else
@@ -39,10 +37,6 @@ class BooksController < ApplicationController
   end
 
   private
-
-  def load_user
-    @user = User.find(params[:user_id])
-  end
 
   def load_book
     @book ||= Book.find(params[:id])
