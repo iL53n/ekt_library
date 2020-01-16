@@ -86,7 +86,7 @@
 				book: this.getBook(),
         categories: this.getCategories(),
         selectCategories: [],
-        statuses: ['В наличии', 'Зарезервирована', 'На руках'],
+        statuses: ['available', 'booking', 'reading'],
 				hide: true
 			}
 		},
