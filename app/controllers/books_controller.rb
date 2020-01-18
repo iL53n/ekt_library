@@ -12,6 +12,7 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
+    attach_main_pic(@book) if book_params[:image].present?
 
     if @book.save!
       render json: @book, status: :created
@@ -38,18 +39,22 @@ class BooksController < ApplicationController
 
   private
 
+  def attach_main_pic(book)
+    book.image.attach(book_params[:image])
+  end
+
   def load_book
     @book ||= Book.find(params[:id])
   end
 
   def book_params
     params.permit(:id,
-                  :title,
-                  :description,
-                  :author,
-                  :image,
-                  :status,
-                  category_ids: [])
+                                 :title,
+                                 :description,
+                                 :author,
+                                 :status,
+                                 :image,
+                                 category_ids: [])
   end
 
   def filter_permitted_params

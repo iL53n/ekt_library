@@ -39,6 +39,9 @@
               //q-input(borderless dense debounce="300" color="primary" v-model="filter" placeholder="Поиск") //Фильтр
                 template(v-slot:append)
                   q-icon(name="search")
+            //template(v-slot:body-cell-image="props")
+              q-td(align="center")
+                | {{ props.row.image }}
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
@@ -99,7 +102,7 @@
 			return {
 				columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
+          { name: 'image', label: 'Обложка', align: 'left', field: row => row.image, format: val => '${val}' },
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },

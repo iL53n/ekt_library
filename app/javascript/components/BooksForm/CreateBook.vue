@@ -7,7 +7,7 @@
       transition-show="flip-right"
     )
       q-card(style="width: 500px")
-        q-form
+        q-form(enctype="multipart/form-data")
           q-card-section(class="q-gutter-y-md column")
             q-item-section
             q-input(
@@ -26,14 +26,13 @@
               v-model="book.author"
               type="text"
             )
-            q-input(
+            //q-uploader(
               filled
-              ref="image"
-              label="Изображение *"
-              placeholder="ВРЕМЕННОЕ поле_изм_статусы - реализация в другой итерации"
-              v-model="book.image"
-              type="text"
-            )
+              ref="cover"
+              style="width: auto"
+              color="secondary"
+              label="Обложка книги *")
+            input(type="file" ref="cover" @change="uploadFile()")
             q-input(
               filled
               ref="description"
@@ -90,15 +89,31 @@
         selectCategories: [],
         statuses: ['available', 'booking', 'reading'],
         errors: {},
-        hide: true
+        hide: true,
+        inputPicture: null
       }
 		},
 		created() {
 		},
 		methods: {
+      uploadFile: function() {
+        this.book.image = this.$refs.cover.files[0]
+        console.log(this.book.image)
+      },
 			addBook() {
+			  console.log(this.$refs.cover.files)
+        // this.book.image = this.$refs.cover.files[0]
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
-        backendPostBook(this.book)
+        console.log(this.book)
+
+        let formData = new FormData()
+        Object.entries(this.book).forEach(
+            ([key, value]) => formData.append(key, value)
+        )
+
+
+
+        backendPostBook(formData)
 					.then((response) => {
 						Notify.create({
 							message: "Книга '" + this.book.title + "' создана!",
@@ -108,7 +123,7 @@
 						this.$emit('add-book');
 						this.book = {};
 						this.errors = {};
-						// this.$refs.title.resetValidation();
+						 this.$refs.title.resetValidation();
 					})
 					.catch((error) => {
 						this.errors = error.response.data.errors;

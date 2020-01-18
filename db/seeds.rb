@@ -25,18 +25,15 @@ category2 = Category.create(title: 'Менеджмент')
 book1 = Book.create(title: 'Стартап без бюджета',
                     author: 'Майк Микаловиц',
                     description: '«Никогда в жизни не занимались предпринимательством? Не знаете где взять стартовый...',
-                    image: 'image',
                     status: 'available',
                     categories: [category1])
 book2 = Book.create(title: 'Доставляя счастье',
                     author: 'Тони Шей',
                     description: 'Тони Шеи делится с читателями своим опытом ведения бизнеса, причем этот опыт поражает...',
-                    image: 'image',
                     status: 'available',
                     categories: [category1])
 book3 = Book.create(title: 'От хорошего к великому.',
                     author: 'Джим Коллинз',
                     description: 'В этой книге подробно описывается процесс создания так называемых «голубых океанов»—...',
-                    image: 'image',
                     status: 'available',
                     categories: [category1, category2])

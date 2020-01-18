@@ -64,7 +64,8 @@ import {
     QTooltip,
     QRating,
     QFab,
-    QFabAction
+    QFabAction,
+    QUploader
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -124,7 +125,8 @@ Vue.use(Quasar, {
         QTooltip,
         QRating,
         QFab,
-        QFabAction
+        QFabAction,
+        QUploader
     },
     directives: {
         Ripple,
