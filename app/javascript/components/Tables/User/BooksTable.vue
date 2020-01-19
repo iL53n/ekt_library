@@ -35,8 +35,7 @@
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
-                  q-badge(color="green" icon="edit" floating) 7
-                  //{{ props.row.comments.length }}
+                  q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")

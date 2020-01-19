@@ -24,11 +24,16 @@
         q-card-section
           | {{ this.book.description }}
           |
+        q-card-section
           p Комментарии
-          p {{ this.book.comments }}
+          q-intersection(v-for="comment in book.comments", :key="comment", transition="flip-right")
+            q-item(v-ripple)
+              q-item-section
+                | {{ comment }}
+                q-item-label {{ comment.body }}
+                q-item-label(caption lines="1") {{ comment.user }}
 
         q-card-section(class="text-black")
-          | {{new_comment}}
           q-editor(v-model="new_comment", flat, text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="secondary")
           q-btn(text-color="white" color="secondary" label="Добавить комментарий" @click="addComment")
 </template>
