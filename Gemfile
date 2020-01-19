@@ -16,6 +16,8 @@ gem 'devise'
 gem 'database_cleaner'
 gem 'active_model_serializers'
 gem 'oj'
+gem 'mini_magick'
+gem 'image_processing'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -49,12 +49,12 @@ class BooksController < ApplicationController
 
   def book_params
     params.permit(:id,
-                                 :title,
-                                 :description,
-                                 :author,
-                                 :status,
-                                 :image,
-                                 category_ids: [])
+                  :title,
+                  :description,
+                  :author,
+                  :status,
+                  :image,
+                  category_ids: [])
   end
 
   def filter_permitted_params

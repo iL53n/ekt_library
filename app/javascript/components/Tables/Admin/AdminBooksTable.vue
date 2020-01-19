@@ -39,9 +39,15 @@
               //q-input(borderless dense debounce="300" color="primary" v-model="filter" placeholder="Поиск") //Фильтр
                 template(v-slot:append)
                   q-icon(name="search")
-            //template(v-slot:body-cell-image="props")
+            template(v-slot:body-cell-image="props")
               q-td(align="center")
-                | {{ props.row.image }}
+                //| {{ props.row.image }}
+                //| {{ props.row.image_url }}
+                q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
+                a(:href="props.row.image_url")
+                  | link
+                //image_tag(v-bind:src="props.row.image_url.variant" style="height: 140px; max-width: 150px")
+                //img(src="../../../images/Logo.png" style="height: 140px; max-width: 150px")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
