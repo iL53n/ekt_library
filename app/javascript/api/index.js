@@ -71,7 +71,7 @@ export function backendDeleteCategory (id) {
 	return axios.delete('/categories/' + id);
 }
 
-// Posts
+// posts
 export function indexPosts () {
 	return axios.get('/posts');
 }
@@ -88,4 +88,8 @@ export function createPost (params) {
 // 	return axios.delete('/posts/' + id);
 // }
 
+// comments
+export function createComment (params) {
+	return axios.post('/comments', params);
+}
 

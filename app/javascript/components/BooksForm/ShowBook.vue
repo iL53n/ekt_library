@@ -23,15 +23,18 @@
 
         q-card-section
           | {{ this.book.description }}
+          |
+          p Комментарии
+          p {{ this.book.comments }}
 
         q-card-section(class="text-black")
           | {{new_comment}}
           q-editor(v-model="new_comment", flat, text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="secondary")
-          q-btn(text-color="white" color="secondary" label="Добавить комментарий")
+          q-btn(text-color="white" color="secondary" label="Добавить комментарий" @click="addComment")
 </template>
 
 <script>
-	import { backendGetBook } from '../../api'
+	import { backendGetBook, createComment } from '../../api'
 
 	export default {
 		data: function () {
@@ -59,6 +62,24 @@
 					.finally(() => {
 						this.loading = false
 					});
+      },
+      addComment() {
+        createComment({body: this.new_comment, book_id: this.$route.params.id})
+          .then((response) => {
+            Notify.create({
+              message: "Комментарий добавлен!",
+              color: 'positive',
+              position: 'top'
+            });
+            this.new_comment = ''
+          })
+          .catch((error) => {
+            console.log(error);
+            this.errors = true
+          })
+          .finally(() => {
+            this.loading = false
+          });
       },
 			afterShow() {
 				this.$router.push(this.$route.params.url);

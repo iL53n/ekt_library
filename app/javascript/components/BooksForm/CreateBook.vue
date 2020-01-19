@@ -111,8 +111,6 @@
             ([key, value]) => formData.append(key, value)
         )
 
-
-
         backendPostBook(formData)
 					.then((response) => {
 						Notify.create({
