@@ -6,6 +6,7 @@ class BookSerializer < ActiveModel::Serializer
   has_many :categories
   has_many :users
   has_many :posts
+  has_many :comments
 
   def image_url
     # rails_blob_path(object.image, only_path: true) if object.image.attached?
