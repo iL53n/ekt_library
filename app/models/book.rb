@@ -12,6 +12,12 @@ class Book < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :ratings, dependent: :destroy
 
+  def calculate_rating
+    arr = []
+    ratings.each { |i| arr << i.value }
+    arr.reduce(:+) / arr.size.to_i unless arr.empty?
+  end
+
   def available?
     posts.where(active: true).nil?
   end

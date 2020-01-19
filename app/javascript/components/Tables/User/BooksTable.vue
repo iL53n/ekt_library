@@ -41,7 +41,7 @@
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
             template(v-slot:body-cell-raiting="props")
               q-td(align="center")
-                q-rating(v-model="ratingModel", readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star")
+                q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star") {{ props.row.current_rating }}
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
                 div(v-for="category in props.row.categories")
@@ -100,7 +100,6 @@
         select_categories: null,
         categories: this.getCategories(),
         loading: true,
-        ratingModel: 3,
         pagination: {
           rowsPerPage: 10
         },

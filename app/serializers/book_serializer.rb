@@ -9,7 +9,8 @@ class BookSerializer < ActiveModel::Serializer
              :user_id,
              :active_user,
              :image_url,
-             :image
+             :image,
+             :current_rating
 
   has_many :categories
   has_many :users
@@ -17,6 +18,10 @@ class BookSerializer < ActiveModel::Serializer
   has_one :image
   has_many :comments, serializer: CommentSerializer
   has_many :ratings
+
+  def current_rating
+    object.calculate_rating
+  end
 
   def short_description
     object.description.truncate(80)
