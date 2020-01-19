@@ -18,24 +18,28 @@
           q-btn(dense flat icon="close" v-close-popup)
 
         q-card-section
-          div(class="text-h3") {{ this.book.title }}
-          div(class="text-h5") {{ this.book.author }}
+          div(class="text-h2") {{ this.book.title }}
+          div(class="text-h3") {{ this.book.author }}
 
         q-card-section
-          | {{ this.book.description }}
-          |
+          div(class="text-body1") {{ this.book.description }}
+
         q-card-section
-          p Комментарии
+          q-separator
+          div(class="text-h6") Комментарии
           q-intersection(v-for="comment in book.comments", :key="comment", transition="flip-right")
-            q-item(v-ripple)
-              q-item-section
-                | {{ comment }}
-                q-item-label {{ comment.body }}
-                q-item-label(caption lines="1") {{ comment.user }}
+            //q-list(class="q-pa-md bg-white text-black shadow-5 rounded-borders" separator )
+            q-list(class="q-pa-md q-gutter-sm ")
+              q-item(class="bg-white text-black shadow-5 rounded-borders v-ripple"  separator)
+                q-item-section
+                  q-item-label(v-html="comment.body")
+                  q-item-label(caption lines="1") {{ comment.author }}
+                q-item-section(side)
+                  | {{ comment.created }}
 
-        q-card-section(class="text-black")
-          q-editor(v-model="new_comment", flat, text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="secondary")
-          q-btn(text-color="white" color="secondary" label="Добавить комментарий" @click="addComment")
+          q-card-section(class="text-black")
+            q-editor(v-model="new_comment", flat, text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="secondary")
+            q-btn(text-color="white" color="secondary" label="Добавить комментарий" @click="addComment")
 </template>
 
 <script>

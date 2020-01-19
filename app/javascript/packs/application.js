@@ -65,7 +65,8 @@ import {
     QRating,
     QFab,
     QFabAction,
-    QUploader
+    QUploader,
+    QIntersection
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -126,7 +127,8 @@ Vue.use(Quasar, {
         QRating,
         QFab,
         QFabAction,
-        QUploader
+        QUploader,
+        QIntersection
     },
     directives: {
         Ripple,
