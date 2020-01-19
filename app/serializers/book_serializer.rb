@@ -16,6 +16,7 @@ class BookSerializer < ActiveModel::Serializer
   has_many :posts
   has_one :image
   has_many :comments, serializer: CommentSerializer
+  has_many :ratings
 
   def short_description
     object.description.truncate(80)
