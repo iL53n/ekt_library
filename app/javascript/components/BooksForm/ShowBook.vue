@@ -23,6 +23,11 @@
 
         q-card-section
           | {{ this.book.description }}
+
+        q-card-section(class="text-black")
+          | {{new_comment}}
+          q-editor(v-model="new_comment", flat, text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="secondary")
+          q-btn(text-color="white" color="secondary" label="Добавить комментарий")
 </template>
 
 <script>
@@ -34,7 +39,8 @@
 				book: this.getBook(),
 				errors: {},
 				hide: true,
-        maximizedToggle: false
+        maximizedToggle: false,
+        new_comment: ''
 			}
 		},
 		created() {
