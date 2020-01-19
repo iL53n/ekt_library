@@ -1,12 +1,25 @@
 class BookSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :title, :author, :description, :status, :categories, :category_ids, :user_id, :active_user, :image_url, :image
+  attributes :id,
+             :title,
+             :author,
+             :description, :short_description,
+             :status,
+             :user_id,
+             :active_user,
+             :image_url,
+             :image
 
   has_many :categories
   has_many :users
   has_many :posts
+  has_one :image
   has_many :comments
+
+  def short_description
+    object.description.truncate(80)
+  end
 
   def image_url
     # rails_blob_path(object.image, only_path: true) if object.image.attached?
