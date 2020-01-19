@@ -10,6 +10,7 @@ class Book < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :users, through: :posts
   has_many :comments, dependent: :destroy
+  has_many :ratings, dependent: :destroy
 
   def available?
     posts.where(active: true).nil?
