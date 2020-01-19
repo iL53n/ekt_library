@@ -9,6 +9,7 @@ class Book < ApplicationRecord
   has_one_attached :image
   has_many :posts, dependent: :destroy
   has_many :users, through: :posts
+  has_many :comments, dependent: :destroy
 
   def available?
     posts.where(active: true).nil?
