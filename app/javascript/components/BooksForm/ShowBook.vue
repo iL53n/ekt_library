@@ -28,12 +28,11 @@
           q-separator
           div(class="text-h6") Комментарии
           q-intersection(v-for="comment in book.comments", :key="comment", transition="flip-right")
-            //q-list(class="q-pa-md bg-white text-black shadow-5 rounded-borders" separator )
-            q-list(class="q-pa-md q-gutter-sm ")
+            q-list(class="q-pa-md q-gutter-sm")
               q-item(class="bg-white text-black shadow-5 rounded-borders v-ripple"  separator)
                 q-item-section
-                  q-item-label(v-html="comment.body")
                   q-item-label(caption lines="1") {{ comment.author }}
+                  q-item-label(v-html="comment.body")
                 q-item-section(side)
                   | {{ comment.created }}
 
@@ -44,6 +43,7 @@
 
 <script>
 	import { backendGetBook, createComment } from '../../api'
+  import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
@@ -81,6 +81,7 @@
               position: 'top'
             });
             this.new_comment = ''
+            this.getBook()
           })
           .catch((error) => {
             console.log(error);
@@ -95,7 +96,8 @@
 			}
 		},
 		components: {
-			backendGetBook
+			backendGetBook,
+      Notify
 		}
 	}
 </script>
