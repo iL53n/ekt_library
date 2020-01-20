@@ -4,13 +4,17 @@ class RatingsController < ApplicationController
   before_action :load_book, only: :create
 
   def create
-    @rating = @book.ratings.new(rating_params)
-    @rating.user = current_user
-
-    if @rating.save!
-      render json: @rating, status: :created
+    if current_user.voted?(@book)
+      render json: { errors: @book.errors }, status: :unprocessable_entity
     else
-      render json: { errors: @rating.errors }, status: :unprocessable_entity
+      @rating = @book.ratings.new(rating_params)
+      @rating.user = current_user
+
+      if @rating.save!
+        render json: @rating, status: :created
+      else
+        render json: { errors: @rating.errors }, status: :unprocessable_entity
+      end
     end
   end
 

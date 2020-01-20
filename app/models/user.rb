@@ -14,4 +14,8 @@ class User < ApplicationRecord
   has_many :books, through: :posts
   has_many :comments
   has_many :ratings
+
+  def voted?(book)
+    book.ratings.where(user_id: self.id).exists?
+  end
 end

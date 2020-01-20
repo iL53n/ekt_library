@@ -66,7 +66,6 @@
 					.then((response) => {
 						this.book = response.data.book
             this.input_rating = this.book.current_rating
-            console.log('Book loaded!!!')
 					})
 					.catch((error) => {
 						console.log(error);
@@ -87,8 +86,13 @@
             this.getBook()
           })
           .catch((error) => {
-            console.log(error);
-            this.errors = true
+            console.log(error)
+            Notify.create({
+              message: "Вы уже голосовали!",
+              color: 'negative',
+              position: 'top'
+            });
+            this.input_rating = this.book.current_rating
           })
           .finally(() => {
             this.loading = false
