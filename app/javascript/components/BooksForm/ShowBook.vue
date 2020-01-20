@@ -19,14 +19,16 @@
 
         q-card-section
           div(class="text-h2") {{ this.book.title }}
-          div(class="text-h3") {{ this.book.author }}
-
+          div(class="text-h5") {{ this.book.author }}
+        q-card-section
+          q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
+          q-rating(size="2em" color="white" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
         q-card-section
           div(class="text-body1") {{ this.book.description }}
 
         q-card-section
           q-separator
-          div(class="text-h6") Комментарии
+          div(class="text-h6") Комментарии ({{ this.book.comments.length }})
           q-intersection(v-for="comment in book.comments", :key="comment", transition="flip-right")
             q-list(class="q-pa-md q-gutter-sm")
               q-item(class="bg-white text-black shadow-5 rounded-borders v-ripple"  separator)
@@ -42,7 +44,7 @@
 </template>
 
 <script>
-	import { backendGetBook, createComment } from '../../api'
+	import { backendGetBook, createComment, createRating } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
@@ -52,7 +54,8 @@
 				errors: {},
 				hide: true,
         maximizedToggle: false,
-        new_comment: ''
+        new_comment: '',
+        input_rating: 0
 			}
 		},
 		created() {
@@ -61,8 +64,9 @@
 			getBook() {
 				backendGetBook(this.$route.params.id)
 					.then((response) => {
-						console.log(response.data)
 						this.book = response.data.book
+            this.input_rating = this.book.current_rating
+            console.log('Book loaded!!!')
 					})
 					.catch((error) => {
 						console.log(error);
@@ -72,8 +76,26 @@
 						this.loading = false
 					});
       },
+      addVote() {
+        createRating({ value: this.input_rating, book_id: this.$route.params.id })
+          .then((response) => {
+            Notify.create({
+              message: "Ваша оценка " + this.input_rating,
+              color: 'positive',
+              position: 'top'
+            });
+            this.getBook()
+          })
+          .catch((error) => {
+            console.log(error);
+            this.errors = true
+          })
+          .finally(() => {
+            this.loading = false
+          });
+      },
       addComment() {
-        createComment({body: this.new_comment, book_id: this.$route.params.id})
+        createComment({ body: this.new_comment, book_id: this.$route.params.id })
           .then((response) => {
             Notify.create({
               message: "Комментарий добавлен!",

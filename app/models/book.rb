@@ -15,7 +15,7 @@ class Book < ApplicationRecord
   def calculate_rating
     arr = []
     ratings.each { |i| arr << i.value }
-    arr.reduce(:+) / arr.size.to_i unless arr.empty?
+    arr.empty? ? 0 : arr.reduce(:+) / arr.size.to_i
   end
 
   def available?

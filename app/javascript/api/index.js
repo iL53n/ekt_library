@@ -93,3 +93,7 @@ export function createComment (params) {
 	return axios.post('/comments', params);
 }
 
+// ratings
+export function createRating (params) {
+	return axios.post('/ratings', params);
+}

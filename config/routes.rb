@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :posts
   resources :categories
   resources :comments, only: :create
+  resources :ratings, only: :create
 
   get '/*slug', to: 'application#index'
 end
