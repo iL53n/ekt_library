@@ -15,11 +15,12 @@
             :data="data",
             :filter="filter",
             :columns="columns",
+            :visible-columns="visibleColumns"
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
-            row-key="name"
+            row-key="id"
             no-data-label="Нет информации о книгах!")
-            template(v-slot:top)
+            template(v-slot:top-right)
               q-space
               div(style="min-width: 250px; max-width: 400px")
                 q-select(
@@ -27,11 +28,15 @@
                   multiple
                   :options="categories"
                   use-chips
-                  emit-value
-                  stack-label
                   label="Отбор по категории")
                   template(v-if="select_categories" v-slot:append)
                     q-icon(name="cancel" @click.stop="select_categories = null" class="cursor-pointer")
+            template(v-slot:top-left)
+              div(style="min-width: 250px; max-width: 400px")
+                q-input(debounce="300" v-model="filter" label="Поиск")
+                  template(v-slot:append)
+                    q-icon(v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer")
+                    q-icon(name="search")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
@@ -39,7 +44,7 @@
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
-            template(v-slot:body-cell-raiting="props")
+            template(v-slot:body-cell-rating="props")
               q-td(align="center")
                 q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="props.row.current_rating")
             template(v-slot:body-cell-categories="props")
@@ -78,11 +83,14 @@
   export default {
     data() {
       return {
+        filter: '',
+        visibleColumns: ['id', 'image', 'title', 'author', 'rating', 'categories', 'status', 'user', 'booking', 'wishlist'],
         columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
+          { name: 'title', align: 'left', label: 'Наименование', align: 'left', field: 'title', sortable: true },
+          { name: 'author', align: 'left', label: 'Автор', align: 'left', field: 'author', sortable: true, hide: true },
+          { name: 'rating', label: 'Рейтинг', align: 'center', field: 'rating', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
           { name: 'status', align: 'center', label: 'Статус', field: row => row.status, format: val => '${val}', sortable: true },
           { name: 'user', align: 'center', label: 'Пользователь', field: row => row.user, format: val => '${val}', sortable: true },
@@ -96,7 +104,6 @@
         },
         data: [],
         title: '',
-        filter: '',
         select_categories: null,
         categories: this.getCategories(),
         loading: true,
@@ -104,7 +111,7 @@
           rowsPerPage: 10
         },
       }
-      error: {}
+      //error: {}
     },
     created() {
       this.fetchBooks();
