@@ -23,6 +23,7 @@ class FilterBooks # ToDo: need refactoring
       @params[:category_ids].each do |category_id|
         scope.each do |book|
           books.push(book) if book.category_ids.include?(category_id.to_i)
+          books = books.uniq &:id
         end
       end
       books
