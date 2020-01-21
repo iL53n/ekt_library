@@ -58,6 +58,6 @@ class BooksController < ApplicationController
   end
 
   def filter_permitted_params
-    params.permit(:filter)
+    params.permit(:filter, category_ids: [])
   end
 end

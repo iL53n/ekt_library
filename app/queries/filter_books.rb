@@ -9,10 +9,25 @@ class FilterBooks # ToDo: need refactoring
 
   def call(params)
     books = filter(initial_scope)
-    books
+    by_categories(books)
   end
 
   private
+
+  def by_categories(scope)
+
+    if @params[:category_ids].nil?
+      scope
+    else
+      books = []
+      @params[:category_ids].each do |category_id|
+        scope.each do |book|
+          books.push(book) if book.category_ids.include?(category_id.to_i)
+        end
+      end
+      books
+    end
+  end
 
   def filter(initial_scope)
     case @params[:filter]

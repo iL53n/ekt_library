@@ -4,13 +4,15 @@ class BookSerializer < ActiveModel::Serializer
   attributes :id,
              :title,
              :author,
-             :description, :short_description,
+             :description,
+             :short_description,
              :status,
              :user_id,
              :active_user,
              :image_url,
              :image,
-             :current_rating
+             :current_rating,
+             :category_ids
 
   has_many :categories
   has_many :users

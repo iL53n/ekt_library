@@ -27,6 +27,10 @@
                   v-model="select_categories"
                   multiple
                   :options="categories"
+                  option-value="id"
+                  option-label="title"
+                  emit-value
+                  map-options
                   use-chips
                   label="Отбор по категории")
                   template(v-if="select_categories" v-slot:append)
@@ -104,7 +108,7 @@
         },
         data: [],
         title: '',
-        select_categories: null,
+        select_categories: [],
         categories: this.getCategories(),
         loading: true,
         pagination: {
@@ -116,9 +120,15 @@
     created() {
       this.fetchBooks();
     },
+    watch: {
+      select_categories() {
+        this.fetchBooks();
+      }
+    },
     methods: {
       fetchBooks() {
-        backendGetBooks({ filter: 'all' })
+        console.log(this.select_categories)
+        backendGetBooks({ filter: 'all', category_ids: this.select_categories })
             .then((response) => {
               this.data = response.data.books
             })
@@ -170,7 +180,7 @@
       getCategories() {
         backendGetCategories()
             .then((response) => {
-              this.categories = response.data.categories.map(cat => cat.title)
+              this.categories = response.data.categories
             })
             .catch((error) => {
               console.log(error);
