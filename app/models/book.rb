@@ -19,7 +19,7 @@ class Book < ApplicationRecord
   end
 
   def available?
-    posts.where(active: true).nil?
+    posts.where(active: true).empty?
   end
 
   def active_user

@@ -7,7 +7,10 @@ FactoryBot.define do
     title
     author { 'Pushkin' }
     description { 'description description description ' }
-    image { 'image' }
-    status { 'in_stock' }
+    status { 'available' }
+
+    # trait :add_file do
+    #   files { fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper.rb') }
+    # end
   end
 end
