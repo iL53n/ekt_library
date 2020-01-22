@@ -16,9 +16,9 @@ RSpec.describe Book, type: :model do
   end
 
   describe 'Methods' do
-    let!(:book) { create(:book) }
-    let!(:book_booked) { create(:book) }
-    let!(:user) { create(:user) }
+    let(:book) { create(:book) }
+    let(:book_booked) { create(:book) }
+    let(:user) { create(:user) }
     let!(:post_booking) { create(:post, title: 'booking', active: true, book_id: book_booked.id, user_id: user.id) }
 
     it '#calculate_rating' do
