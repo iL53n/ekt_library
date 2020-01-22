@@ -1,5 +1,6 @@
 class Rating < ApplicationRecord
-  validates :value, inclusion: (0..5)
+  validates :value, presence: true
+  validates :value, inclusion: (1..5)
   belongs_to :book
   belongs_to :user
 end
