@@ -1,73 +1,73 @@
 import axios from 'axios'
 
 // users
-export function backendCurrentUser () {
+export function currentUser () {
 	return axios.get('/users/index/me');
 }
 
-export function backendGetUsers () {
+export function getUsers () {
 	return axios.get('/users/index');
 }
 
-export function backendGetUser (id) {
+export function getUser (id) {
 	return axios.get('/users/index/' + id);
 }
 
-export function backendPostUser (params) {
+export function postUser (params) {
 	return axios.post('/users/index', params);
 }
 
-export function backendPatchUser (user) {
+export function patchUser (user) {
 	return axios.patch('/users/index/' + user.id, user);
 }
 
-export function backendDeleteUser (id) {
+export function deleteUser (id) {
 	return axios.delete('/users/index/' + id);
 }
 
 // books
-export function backendGetBooks (params) {
+export function getBooks (params) {
 	return axios.get('/books', { params: params });
 }
 
-export function backendGetBook (id) {
+export function getBook (id) {
 	return axios.get('/books/' + id);
 }
 
-export function backendPostBook (params) {
+export function postBook (params) {
 	return axios.post('/books', params);
 }
 
-export function backendPatchBook (book) {
+export function patchBook (book) {
 	return axios.patch('/books/' + book.id, book);
 }
 
-export function backendDeleteBook (id) {
+export function deleteBook (id) {
 	return axios.delete('/books/' + id);
 }
 
-export function backendCloseBook (book) {
+export function closeBook (book) {
 	return axios.patch('/books/' + book.id + '/readed');
 }
 
 // categories
-export function backendGetCategories () {
+export function getCategories () {
 	return axios.get('/categories');
 }
 
-export function backendGetCategory (id) {
+export function getCategory (id) {
 	return axios.get('/categories/' + id);
 }
 
-export function backendPostCategory (params) {
+export function postCategory (params) {
 	return axios.post('/categories', params);
 }
 
-export function backendPatchCategory (category) {
+export function patchCategory (category) {
 	return axios.patch('/categories/' + category.id, category);
 }
 
-export function backendDeleteCategory (id) {
+export function deleteCategory (id) {
 	return axios.delete('/categories/' + id);
 }
 
@@ -78,15 +78,6 @@ export function indexPosts () {
 export function createPost (params) {
 	return axios.post('/posts', params);
 }
-// export function showPost (id) {
-// 	return axios.get('/posts/' + id);
-// }
-// export function updatePost (post) {
-// 	return axios.patch('/posts/' + post.id, post);
-// }
-// export function destroyPost (id) {
-// 	return axios.delete('/posts/' + id);
-// }
 
 // comments
 export function createComment (params) {

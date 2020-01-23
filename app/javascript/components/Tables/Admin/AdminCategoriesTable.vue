@@ -36,7 +36,7 @@
 </template>
 
 <script>
-	import { backendGetCategories, backendDeleteCategory } from '../../../api'
+	import { getCategories, deleteCategory } from '../../../api'
   import NewCategory from '../../CategoriesForm/CreateCategory'
   import EditCategory from '../../CategoriesForm/EditCategory'
   import { Notify } from 'quasar'
@@ -64,7 +64,7 @@
 		},
     methods: {
 			fetchCategories() {
-				backendGetCategories()
+				getCategories()
 					.then((response) => {
 						this.data = response.data.categories
 					})
@@ -83,7 +83,7 @@
         this.$router.push({ name: 'editCategory', params: { id: category.id } })
       },
       deleteCategory(category) {
-        backendDeleteCategory(category.id)
+        deleteCategory(category.id)
           .then((response) => {
             this.fetchCategories();
             Notify.create({

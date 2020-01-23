@@ -27,7 +27,7 @@
 </template>
 
 <script>
-  import { indexPosts, backendGetCategories } from '../../../api'
+  import { indexPosts, getCategories } from '../../../api'
   import { Notify } from 'quasar'
 
   export default {

@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import { backendGetBook, backendGetUsers, createPost } from '../../api'
+  import { getBook, getUsers, createPost } from '../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -54,7 +54,7 @@
     },
     methods: {
       getBook() {
-        backendGetBook(this.$route.params.id)
+        getBook(this.$route.params.id)
           .then((response) => {
             // console.log(response.data)
             this.book = response.data.book
@@ -68,7 +68,7 @@
           });
       },
       getUsers() {
-        backendGetUsers()
+        getUsers()
           .then((response) => {
             // console.log(response.data.users)
             this.users = response.data.users

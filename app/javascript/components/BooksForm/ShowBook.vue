@@ -44,7 +44,7 @@
 </template>
 
 <script>
-	import { backendGetBook, createComment, createRating } from '../../api'
+	import { getBook, createComment, createRating } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
@@ -62,7 +62,7 @@
 		},
 		methods: {
 			getBook() {
-				backendGetBook(this.$route.params.id)
+				getBook(this.$route.params.id)
 					.then((response) => {
 						this.book = response.data.book
             this.input_rating = this.book.current_rating
@@ -122,7 +122,7 @@
 			}
 		},
 		components: {
-			backendGetBook,
+			backendGetBook: getBook,
       Notify
 		}
 	}

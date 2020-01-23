@@ -46,7 +46,7 @@
 </template>
 
 <script>
-	import { backendCurrentUser } from '../api/index'
+	import { currentUser } from '../api/index'
 
 	export default {
 		data: function () {
@@ -60,7 +60,7 @@
 		},
 		methods: {
 			fetchUser() {
-				backendCurrentUser()
+				currentUser()
 					.then((response) => {
 						this.user = response.data.user
 					})
@@ -74,7 +74,7 @@
 			}
 		},
 		components: {
-			backendCurrentUser
+			backendCurrentUser: currentUser
 		}
 	}
 </script>

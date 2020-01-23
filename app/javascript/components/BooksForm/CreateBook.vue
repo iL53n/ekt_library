@@ -76,7 +76,7 @@
 </template>
 
 <script>
-  import { backendPostBook, backendGetCategories } from '../../api'
+  import { postBook, getCategories } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
@@ -111,7 +111,7 @@
             ([key, value]) => formData.append(key, value)
         )
 
-        backendPostBook(formData)
+        postBook(formData)
 					.then((response) => {
 						Notify.create({
 							message: "Книга '" + this.book.title + "' создана!",
@@ -128,7 +128,7 @@
 					});
       },
       getCategories() {
-        backendGetCategories()
+        getCategories()
             .then((response) => {
               this.categories = response.data.categories
             })
@@ -145,8 +145,8 @@
       }
 		},
 		components: {
-			backendPostBook,
-      backendGetCategories
+			backendPostBook: postBook,
+      backendGetCategories: getCategories
 		}
 	}
 </script>

@@ -77,7 +77,7 @@
 </template>
 
 <script>
-	import { backendGetBook, backendPatchBook, backendGetCategories } from '../../api'
+	import { getBook, patchBook, getCategories } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
@@ -99,7 +99,7 @@
     },
 		methods: {
 			getBook() {
-				backendGetBook(this.$route.params.id)
+				getBook(this.$route.params.id)
 					.then((response) => {
 						// console.log(response.data)
 						this.book = response.data.book
@@ -113,7 +113,7 @@
 					});
       },
       getCategories() {
-				backendGetCategories()
+				getCategories()
 					.then((response) => {
 						console.log(response.data.categories)
             this.categories = response.data.categories
@@ -128,7 +128,7 @@
       },
 			updateBook() {
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
-				backendPatchBook(this.book)
+				patchBook(this.book)
 					.then((response) => {
 						Notify.create({
 							message: "Книга '" + this.book.title + "' отредактирована!",
@@ -149,9 +149,9 @@
 			}
 		},
 		components: {
-			backendGetBook,
-			backendPatchBook,
-      backendGetCategories
+			backendGetBook: getBook,
+			backendPatchBook: patchBook,
+      backendGetCategories: getCategories
 		}
 	}
 </script>

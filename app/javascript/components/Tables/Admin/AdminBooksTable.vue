@@ -97,7 +97,7 @@
 </template>
 
 <script>
-	import { backendDeleteBook, backendGetBooks, backendGetCategories, backendCloseBook } from '../../../api'
+	import { deleteBook, getBooks, getCategories, closeBook } from '../../../api'
   import NewBook from '../../BooksForm/CreateBook'
   import EditBook from '../../BooksForm/EditBook'
   import ShowBook from '../../BooksForm/ShowBook'
@@ -140,7 +140,7 @@
 		},
     methods: {
 			fetchBooks() {
-        backendGetBooks({ filter: 'all' })
+        getBooks({ filter: 'all' })
 					.then((response) => {
 						this.data = response.data.books
 					})
@@ -153,7 +153,7 @@
 					});
       },
       returnBook(book) {
-        backendCloseBook(book)
+        closeBook(book)
           .then((response) => {
             this.fetchBooks();
             Notify.create({
@@ -180,7 +180,7 @@
         this.$router.push({ name: 'giveOutBook', params: { id: book.id } })
       },
       deleteBook(book) {
-        backendDeleteBook(book.id)
+        deleteBook(book.id)
           .then((response) => {
             this.fetchBooks();
             Notify.create({
@@ -194,7 +194,7 @@
 					});
       },
       getCategories() {
-        backendGetCategories()
+        getCategories()
           .then((response) => {
             this.categories = response.data.categories.map(cat => cat.title)
           })

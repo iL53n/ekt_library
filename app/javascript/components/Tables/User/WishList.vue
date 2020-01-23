@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { backendGetBooks, backendGetCategories} from '../../../api'
+  import { getBooks, getCategories} from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -67,7 +67,7 @@
     },
     methods: {
       fetchBooks() {
-        backendGetBooks({ filter: 'wishes' })
+        getBooks({ filter: 'wishes' })
             .then((response) => {
               this.data = response.data.books
             })
@@ -80,7 +80,7 @@
             });
       },
       getCategories() {
-        backendGetCategories()
+        getCategories()
             .then((response) => {
               this.categories = response.data.categories.map(cat => cat.title)
             })

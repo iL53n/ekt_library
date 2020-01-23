@@ -65,7 +65,7 @@
 </template>
 
 <script>
-  import { backendPostUser } from '../../api'
+  import { postUser } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
@@ -80,7 +80,7 @@
 		},
 		methods: {
 			addUser() {
-        backendPostUser(this.user)
+        postUser(this.user)
 					.then((response) => {
 						Notify.create({
 							message: "Пользователь '" + this.user.email + "' создан!",
@@ -102,7 +102,7 @@
       }
 		},
 		components: {
-			backendPostUser,
+			backendPostUser: postUser,
       Notify
 		}
 	}

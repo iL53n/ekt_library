@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	import { backendGetUsers, backendDeleteUser } from '../../../api'
+	import { getUsers, deleteUser } from '../../../api'
   import NewUser from '../../UsersForm/CreateUser'
   import EditUser from '../../UsersForm/EditUser'
   import { Notify } from 'quasar'
@@ -62,7 +62,7 @@
 		},
     methods: {
 			fetchUsers() {
-				backendGetUsers()
+				getUsers()
 					.then((response) => {
 						this.data = response.data.users
 					})
@@ -81,7 +81,7 @@
         this.$router.push({ name: 'editUser', params: { id: user.id } })
       },
       deleteUser(user) {
-        backendDeleteUser(user.id)
+        deleteUser(user.id)
           .then((response) => {
             this.fetchUsers();
             Notify.create({

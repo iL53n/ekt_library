@@ -78,7 +78,7 @@
 </template>
 
 <script>
-  import { backendGetBooks, backendGetCategories, createPost } from '../../../api'
+  import { getBooks, getCategories, createPost } from '../../../api'
   import NewBook from '../../BooksForm/CreateBook'
   import EditBook from '../../BooksForm/EditBook'
   import ShowBook from '../../BooksForm/ShowBook'
@@ -128,7 +128,7 @@
     methods: {
       fetchBooks() {
         console.log(this.select_categories)
-        backendGetBooks({ filter: 'all', category_ids: this.select_categories })
+        getBooks({ filter: 'all', category_ids: this.select_categories })
             .then((response) => {
               this.data = response.data.books
             })
@@ -178,7 +178,7 @@
         this.$router.push({ name: 'showBook', params: { id: book.id, url: '/list_books' } })
       },
       getCategories() {
-        backendGetCategories()
+        getCategories()
             .then((response) => {
               this.categories = response.data.categories
             })

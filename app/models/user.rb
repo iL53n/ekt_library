@@ -16,6 +16,6 @@ class User < ApplicationRecord
   has_many :ratings
 
   def voted?(book)
-    book.ratings.where(user_id: self.id).exists?
+    book.ratings.where(user_id: id).exists?
   end
 end
