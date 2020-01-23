@@ -26,9 +26,4 @@
           q-icon(name="favorite_border")
         q-item-section
           | Избранные
-      q-item(to="/index_posts" v-ripple)
-        q-item-section(avatar)
-          q-icon(name="warning")
-        q-item-section
-          | POSTS
 </template>

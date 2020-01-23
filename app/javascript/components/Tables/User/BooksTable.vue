@@ -36,16 +36,17 @@
                   template(v-if="select_categories" v-slot:append)
                     q-icon(name="cancel" @click.stop="select_categories = null" class="cursor-pointer")
             template(v-slot:top-left)
-              div(style="min-width: 250px; max-width: 400px")
+              div(style="width: 250px; max-width: 400px")
                 q-input(debounce="300" v-model="filter" label="Поиск")
                   template(v-slot:append)
                     q-icon(v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer")
                     q-icon(name="search")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
-                q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
-                  q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
+                div
+                  q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                    q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
+                    q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
             template(v-slot:body-cell-rating="props")
@@ -92,12 +93,11 @@
         columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', align: 'left', label: 'Наименование', align: 'left', field: 'title', sortable: true },
-          { name: 'author', align: 'left', label: 'Автор', align: 'left', field: 'author', sortable: true, hide: true },
+          { name: 'title', align: 'left', label: 'Наименование', field: row => [row.title, row.author], sortable: true },
           { name: 'rating', label: 'Рейтинг', align: 'center', field: 'rating', sortable: true },
-          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
-          { name: 'status', align: 'center', label: 'Статус', field: row => row.status, format: val => '${val}', sortable: true },
-          { name: 'user', align: 'center', label: 'Пользователь', field: row => row.user, format: val => '${val}', sortable: true },
+          { name: 'categories', label: 'Категории', align: 'center', field: 'categories', format: val => '${val}' },
+          { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
+          { name: 'user', align: 'center', label: 'Пользователь', field: 'user', sortable: true },
           { name: 'booking', align: 'center' },
           { name: 'wishlist', align: 'center' },
         ],
@@ -127,7 +127,6 @@
     },
     methods: {
       fetchBooks() {
-        console.log(this.select_categories)
         getBooks({ filter: 'all', category_ids: this.select_categories })
             .then((response) => {
               this.data = response.data.books
@@ -201,15 +200,4 @@
 </script>
 
 <style>
-  .book-description {
-    font-size: 0.85em;
-    font-style: italic;
-    max-width: 400px;
-    /*width: auto;*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    white-space: normal;
-    color: #555;
-    margin-top: 4px;
-  }
 </style>

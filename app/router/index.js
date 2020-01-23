@@ -18,7 +18,7 @@ import EditUser from '../javascript/components/UsersForm/EditUser'
 import EditCategory from '../javascript/components/CategoriesForm/EditCategory'
 import ShowBook from '../javascript/components/BooksForm/ShowBook'
 import GiveOutBook from '../javascript/components/BooksForm/BookingMenu'
-import IndexPosts from '../javascript/components/Tables/User/PostsTable'
+import IndexPosts from '../javascript/components/Tables/Admin/AdminPostsTable'
 
 export default new VueRouter({
 	mode: 'history',

@@ -37,8 +37,6 @@
       bordered
       content-class="bg-grey-3")
       q-scroll-area(class="fit")
-        // добавить условие
-        admin-left-menu
         q-separator
         user-left-menu
 
@@ -46,7 +44,6 @@
 
 <script>
   import ProfileMenu from './Profile'
-  import AdminLeftMenu from './Tables/Admin/AdminLeftMenu'
   import UserLeftMenu from './Tables/User/UserLeftMenu'
 
 	export default {
@@ -62,7 +59,6 @@
 		},
 		components: {
       ProfileMenu,
-      AdminLeftMenu,
       UserLeftMenu
 		}
 	}
