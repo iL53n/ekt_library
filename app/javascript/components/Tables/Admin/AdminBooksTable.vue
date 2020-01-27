@@ -93,7 +93,7 @@
 
           q-page-sticky(position="bottom-left" :offset="[18, 18]", @click="newBook()")
             q-btn(fab color="primary" @click="newBook()" icon="add" name="Новая книга")
-        router-view(@add-book="fetchBooks" @edit-book="fetchBooks" @give-out-book="fetchBooks")
+        router-view(@add-book="fetchBooks" @edit-book="fetchBooks" @give-out-book="fetchBooks" @refresh-list="fetchBooks")
 </template>
 
 <script>
@@ -174,7 +174,7 @@
         this.$router.push({ name: 'editBook', params: { id: book.id } })
       },
       showBook(book) {
-        this.$router.push({ name: 'showBook', params: { id: book.id } })
+        this.$router.push({ name: 'showBookAdmin', params: { id: book.id } })
       },
       giveOutBook(book) {
         this.$router.push({ name: 'giveOutBook', params: { id: book.id } })

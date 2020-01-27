@@ -118,11 +118,12 @@
           });
       },
 			afterShow() {
-				this.$router.push(this.$route.params.url);
+        this.$emit('refresh-list');
+				this.$router.go(-1);
 			}
 		},
 		components: {
-			backendGetBook: getBook,
+			getBook,
       Notify
 		}
 	}

@@ -11,8 +11,7 @@ class BookSerializer < ActiveModel::Serializer
              :active_user,
              :image_url,
              :image,
-             :current_rating,
-             :category_ids
+             :current_rating
 
   has_many :categories
   has_many :users

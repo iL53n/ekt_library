@@ -41,6 +41,7 @@ export default new VueRouter({
 				{ path: 'create', component: CreateBook, name: 'createBook' },
 				{ path: ':id/edit', component: EditBook, name: 'editBook' },
 				{ path: ':id/give_out', component: GiveOutBook, name: 'giveOutBook' },
+				{ path: ':id/', component: ShowBook, name: 'showBookAdmin' },
 			],
 		},
 		{ path: '/admin_users', component: AdminUsers,

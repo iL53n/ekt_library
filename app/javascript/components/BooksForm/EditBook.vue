@@ -101,7 +101,6 @@
 			getBook() {
 				getBook(this.$route.params.id)
 					.then((response) => {
-						// console.log(response.data)
 						this.book = response.data.book
 					})
 					.catch((error) => {
@@ -149,9 +148,9 @@
 			}
 		},
 		components: {
-			backendGetBook: getBook,
-			backendPatchBook: patchBook,
-      backendGetCategories: getCategories
+			getBook,
+			patchBook,
+      getCategories
 		}
 	}
 </script>

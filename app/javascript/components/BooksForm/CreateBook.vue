@@ -26,13 +26,11 @@
               v-model="book.author"
               type="text"
             )
-            //q-uploader(
+            q-uploader(
               filled
               ref="cover"
               style="width: auto"
-              color="secondary"
               label="Обложка книги *")
-            input(type="file" ref="cover" @change="uploadFile()")
             q-input(
               filled
               ref="description"
@@ -101,17 +99,14 @@
         console.log(this.book.image)
       },
 			addBook() {
-			  console.log(this.$refs.cover.files)
+			  // console.log(this.$refs.cover.files)
         // this.book.image = this.$refs.cover.files[0]
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
-        console.log(this.book)
-
-        let formData = new FormData()
-        Object.entries(this.book).forEach(
-            ([key, value]) => formData.append(key, value)
-        )
-
-        postBook(formData)
+        // let formData = new FormData()
+        // Object.entries(this.book).forEach(
+        //     ([key, value]) => formData.append(key, value)
+        // )
+        postBook(this.book)
 					.then((response) => {
 						Notify.create({
 							message: "Книга '" + this.book.title + "' создана!",
@@ -145,8 +140,8 @@
       }
 		},
 		components: {
-			backendPostBook: postBook,
-      backendGetCategories: getCategories
+			postBook,
+      getCategories
 		}
 	}
 </script>
