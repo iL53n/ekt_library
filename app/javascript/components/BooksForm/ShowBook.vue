@@ -53,7 +53,7 @@
 				book: this.getBook(),
 				errors: {},
 				hide: true,
-        maximizedToggle: false,
+        maximizedToggle: true,
         new_comment: '',
         input_rating: 0
 			}
