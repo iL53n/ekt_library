@@ -31,7 +31,8 @@
                   q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editCategory(props.row)")
                   q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteCategory(props.row)" method="delete")
 
-          q-btn(push color="primary" size="15px" @click="newCategory()" icon="add" label="Новая категория")
+          q-page-sticky(position="bottom-left" :offset="[18, 18]")
+            q-btn(fab color="primary" @click="newCategory()" icon="add" name="Новая категория")
         router-view(@add-category="fetchCategories" @edit-category="fetchCategories")
 </template>
 

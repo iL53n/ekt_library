@@ -85,7 +85,7 @@
                         q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
                         q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
 
-          q-page-sticky(position="bottom-left" :offset="[18, 18]", @click="newBook()")
+          q-page-sticky(position="bottom-left" :offset="[18, 18]")
             q-btn(fab color="primary" @click="newBook()" icon="add" name="Новая книга")
         router-view(@add-book="fetchBooks" @edit-book="fetchBooks" @give-out-book="fetchBooks" @refresh-list="fetchBooks")
 </template>
