@@ -102,7 +102,7 @@
       }
 		},
 		components: {
-			backendPostUser: postUser,
+			postUser,
       Notify
 		}
 	}

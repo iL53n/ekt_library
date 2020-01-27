@@ -114,8 +114,8 @@
 			}
 		},
 		components: {
-			backendGetUser: getUser,
-			backendPatchUser: patchUser
+			getUser,
+			patchUser
 		}
 	}
 </script>
