@@ -83,8 +83,8 @@
 			}
 		},
 		components: {
-			backendGetCategory: getCategory,
-			backendPatchCategory: patchCategory
+			getCategory,
+			patchCategory
 		}
 	}
 </script>

@@ -71,7 +71,7 @@
       }
 		},
 		components: {
-			backendPostCategory: postCategory,
+			postCategory,
       Notify
 		}
 	}
