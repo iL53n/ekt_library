@@ -36,10 +36,11 @@ end
 group :test do
   gem 'capybara', '>= 2.15'
   gem 'shoulda-matchers'
-  gem 'selenium-webdriver'
-  gem 'chromedriver-helper'
+  #gem 'selenium-webdriver'
+  #gem 'chromedriver-helper'
   gem 'launchy'
   gem 'rails-controller-testing'
+  gem 'webdrivers'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
