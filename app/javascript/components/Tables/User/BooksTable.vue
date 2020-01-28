@@ -74,7 +74,7 @@
                     q-btn(flat color="grey" text-color="grey" size="12px" icon="book" label="Зарезервировать" disable)
             template(v-slot:body-cell-wishlist="props")
               q-td
-                q-btn(flat round color="green-5" size="12px" icon="favorite_border" @click="addWish(props.row)")
+                q-btn(name="add_to_wish" flat round color="green-5" size="12px" icon="favorite_border" @click="addWish(props.row)")
         router-view(@refresh-list="fetchBooks")
 </template>
 

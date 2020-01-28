@@ -20,7 +20,7 @@ feature 'User can booking book', %q{
       within '.q-table' do
         expect(page).to have_content book.title.upcase
         expect(page).to_not have_content user.first_name
-        expect(page).to have_content 'В наличии'
+        expect(page).to have_content 'Доступна'
 
         click_on 'Зарезервировать'
 
