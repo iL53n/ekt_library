@@ -48,9 +48,18 @@
 	export default {
 		data: function () {
 			return {
-				user: {},
 			}
 		},
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        },
+        set(value) {
+          this.$store.commit('updateCurrentUser', value)
+        }
+      }
+    },
 		created() {
 			this.fetchUser();
 		},
