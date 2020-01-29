@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from '../app'
 import router from '../../router'
+import store from '../store'
 
 import iconSet from 'quasar/icon-set/material-icons'
 import '@quasar/extras/material-icons/material-icons.css'
@@ -143,7 +144,8 @@ Vue.use(Quasar, {
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({
         render: h => h(App),
-        router
+        router,
+        store
     }).$mount();
     document.body.appendChild(app.$el)
 });
