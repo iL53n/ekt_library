@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     | {{ user.email }}
-    q-btn(flat round dense icon="account_circle")
+    q-btn(flat round dense icon="account_circle" name="profile")
       q-menu(auto-close transition-show="scale" transition-hide="scale")
         q-list(style="min-width: 200px")
           q-item(v-close-popup)

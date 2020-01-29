@@ -26,6 +26,7 @@ feature 'User can booking book', %q{
 
         expect(page).to have_content 'Зарезервирована'
         expect(page).to have_content user.first_name
+        expect(page).to have_button 'Зарезервировать', disabled: true
       end
     end
   end
