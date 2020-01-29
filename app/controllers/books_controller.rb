@@ -14,7 +14,7 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
     attach_main_pic(@book) if book_params[:image].present?
 
-    if @book.save!
+    if @book.save
       render json: @book, status: :created
     else
       render json: { errors: @book.errors }, status: :unprocessable_entity

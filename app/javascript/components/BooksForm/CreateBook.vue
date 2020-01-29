@@ -42,6 +42,7 @@
             q-select(
               filled
               multiple
+              id="Категории"
               label="Категории"
               placeholder="Выберите категорию"
               v-model="selectCategories"
@@ -53,6 +54,7 @@
             )
             q-select(
               filled
+              id="Статус"
               label="Статус"
               placeholder="Выберите статус"
               v-model="book.status"
