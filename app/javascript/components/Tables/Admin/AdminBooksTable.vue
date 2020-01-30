@@ -7,85 +7,85 @@
       div(v-if="error")
         p Error!
       div(v-else)
-        q-page-sticky(expand position="top")
-          q-toolbar(class="bg-negative glossy text-white")
-            q-toolbar-title(align="middle")
-              | Книги(АДМИНИСТРИРОВАНИЕ)
-        div(class='q-pa-md')
-          q-table(
-            separator="cell"
-            name="books",
-            :title="title",
-            :data="data",
-            :filter="filter",
-            :columns="columns",
-            :visible-columns="visibleColumns"
-            :pagination.sync="pagination",
-            :rows-per-page-options="[10, 25, 100]",
-            row-key="id"
-            no-data-label="Нет информации о книгах!")
-            template(v-slot:top-right)
-              q-space
-              div(style="min-width: 250px; max-width: 400px")
-                q-select(
-                  v-model="select_categories"
-                  multiple
-                  :options="categories"
-                  option-value="id"
-                  option-label="title"
-                  emit-value
-                  map-options
-                  use-chips
-                  label="Отбор по категории")
-                  template(v-if="select_categories" v-slot:append)
-                    q-icon(name="cancel" @click.stop="select_categories = null" class="cursor-pointer")
-            template(v-slot:top-left)
-              div(style="width: 250px; max-width: 400px")
-                q-input(debounce="300" v-model="filter" label="Поиск")
-                  template(v-slot:append)
-                    q-icon(v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer")
-                    q-icon(name="search")
-            template(v-slot:body-cell-title="props")
-              q-td(align="left")
-                div
-                  q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
-                    q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
-                    q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
-                div
-                  q-chip(square outline color="blue-grey-6" :label="props.row.author")
-            template(v-slot:body-cell-rating="props")
-              q-td(align="center")
-                q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="props.row.current_rating")
-            template(v-slot:body-cell-categories="props")
-              q-td(align="center")
-                div(v-for="category in props.row.categories")
-                  q-badge {{ category.title }}
-            template(v-slot:body-cell-status="props")
-              q-td(align="center")
-                | {{ status_arr[props.row.status] }}
-            template(v-slot:body-cell-user="props")
-              q-td(align="center")
-                div(v-if="props.row.active_user")
-                  | {{ props.row.active_user.last_name }} {{ props.row.active_user.first_name }}
-            template(v-slot:body-cell-booking="props")
-              q-td
-                q-btn-group(flat)
-                  div(v-if="props.row.status == 'available' || props.row.status == 'booking' ")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="eject" label="Выдать" @click="giveOutBook(props.row)")
-                    q-btn(flat color="white" text-color="grey" size="12px" icon="get_app" label="Вернуть книгу" disable)
-                  div(v-if="props.row.status == 'reading'")
-                    q-btn(flat color="white" text-color="grey" size="12px" icon="eject" label="Выдать" disable)
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть книгу" @click="returnBook(props.row)")
-            template(v-slot:body-cell-action="props")
-              q-td
-                q-btn(flat dense color="blue-grey-6" icon="menu_open")
-                  q-menu(auto-close transition-show="scale" transition-hide="scale")
-                    q-item(v-close-popup)
-                      q-item-section(align="left")
-                        q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
-                        q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
+        div(v-if="user.admin == true")
+          q-page-sticky(expand position="top")
+            q-toolbar(class="bg-negative glossy text-white")
+              q-toolbar-title(align="middle")
+                | Книги(АДМИНИСТРИРОВАНИЕ)
+          div(class='q-pa-md')
+            q-table(
+              separator="cell"
+              name="books",
+              :title="title",
+              :data="data",
+              :filter="filter",
+              :columns="columns",
+              :visible-columns="visibleColumns"
+              :pagination.sync="pagination",
+              :rows-per-page-options="[10, 25, 100]",
+              row-key="id"
+              no-data-label="Нет информации о книгах!")
+              template(v-slot:top-right)
+                q-space
+                div(style="min-width: 250px; max-width: 400px")
+                  q-select(
+                    v-model="select_categories"
+                    multiple
+                    :options="categories"
+                    option-value="id"
+                    option-label="title"
+                    emit-value
+                    map-options
+                    use-chips
+                    label="Отбор по категории")
+                    template(v-if="select_categories" v-slot:append)
+                      q-icon(name="cancel" @click.stop="select_categories = null" class="cursor-pointer")
+              template(v-slot:top-left)
+                div(style="width: 250px; max-width: 400px")
+                  q-input(debounce="300" v-model="filter" label="Поиск")
+                    template(v-slot:append)
+                      q-icon(v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer")
+                      q-icon(name="search")
+              template(v-slot:body-cell-title="props")
+                q-td(align="left")
+                  div
+                    q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                      q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
+                      q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
+                  div
+                    q-chip(square outline color="blue-grey-6" :label="props.row.author")
+              template(v-slot:body-cell-rating="props")
+                q-td(align="center")
+                  q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="props.row.current_rating")
+              template(v-slot:body-cell-categories="props")
+                q-td(align="center")
+                  div(v-for="category in props.row.categories")
+                    q-badge {{ category.title }}
+              template(v-slot:body-cell-status="props")
+                q-td(align="center")
+                  | {{ status_arr[props.row.status] }}
+              template(v-slot:body-cell-user="props")
+                q-td(align="center")
+                  div(v-if="props.row.active_user")
+                    | {{ props.row.active_user.last_name }} {{ props.row.active_user.first_name }}
+              template(v-slot:body-cell-booking="props")
+                q-td
+                  q-btn-group(flat)
+                    div(v-if="props.row.status == 'available' || props.row.status == 'booking' ")
+                      q-btn(flat color="white" text-color="primary" size="12px" icon="eject" label="Выдать" @click="giveOutBook(props.row)")
+                      q-btn(flat color="white" text-color="grey" size="12px" icon="get_app" label="Вернуть книгу" disable)
+                    div(v-if="props.row.status == 'reading'")
+                      q-btn(flat color="white" text-color="grey" size="12px" icon="eject" label="Выдать" disable)
+                      q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть книгу" @click="returnBook(props.row)")
+              template(v-slot:body-cell-action="props")
+                q-td
+                  q-btn(name="Подменю" flat dense color="blue-grey-6" icon="menu_open")
+                    q-menu(auto-close transition-show="scale" transition-hide="scale")
+                      q-item(v-close-popup)
+                        q-item-section(align="left")
+                          q-btn(name="Редактировать" flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editBook(props.row)")
+                          q-btn(name="Удалить" flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteBook(props.row)" method="delete")
 
-          div(v-if="user.admin == true")
             q-page-sticky(position="bottom-left" :offset="[18, 18]")
               q-btn(fab color="primary" @click="newBook()" icon="add" name="Новая книга")
           router-view(@add-book="fetchBooks" @edit-book="fetchBooks" @give-out-book="fetchBooks" @refresh-list="fetchBooks")

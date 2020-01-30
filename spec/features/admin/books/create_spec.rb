@@ -44,10 +44,10 @@ feature 'Admin can create new book', %q{
       click_on 'Новая книга'
       within '.q-form' do
         fill_in 'Наименование *', with: ''
-        fill_in 'Автор *', with: ''
-        fill_in 'Описание', with: ''
         click_on 'СОХРАНИТЬ'
       end
+
+      # expect(page).to have_content 'Наименование не может быть пустым!'
 
       within '.q-table' do
         expect(page).to_not have_content 'Test_title'.upcase

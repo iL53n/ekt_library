@@ -53,5 +53,12 @@ feature 'Admin can see all books', %q{
         expect(page).to_not have_content 'Книги'
       end
     end
+
+    scenario 'can not see all books in admin table' do
+      visit '/admin_books'
+
+      expect(page).to_not have_content book.title.upcase
+      expect(page).to_not have_content book.author
+    end
   end
 end
