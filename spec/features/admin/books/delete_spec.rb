@@ -6,28 +6,47 @@ feature 'Admin can delete book', %q{
   I'd like to be able to delete book
 }, js: true do
 
-  given(:user) { create(:user, admin: 'true') }
+  given(:admin) { create(:user, admin: 'true') }
+  given(:user) { create(:user) }
   given!(:book) { create(:book) }
 
   describe 'Admin' do
+    background do
+      visit new_user_session_path
+      sign_in(admin)
+      visit '/admin_books'
+    end
+
+    scenario 'can delete book' do
+      expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
+
+      within '.q-table' do
+        expect(page).to have_content book.title.upcase
+        expect(page).to have_content book.author
+        click_on 'Подменю'
+      end
+
+      click_on 'Удалить'
+
+      # confirm
+
+      within '.q-table' do
+        expect(page).to_not have_content book.title.upcase
+        expect(page).to_not have_content book.author
+      end
+    end
+  end
+
+  describe 'User' do
     background do
       visit new_user_session_path
       sign_in(user)
       visit '/admin_books'
     end
 
-    scenario 'delete book' do
-      expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
-
-      within '.q-table' do
-        expect(page).to have_content book.title.upcase
-        expect(page).to have_content book.author
-
-        click_on 'Удалить'
-
-        expect(page).to_not have_content book.title.upcase
-        expect(page).to_not have_content book.author
-      end
+    scenario 'can not see submenu button and delete book button' do
+      expect(page).to_not have_button 'Подменю'
+      expect(page).to_not have_button 'Удалить'
     end
   end
 end

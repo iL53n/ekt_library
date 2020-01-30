@@ -70,7 +70,7 @@ feature 'Admin can edit book', %q{
       visit '/admin_books'
     end
 
-    scenario 'do not see submenu button and edit book button' do
+    scenario 'can not see submenu button and edit book button' do
       expect(page).to_not have_button 'Подменю'
       expect(page).to_not have_button 'Редактировать'
     end
