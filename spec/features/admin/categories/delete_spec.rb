@@ -6,17 +6,18 @@ feature 'Admin can delete category', %q{
   I'd like to be able to delete category
 }, js: true do
 
-  given(:user) { create(:user, admin: 'true') }
+  given(:admin) { create(:user, admin: 'true') }
+  given(:user) { create(:user) }
   given!(:category) { create(:category) }
 
   describe 'Admin' do
     background do
       visit new_user_session_path
-      sign_in(user)
+      sign_in(admin)
       visit '/admin_categories'
     end
 
-    scenario 'delete category' do
+    scenario 'can delete category' do
       expect(page).to have_content 'Категории(АДМИНИСТРИРОВАНИЕ)'
 
       within '.q-table' do
@@ -26,6 +27,18 @@ feature 'Admin can delete category', %q{
 
         expect(page).to_not have_content category.title
       end
+    end
+  end
+
+  describe 'User' do
+    background do
+      visit new_user_session_path
+      sign_in(user)
+      visit '/admin_categories'
+    end
+
+    scenario 'can not see delete category button' do
+      expect(page).to_not have_button 'Удалить'
     end
   end
 end

@@ -7,33 +7,34 @@
       div(v-if="error")
         p Error!
       div(v-else)
-        q-page-sticky(expand position="top")
-          q-toolbar(class="bg-negative glossy text-white")
-            q-toolbar-title(align="middle")
-              | Категории(АДМИНИСТРИРОВАНИЕ)
-        div(class='q-pa-md')
-          q-table(
-            separator="cell"
-            name="categories",
-            :title="title",
-            :data="data",
-            :columns="columns",
-            :pagination.sync="pagination",
-            :rows-per-page-options="[10, 25, 100]",
-            row-key="id"
-            no-data-label="Нет информации о категориях!")
-            template(v-slot:body-cell-books="props")
-              q-td(align="center")
-                div(class="book-count") {{ props.row.books.length }}
-            template(v-slot:body-cell-action="props")
-              q-td(align="right")
-                q-btn-group(flat)
-                  q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editCategory(props.row)")
-                  q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteCategory(props.row)" method="delete")
+        div(v-if="user.admin == true")
+          q-page-sticky(expand position="top")
+            q-toolbar(class="bg-negative glossy text-white")
+              q-toolbar-title(align="middle")
+                | Категории(АДМИНИСТРИРОВАНИЕ)
+          div(class='q-pa-md')
+            q-table(
+              separator="cell"
+              name="categories",
+              :title="title",
+              :data="data",
+              :columns="columns",
+              :pagination.sync="pagination",
+              :rows-per-page-options="[10, 25, 100]",
+              row-key="id"
+              no-data-label="Нет информации о категориях!")
+              template(v-slot:body-cell-books="props")
+                q-td(align="center")
+                  div(class="book-count") {{ props.row.books.length }}
+              template(v-slot:body-cell-action="props")
+                q-td(align="right")
+                  q-btn-group(flat)
+                    q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editCategory(props.row)")
+                    q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteCategory(props.row)" method="delete")
 
-          q-page-sticky(position="bottom-left" :offset="[18, 18]")
-            q-btn(fab color="primary" @click="newCategory()" icon="add" name="Новая категория")
-        router-view(@add-category="fetchCategories" @edit-category="fetchCategories")
+            q-page-sticky(position="bottom-left" :offset="[18, 18]")
+              q-btn(fab color="primary" @click="newCategory()" icon="add" name="Новая категория")
+          router-view(@add-category="fetchCategories" @edit-category="fetchCategories")
 </template>
 
 <script>
@@ -60,6 +61,13 @@
 			}
 			error: {}
 		},
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        }
+      }
+    },
     created() {
 			this.fetchCategories();
 		},
