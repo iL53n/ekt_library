@@ -46,7 +46,7 @@ feature 'Admin can edit category', %q{
       end
 
       within '.q-form' do
-        fill_in 'Наименование', with: ''
+        fill_in 'Наименование', with: ' '
         click_on 'СОХРАНИТЬ'
       end
 

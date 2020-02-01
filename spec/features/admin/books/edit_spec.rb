@@ -51,7 +51,7 @@ feature 'Admin can edit book', %q{
       click_on 'Редактировать'
 
       within '.q-form' do
-        fill_in 'Наименование', with: ''
+        fill_in 'Наименование', with: ' '
         click_on 'СОХРАНИТЬ'
       end
 
