@@ -24,6 +24,7 @@
               q-space
               div(style="min-width: 250px; max-width: 400px")
                 q-select(
+                  id="Отбор"
                   v-model="select_categories"
                   multiple
                   :options="categories"

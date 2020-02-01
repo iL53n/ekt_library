@@ -21,8 +21,8 @@ feature 'User can filter book by category', %q{
     end
 
     scenario 'by category' do
-      expect(page).to have_content 'Отбор по категории'
-      select 'first_category', from: 'Отбор по категории' # ToDo: don't work... why?
+      all('#Отбор').first.click
+      find('.q-item__label', text: "#{first_category.title}").click
 
       within '.q-table' do
         expect(page).to have_content first_book.title.upcase
