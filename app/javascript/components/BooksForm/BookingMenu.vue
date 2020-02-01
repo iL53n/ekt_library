@@ -12,6 +12,7 @@
             q-item-section
             h2 {{ this.book.title }}
             q-select(
+              id="Пользователь"
               filled
               label="Пользователь"
               placeholder="Выберите пользователя"
@@ -22,7 +23,7 @@
             )
             q-btn(
               color="primary"
-              label="ВЫДАТЬ"
+              label="Выдать"
               @click="giveOutBook"
               type="submit"
               v-close-popup="hide"

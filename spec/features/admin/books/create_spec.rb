@@ -24,10 +24,10 @@ feature 'Admin can create new book', %q{
       within '.q-form' do
         fill_in 'Наименование *', with: 'Test_title'
         fill_in 'Автор *', with: 'Test_author'
-        attach_file 'Обложка книги *', ["#{Rails.root}/app/javascript/images/Logo.png"]
+        # attach_file 'Обложка книги *', ["#{Rails.root}/app/javascript/images/Logo.png"]
         fill_in 'Описание', with: 'Test_description'
-        select('books_category', from: find('#Категории'))
-        select 'available', from: find('#Статус')
+        first('#Категории').select_option
+        first('#Статус').select_option
         click_on 'СОХРАНИТЬ'
       end
 
