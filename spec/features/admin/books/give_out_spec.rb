@@ -71,4 +71,16 @@ feature 'Admin can give out book', %q{
       end
     end
   end
+
+  describe 'User' do
+    background do
+      visit new_user_session_path
+      sign_in(user)
+      visit '/admin_books'
+    end
+
+    scenario 'can not see give out button' do
+      expect(page).to_not have_button 'Выдать'
+    end
+  end
 end
