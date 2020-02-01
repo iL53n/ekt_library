@@ -7,23 +7,24 @@
       div(v-if="error")
         p Error!
       div(v-else)
-        div(class='q-pa-md')
-          q-table(
-            separator="cell"
-            name="books",
-            :title="title",
-            :data="data",
-            :columns="columns",
-            :pagination.sync="pagination",
-            :rows-per-page-options="[10, 25, 100]",
-            row-key="id"
-            no-data-label="НЕТ ЗАПИСЕЙ ")
-            template(v-slot:body-cell-book="props")
-              q-td(align="center")
-                | {{ props.row.book.title }}
-            template(v-slot:body-cell-user="props")
-              q-td(align="center")
-                | {{ props.row.user.email }}
+        div(v-if="user.admin == true")
+          div(class='q-pa-md')
+            q-table(
+              separator="cell"
+              name="books",
+              :title="title",
+              :data="data",
+              :columns="columns",
+              :pagination.sync="pagination",
+              :rows-per-page-options="[10, 25, 100]",
+              row-key="id"
+              no-data-label="НЕТ ЗАПИСЕЙ ")
+              template(v-slot:body-cell-book="props")
+                q-td(align="center")
+                  | {{ props.row.book.title }}
+              template(v-slot:body-cell-user="props")
+                q-td(align="center")
+                  | {{ props.row.user.email }}
 </template>
 
 <script>
@@ -50,6 +51,13 @@
         },
       }
       // error: {}
+    },
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        }
+      }
     },
     created() {
       this.fetchPosts();

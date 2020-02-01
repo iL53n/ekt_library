@@ -46,7 +46,7 @@ feature 'Admin can create new book', %q{
 
       click_on 'Новая книга'
       within '.q-form' do
-        fill_in 'Наименование *', with: ''
+        fill_in 'Наименование *', with: ' '
         click_on 'СОХРАНИТЬ'
       end
 

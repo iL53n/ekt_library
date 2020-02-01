@@ -41,9 +41,9 @@ feature 'Admin can create new user', %q{
       click_on 'Новый пользователь'
       within '.q-form' do
         fill_in 'Имя', with: 'FirstName'
-        fill_in 'Фамилия', with: ''
-        fill_in 'Email', with: ''
-        fill_in 'Пароль', with: ''
+        fill_in 'Фамилия', with: ' '
+        fill_in 'Email', with: ' '
+        fill_in 'Пароль', with: ' '
         click_on 'СОХРАНИТЬ'
       end
 
