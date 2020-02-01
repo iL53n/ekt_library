@@ -8,7 +8,7 @@ feature 'Admin can create new book', %q{
 
   given(:admin) { create(:user, admin: 'true') }
   given(:user) { create(:user) }
-  given!(:category) { create(:category, title: 'books_category') }
+  given!(:category) { create(:category) }
 
   describe 'Admin' do
     background do
@@ -21,20 +21,23 @@ feature 'Admin can create new book', %q{
       expect(page).to have_content 'Книги(АДМИНИСТРИРОВАНИЕ)'
 
       click_on 'Новая книга'
-      within '.q-form' do
-        fill_in 'Наименование *', with: 'Test_title'
-        fill_in 'Автор *', with: 'Test_author'
-        # attach_file 'Обложка книги *', ["#{Rails.root}/app/javascript/images/Logo.png"]
-        fill_in 'Описание', with: 'Test_description'
-        first('#Категории').select_option
-        first('#Статус').select_option
-        click_on 'СОХРАНИТЬ'
-      end
+
+      fill_in 'Наименование *', with: 'Test_title'
+      fill_in 'Автор *', with: 'Test_author'
+      # attach_file '#Обложка', "#{Rails.root}/app/javascript/images/Logo.png"
+      fill_in 'Описание', with: 'Test_description'
+
+      all('#Категории').first.click
+      find('.q-item__label', text: "#{category.title}").click
+      all('#Статус').first.click
+      find('.q-item__label', text: 'available').click
+
+      click_on 'СОХРАНИТЬ'
 
       within '.q-table' do
         expect(page).to have_content 'Test_title'.upcase
         expect(page).to have_content 'Test_author'
-        expect(page).to have_content 'test-categories'
+        expect(page).to have_content category.title
       end
     end
 

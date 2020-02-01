@@ -32,6 +32,7 @@
               style="width: auto"
               label="Обложка книги *")
             q-input(
+              id="Обложка"
               filled
               ref="description"
               label="Описание *"
