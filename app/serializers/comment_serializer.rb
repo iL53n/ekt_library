@@ -2,7 +2,7 @@ class CommentSerializer < ActiveModel::Serializer
   attributes :id, :author, :body, :created
 
   def author
-    object.user.email
+    "#{object.user.first_name} #{object.user.last_name}"
   end
 
   def created

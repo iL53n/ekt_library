@@ -21,7 +21,6 @@ feature 'Admin can return book', %q{
 
     scenario 'booked book' do
       within '.q-table' do
-        save_and_open_page
         expect(page).to have_content book.title.upcase
         expect(page).to have_button 'Выдать', disabled: true
         expect(page).to have_button 'Вернуть книгу'

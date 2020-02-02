@@ -7,8 +7,8 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     )
-      q-card(class="bg-primary text-white")
-        q-bar
+      q-card(class="text-grey-10")
+        q-bar(class="bg-primary text-white")
           div {{ this.book.author }} - {{ this.book.title }}
 
           q-space
@@ -17,43 +17,66 @@
           q-btn(dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle")
           q-btn(dense flat icon="close" v-close-popup)
 
-        q-card-section
-          div(class="text-h2") {{ this.book.title }}
-          div(class="text-h5") {{ this.book.author }}
-        q-card-section
-          q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
-          q-rating(size="2em" color="white" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
-        q-card-section
-          div(class="text-body1") {{ this.book.description }}
+        div(class="q-pa-md")
+          q-card-section
+            div(class="text-h2") {{ this.book.title }}
+              q-btn(name="add_to_wish" flat round color="green" size="25px" icon="favorite_border" @click="addWish()")
+            div(class="text-h5 text-grey-9") {{ this.book.author }}
+          q-card-section
+            q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
+            q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
+          q-card-section
+            div(class="text-h5")
+              div(:class="[status_arr[this.book.status][1]]" size="lg") {{ status_arr[this.book.status][0] }}
+          q-card-section
+            q-btn-group()
+              div(v-if="this.book.status == 'available'")
+                q-btn(class="text-white bg-green" size="md" icon="bookmark" label="Зарезервировать" @click="bookingBook()")
+              div(v-if="this.book.status == 'booking'")
+                q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
+              div(v-if="this.book.status == 'reading'")
+                q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
+          q-card-section
+            div(class="text-h6 text-grey-9") Описание:
+            div(class="text-body1") {{ this.book.description }}
+          q-card-section
+            div(v-for="category in this.book.categories")
+              q-badge {{ category.title }}
+        q-separator
 
         q-card-section
-          q-separator
-          div(class="text-h6") Комментарии ({{ this.book.comments.length }})
+          div(class="text-h6 text-grey-9 q-pa-md") Комментарии ({{ this.book.comments.length }})
           q-intersection(v-for="comment in book.comments", :key="comment", transition="flip-right")
-            q-list(class="q-pa-md q-gutter-sm")
-              q-item(class="bg-white text-black shadow-5 rounded-borders v-ripple"  separator)
+            q-list
+              q-item(v-ripple)
                 q-item-section
                   q-item-label(caption lines="1") {{ comment.author }}
                   q-item-label(v-html="comment.body")
                 q-item-section(side)
                   | {{ comment.created }}
+              q-separator(spaced inset)
 
           q-card-section(class="text-black")
-            q-editor(v-model="new_comment", flat, text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="secondary")
-            q-btn(text-color="white" color="secondary" label="Добавить комментарий" @click="addComment")
+            q-editor(v-model="new_comment", text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="primary")
+            q-btn(text-color="white" color="primary" label="Добавить комментарий" @click="addComment")
 </template>
 
 <script>
-	import { getBook, createComment, createRating } from '../../api'
+	import { getBook, createComment, createRating, createPost } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
 		data: function () {
 			return {
 				book: this.getBook(),
+        status_arr: {
+          'booking': ['Зарезервирована', 'text-blue-grey'],
+          'reading': ['На руках', 'text-grey'],
+          'available': ['Доступна', 'text-green text-weight-bolder']
+        },
 				errors: {},
 				hide: true,
-        maximizedToggle: true,
+        maximizedToggle: false,
         new_comment: '',
         input_rating: 0
 			}
@@ -74,6 +97,35 @@
 					.finally(() => {
 						this.loading = false
 					});
+      },
+      bookingBook() {
+        createPost({ title: 'booking', book_id: this.$route.params.id })
+          .then((response) => {
+            Notify.create({
+              message: "Книга '" + this.book.title + "' зарезервирована!",
+              color: 'positive',
+              position: 'top'
+            });
+            this.getBook()
+          })
+          .catch((error) => {
+            console.log(error);
+            this.error = true
+          });
+      },
+      addWish() {
+        createPost({ title: 'wish', book_id: this.$route.params.id, active: false })
+          .then((response) => {
+            Notify.create({
+              message: "Книга '" + this.book.title + "' добавлена в избранные!",
+              color: 'positive',
+              position: 'top'
+            })
+          })
+          .catch((error) => {
+            console.log(error);
+            this.error = true
+          });
       },
       addVote() {
         createRating({ value: this.input_rating, book_id: this.$route.params.id })
@@ -123,7 +175,6 @@
 			}
 		},
 		components: {
-			getBook,
       Notify
 		}
 	}

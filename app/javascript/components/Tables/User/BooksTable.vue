@@ -59,7 +59,7 @@
                   q-badge {{ category.title }}
             template(v-slot:body-cell-status="props")
               q-td(align="center")
-                | {{ status_arr[props.row.status] }}
+                div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
             template(v-slot:body-cell-user="props")
               q-td(align="center")
                 div(v-if="props.row.active_user")
@@ -103,9 +103,9 @@
           { name: 'wishlist', align: 'center' },
         ],
         status_arr: {
-          'booking': 'Зарезервирована',
-          'reading': 'На руках',
-          'available': 'Доступна'
+          'booking': ['Зарезервирована', 'text-blue-grey'],
+          'reading': ['На руках', 'text-grey'],
+          'available': ['Доступна', 'text-green text-weight-bolder']
         },
         data: [],
         title: '',
