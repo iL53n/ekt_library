@@ -71,5 +71,15 @@ feature 'User can see show books form', %q{
       end
       expect(page).to have_content 'Вы уже голосовали!'
     end
+
+    scenario 'can booking book' do
+      within '.q-card' do
+        click_on 'Зарезервировать'
+
+        expect(page).to have_content 'Зарезервирована'
+        expect(page).to have_button 'Зарезервировать', disabled: true
+      end
+      expect(page).to have_content "Книга '#{book.title}' зарезервирована!"
+    end
   end
 end
