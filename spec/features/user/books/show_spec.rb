@@ -37,22 +37,39 @@ feature 'User can see show books form', %q{
     end
   end
 
-  describe 'User can in the show form' do
+  describe 'User in the show form' do
     background do
       visit new_user_session_path
       sign_in(user)
       visit "/list_books/#{book.id}"
     end
 
-    scenario 'add to wishlist' do
+    scenario 'can add to wishlist' do
       within '.q-card' do
         click_on 'add_to_wish'
       end
 
-      #expect(page).to have_content "Книга '#{book.title}' добавлена в избранные!"
+      expect(page).to have_content "Книга '#{book.title}' добавлена в избранные!"
 
       visit '/wish_list'
       expect(page).to have_content book.title.upcase
+    end
+
+    scenario 'can cast a vote' do
+      within '.q-card' do
+        first('.q-rating__icon').click
+        expect(page).to have_content 'Оценки 1'
+      end
+      expect(page).to have_content 'Ваша оценка 1'
+    end
+
+    scenario 'can not cast a vote again' do
+      within '.q-card' do
+        first('.q-rating__icon').click
+        first('.q-rating__icon').click
+        expect(page).to have_content 'Оценки 1'
+      end
+      expect(page).to have_content 'Вы уже голосовали!'
     end
   end
 end
