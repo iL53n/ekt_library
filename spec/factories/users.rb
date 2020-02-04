@@ -9,5 +9,10 @@ FactoryBot.define do
     email
     admin { 'false' }
     password { '12345678' }
+
+    trait :invalid do
+      first_name { nil }
+      email { nil }
+    end
   end
 end

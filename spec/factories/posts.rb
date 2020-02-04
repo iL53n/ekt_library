@@ -8,5 +8,9 @@ FactoryBot.define do
     user
     title { 'reading' }
     end_date
+
+    trait :invalid do
+      title { nil }
+    end
   end
 end
