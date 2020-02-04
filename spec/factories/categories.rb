@@ -5,5 +5,9 @@ FactoryBot.define do
 
   factory :category do
     title { generate(:name) }
+
+    trait :invalid do
+      title { nil }
+    end
   end
 end
