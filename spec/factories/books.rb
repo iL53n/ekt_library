@@ -9,6 +9,13 @@ FactoryBot.define do
     description { 'description description description' }
     status { 'available' }
 
+    trait :invalid do
+      title { nil }
+      author { nil }
+      description { 'invalid obj' }
+      status { 'available' }
+    end
+
     factory :book_with_categories do
       transient do
         count { 5 }
