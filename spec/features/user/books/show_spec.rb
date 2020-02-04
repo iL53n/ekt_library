@@ -81,5 +81,14 @@ feature 'User can see show books form', %q{
       end
       expect(page).to have_content "Книга '#{book.title}' зарезервирована!"
     end
+
+    scenario 'can add comment' do
+      within '.q-card' do
+        find(:css, '.q-editor__content').set('new commentABCXYZ')
+        expect(page).to have_content 'new commentABCXYZ'
+        click_on 'Добавить комментарий'
+      end
+      expect(page).to have_content 'Комментарий добавлен!'
+    end
   end
 end
