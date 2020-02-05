@@ -1,13 +1,46 @@
 require 'rails_helper'
 
-RSpec.describe RatingsController, type: :controller do
+RSpec.describe PostsController, type: :controller do
   let(:user) { create(:user) }
-  before { login(:user) }
+  before { login(user) }
+
+  describe 'GET #index' do
+    let!(:posts) { create_list(:post, 5) }
+    let(:request_params) { { method: :get, action: :index, format: :json } }
+
+    it 'return 2xx' do
+      do_request(request_params)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'populates an array of all posts' do
+      do_request(request_params)
+      expect(assigns(:posts)).to match_array(posts)
+    end
+  end
 
   describe 'POST #create' do
     let(:book) { create(:book) }
-    let(:request_params) { { method: :post, action: :create, options: { comment: attributes_for(:rating), book_id: book, user_id: user }, format: :json } }
-    let(:request_invalid_params) { { method: :post, action: :create, options: { comment: attributes_for(:rating, :invalid), book_id: book, user_id: user }, format: :json } }
+    let(:request_params) { { method: :post, action: :create, options: { title: 'reading', book_id: book.id, user_id: user.id }, format: :json } }
+    let(:request_invalid_params) { { method: :post, action: :create, options: { title: '', book_id: book.id, user_id: user.id }, format: :json } }
+
+    context 'callbacks' do
+      before { do_request(request_params) }
+
+      it 'assign the requested book to @book' do
+        expect(assigns(:book)).to eq(book)
+      end
+
+      it 'assign the requested user to @user' do
+        expect(assigns(:user)).to eq(user)
+      end
+
+      it 'update book after create post' do
+        book.reload
+        expect(book.status).to eq('reading')
+        expect(book.user_id).to eq(user.id)
+      end
+    end
 
     context 'with valid attributes' do
       it 'return :created' do
@@ -15,8 +48,8 @@ RSpec.describe RatingsController, type: :controller do
         expect(response).to have_http_status(:created)
       end
 
-      it 'save new rating in the database' do
-        expect { do_request(request_params) }.to change(Rating, :count).by(1)
+      it 'save new post in the database' do
+        expect { do_request(request_params) }.to change(Post, :count).by(1)
       end
     end
 
@@ -26,9 +59,35 @@ RSpec.describe RatingsController, type: :controller do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'does not save new rating in the database' do
-        expect { do_request(request_invalid_params) }.to_not change(Rating, :count)
+      it 'does not save new post in the database' do
+        expect { do_request(request_invalid_params) }.to_not change(Post, :count)
       end
+    end
+  end
+
+  describe 'PATCH #close_reading_post' do
+    before do
+      Rails.application.routes.draw do
+        patch :readed, to: 'posts#close_reading_post'
+      end
+    end
+
+    let!(:post) { create(:post) }
+    let(:book) { create(:book, status: 'reading', user_id: user.id, posts: [post]) }
+    let(:request_params) { { method: :patch, action: :close_reading_post, options: { book_id: book.id }, format: :json } }
+
+    before { do_request(request_params) }
+
+    it 'update book' do
+      book.reload
+      expect(book.status).to eq('available')
+      expect(book.user_id).to eq(nil)
+    end
+
+    it 'close prev reading post' do
+      post.reload
+      expect(post.active).to eq(false)
+      expect(post.end_date).to_not eq(nil)
     end
   end
 end

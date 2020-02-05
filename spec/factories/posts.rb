@@ -7,6 +7,7 @@ FactoryBot.define do
     book
     user
     title { 'reading' }
+    active { true }
     end_date
 
     trait :invalid do
