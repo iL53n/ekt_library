@@ -10,7 +10,7 @@ class RatingsController < ApplicationController
       @rating = @book.ratings.new(rating_params)
       @rating.user = current_user
 
-      if @rating.save!
+      if @rating.save
         render json: @rating, status: :created
       else
         render json: { errors: @rating.errors }, status: :unprocessable_entity
