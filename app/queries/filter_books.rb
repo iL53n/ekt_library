@@ -1,5 +1,10 @@
-class FilterBooks # ToDo: need refactoring
+class FilterBooks
   attr_accessor :initial_scope
+  
+  DATA_LIST = { booking: ['booking', true],
+                reading: ['reading', true],
+                readed: ['reading', false],
+                wishes: ['wish', false] }.freeze
 
   def initialize(initial_scope, current_user, params)
     @initial_scope = initial_scope
@@ -15,55 +20,27 @@ class FilterBooks # ToDo: need refactoring
   private
 
   def by_categories(scope)
+    categories = @params[:category_ids]
 
-    if @params[:category_ids].nil?
+    if categories.nil?
       scope
     else
-      books = []
-      @params[:category_ids].each do |category_id|
-        scope.each do |book|
-          books.push(book) if book.category_ids.include?(category_id.to_i)
-          books = books.uniq &:id
-        end
-      end
-      books
+      scope.includes(:categories)
+           .where(categories: { id: categories })
     end
   end
 
   def filter(initial_scope)
-    case @params[:filter]
-    when 'all'
-      initial_scope
-    when 'booking'
-      booking
-    when 'reading'
-      reading
-    when 'readed'
-      readed
-    when 'wishes'
-      wishes
+    filter = @params[:filter].to_sym
+
+    if DATA_LIST.keys.include?(filter)
+      return_filtered_arr(DATA_LIST[filter][0], DATA_LIST[filter][1])
     else
       initial_scope
     end
   end
 
-  def booking
-    return_arr('booking', true)
-  end
-
-  def reading
-    return_arr('reading', true)
-  end
-
-  def readed
-    return_arr('reading', false)
-  end
-
-  def wishes
-    return_arr('wish', false)
-  end
-
-  def return_arr(title, active)
+  def return_filtered_arr(title, active)
     initial_scope.joins(:posts).where(posts: { title: title,
                                                user: @current_user,
                                                active: active })

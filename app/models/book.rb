@@ -13,13 +13,11 @@ class Book < ApplicationRecord
   has_many :ratings, dependent: :destroy
 
   def calculate_rating
-    arr = []
-    ratings.each { |i| arr << i.value }
-    arr.empty? ? 0 : arr.reduce(:+) / arr.size.to_i
+    ratings.sum(&:value) / ratings.count if ratings.any?
   end
 
   def available?
-    posts.where(active: true).empty?
+    !posts.where(active: true).exists?
   end
 
   def active_user
@@ -27,7 +25,7 @@ class Book < ApplicationRecord
   end
 
   def active_post
-    posts&.where(active: true).first
+    posts.where(active: true).first
   end
 
   def close_active_post
