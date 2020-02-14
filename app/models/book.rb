@@ -3,17 +3,32 @@ class Book < ApplicationRecord
   validates :title,
             :author,
             :description,
-            :image,
             :status, presence: true
 
   has_and_belongs_to_many :categories
-  belongs_to :user, optional: true
-  has_many :readings
-  has_many :wishes
-  # has_one_attached :image
+  has_one_attached :image
+  has_many :posts, dependent: :destroy
+  has_many :users, through: :posts
+  has_many :comments, dependent: :destroy
+  has_many :ratings, dependent: :destroy
 
-  scope :booking, ->(current_user) { where(status: 'Зарезервирована', user: current_user) }
-  scope :reading, ->(current_user) { where(status: 'На руках', user: current_user) }
-  scope :readed,  ->(current_user) { joins(:readings).where(readings: { user: current_user }) }
-  scope :wishes,  ->(current_user) { joins(:wishes).where(wishes: { user: current_user }) }
+  def calculate_rating
+    ratings.sum(&:value) / ratings.count if ratings.any?
+  end
+
+  def available?
+    !posts.where(active: true).exists?
+  end
+
+  def active_user
+    active_post&.user
+  end
+
+  def active_post
+    posts.where(active: true).first
+  end
+
+  def close_active_post
+    active_post&.update!(active: false, end_date: Time.now)
+  end
 end

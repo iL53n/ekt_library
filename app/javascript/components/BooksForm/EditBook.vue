@@ -61,15 +61,6 @@
               v-model="book.status"
               :options="statuses"
             )
-            q-select(
-              filled
-              label="Пользователь"
-              placeholder="Выберите пользователя"
-              v-model="book.user"
-              :options="users"
-              option-value="id"
-              :option-label="(user) => [user.last_name, user.first_name]"
-            )
             q-btn(
               color="primary"
               label="СОХРАНИТЬ"
@@ -86,7 +77,7 @@
 </template>
 
 <script>
-	import { backendGetBook, backendPatchBook, backendGetCategories, backendGetUsers } from '../../api'
+	import { getBook, patchBook, getCategories } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
@@ -95,8 +86,7 @@
 				book: this.getBook(),
         categories: this.getCategories(),
         selectCategories: [],
-        statuses: ['В наличии', 'Зарезервирована', 'На руках'],
-        users: this.getUsers(),
+        statuses: ['available', 'booking', 'reading'],
 				hide: true
 			}
 		},
@@ -109,9 +99,8 @@
     },
 		methods: {
 			getBook() {
-				backendGetBook(this.$route.params.id)
+				getBook(this.$route.params.id)
 					.then((response) => {
-						// console.log(response.data)
 						this.book = response.data.book
 					})
 					.catch((error) => {
@@ -123,7 +112,7 @@
 					});
       },
       getCategories() {
-				backendGetCategories()
+				getCategories()
 					.then((response) => {
 						console.log(response.data.categories)
             this.categories = response.data.categories
@@ -136,24 +125,9 @@
 						this.loading = false
 					});
       },
-      getUsers() {
-        backendGetUsers()
-            .then((response) => {
-              // console.log(response.data.users)
-              this.users = response.data.users
-            })
-            .catch((error) => {
-              console.log(error);
-              this.errors = true
-            })
-            .finally(() => {
-              this.loading = false
-            });
-      },
 			updateBook() {
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
-        this.book.user_id = this.book.user.id
-				backendPatchBook(this.book)
+				patchBook(this.book)
 					.then((response) => {
 						Notify.create({
 							message: "Книга '" + this.book.title + "' отредактирована!",
@@ -174,9 +148,9 @@
 			}
 		},
 		components: {
-			backendGetBook,
-			backendPatchBook,
-      backendGetCategories
+			getBook,
+			patchBook,
+      getCategories
 		}
 	}
 </script>

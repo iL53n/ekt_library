@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Users::IndexController, type: :controller do
-  before { login(create(:user, admin: 'true')) }
+  let(:admin) { create(:user, admin: 'true') }
+  before { login(admin) }
 
   describe 'GET #index' do
-    let(:users) { create_list(:user, 5) }
+    let!(:users) { create_list(:user, 5) }
     let(:request_params) { { method: :get, action: :index, format: :json } }
 
     it 'return 2xx' do
@@ -14,11 +15,12 @@ RSpec.describe Users::IndexController, type: :controller do
 
     it 'populates an array of all users' do
       do_request(request_params)
-      # expect(assigns(:users)).to match_array(users)
+      users << admin
+      expect(assigns(:users)).to match_array(users)
     end
   end
 
-  describe 'GET #current_user' do
+  describe 'GET #me' do
     let(:request_params) { { method: :get, action: :me, format: :json } }
 
     it 'return 2xx' do
@@ -27,13 +29,15 @@ RSpec.describe Users::IndexController, type: :controller do
     end
 
     it 'return current user' do
-      # expect(subject.current_user).to eq user
+      expect(subject.current_user).to eq admin
     end
   end
 
   describe 'POST #create' do
     let!(:user) { attributes_for(:user) }
+    let!(:user_invalid) { attributes_for(:user, :invalid) }
     let(:request_params) { { method: :post, action: :create, options: user, format: :json } }
+    let(:request_invalid_params) { { method: :post, action: :create, options: user_invalid, format: :json } }
 
     context 'with valid attributes' do
       it 'return :created' do
@@ -43,6 +47,65 @@ RSpec.describe Users::IndexController, type: :controller do
 
       it 'save new user in the database' do
         expect { post :create, params: user, format: :js }.to change(User, :count).by(1)
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'return :unprocessable_entity' do
+        do_request(request_invalid_params)
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not save new user in the database' do
+        expect { post :create, params: user_invalid, format: :js }.to_not change(User, :count)
+      end
+    end
+  end
+
+  describe 'GET #show' do
+    before { get :show, params: { id: user.id } }
+
+    let(:user) { create(:user) }
+
+    it 'return 2xx' do
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'assigns the requested user to @user' do
+      expect(assigns(:user)).to eq(user)
+    end
+  end
+
+  describe 'PATCH #update' do
+    let!(:user) { create(:user) }
+
+    it 'return :success' do
+      patch :update, params: { id: user.id, user: attributes_for(:user) }, format: :json
+      expect(response).to have_http_status(:success)
+    end
+
+    context 'with valid attributes' do
+      it 'assigns the requested user to @user' do
+        patch :update, params: { id: user.id, user: attributes_for(:user) }, format: :json
+        expect(assigns(:user)).to eq(user)
+      end
+
+      it 'changes user attributes' do
+        patch :update, params: { id: user.id, first_name: 'new_first_name', email: 'new@test.com' }, format: :json
+        user.reload
+
+        expect(user.first_name).to eq('new_first_name')
+        expect(user.email).to eq('new@test.com')
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not changes user attributes' do
+        patch :update, params: { id: user.id, user: attributes_for(:user, :invalid) }, format: :json
+        user.reload
+
+        expect(user.first_name).to_not eq(nil)
+        expect(user.email).to_not eq(nil)
       end
     end
   end
@@ -57,36 +120,6 @@ RSpec.describe Users::IndexController, type: :controller do
 
     it 'deletes the user' do
       expect { delete :destroy, params: { id: user } }.to change(User, :count).by(-1)
-    end
-  end
-
-  describe 'PATCH #update' do
-    let(:user) { create(:user) }
-
-    context 'with valid attributes' do
-      it 'assigns the requested user to @user' do
-        patch :update, params: { id: user.id, user: attributes_for(:user) }, format: :js
-        expect(assigns(:user)).to eq(user)
-      end
-
-      it 'changes user attributes' do
-        patch :update, params: { id: user,
-                                 user: {
-                                        first_name: 'new_first_name',
-                                        last_name: 'new_last_name',
-                                        email: 'new_eamil@test.com'
-                                        }
-                                              }, format: :js
-        user.reload
-
-        expect(user.first_name).to eq('new_first_name')
-        expect(user.last_name).to eq('new_last_name')
-        expect(user.email).to eq('new_eamil@test.com')
-      end
-    end
-
-    context 'with invalid attributes' do
-      #
     end
   end
 end

@@ -16,6 +16,8 @@ gem 'devise'
 gem 'database_cleaner'
 gem 'active_model_serializers'
 gem 'oj'
+gem 'mini_magick'
+gem 'image_processing'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -38,6 +40,8 @@ group :test do
   gem 'chromedriver-helper'
   gem 'launchy'
   gem 'rails-controller-testing'
+  gem 'webdrivers'
+  gem 'database_cleaner'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

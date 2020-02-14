@@ -7,31 +7,33 @@
       div(v-if="error")
         p Error!
       div(v-else)
-        q-page-sticky(expand position="top")
-          q-toolbar(class="bg-negative glossy text-white")
-            q-toolbar-title(align="middle")
-              | Пользователи(АДМИНИСТРИРОВАНИЕ)
-        div(class='q-pa-md')
-          q-table(
-            name="users",
-            :title="title",
-            :data="data",
-            :columns="columns",
-            :pagination.sync="pagination",
-            :rows-per-page-options="[10, 25, 100]",
-            row-key="id"
-            no-data-label="Нет информации о пользователях!")
-            template(v-slot:body-cell-action="props")
-              q-td(align="right")
-                q-btn(push text-color="secondary" label="Редактировать"  @click="editUser(props.row)")
-                q-btn(push text-color="negative" label="Удалить"  @click="deleteUser(props.row)" method="delete")
-
-          q-btn(push color="primary" size="15px" @click="newUser()" label="Новый пользователь")
-        router-view(@add-user="fetchUsers" @edit-user="fetchUsers")
+        div(v-if="user.admin == true")
+          q-page-sticky(expand position="top")
+            q-toolbar(class="bg-negative glossy text-white")
+              q-toolbar-title(align="middle")
+                | Пользователи(АДМИНИСТРИРОВАНИЕ)
+          div(class='q-pa-md')
+            q-table(
+              name="users",
+              :title="title",
+              :data="data",
+              :columns="columns",
+              :pagination.sync="pagination",
+              :rows-per-page-options="[10, 25, 100]",
+              row-key="id"
+              no-data-label="Нет информации о пользователях!")
+              template(v-slot:body-cell-action="props")
+                q-td(align="right")
+                  q-btn-group(flat)
+                    q-btn(flat color="white" text-color="secondary" size="12px" icon="edit" label="Редактировать"  @click="editUser(props.row)")
+                    q-btn(flat color="white" text-color="negative" size="12px" icon="delete_forever" label="Удалить"  @click="deleteUser(props.row)" method="delete")
+            q-page-sticky(position="bottom-left" :offset="[18, 18]")
+              q-btn(fab color="primary" @click="newUser()" icon="add" name="Новый пользователь")
+          router-view(@add-user="fetchUsers" @edit-user="fetchUsers")
 </template>
 
 <script>
-	import { backendGetUsers, backendDeleteUser } from '../../../api'
+	import { getUsers, deleteUser } from '../../../api'
   import NewUser from '../../UsersForm/CreateUser'
   import EditUser from '../../UsersForm/EditUser'
   import { Notify } from 'quasar'
@@ -57,12 +59,19 @@
 			}
 			error: {}
 		},
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        }
+      }
+    },
     created() {
 			this.fetchUsers();
 		},
     methods: {
 			fetchUsers() {
-				backendGetUsers()
+				getUsers()
 					.then((response) => {
 						this.data = response.data.users
 					})
@@ -81,7 +90,7 @@
         this.$router.push({ name: 'editUser', params: { id: user.id } })
       },
       deleteUser(user) {
-        backendDeleteUser(user.id)
+        deleteUser(user.id)
           .then((response) => {
             this.fetchUsers();
             Notify.create({

@@ -18,6 +18,7 @@ import EditUser from '../javascript/components/UsersForm/EditUser'
 import EditCategory from '../javascript/components/CategoriesForm/EditCategory'
 import ShowBook from '../javascript/components/BooksForm/ShowBook'
 import GiveOutBook from '../javascript/components/BooksForm/BookingMenu'
+import IndexPosts from '../javascript/components/Tables/Admin/AdminPostsTable'
 
 export default new VueRouter({
 	mode: 'history',
@@ -30,6 +31,7 @@ export default new VueRouter({
 				{ path: ':id/', component: ShowBook, name: 'showBook' },
 			],
 		},
+		{ path: '/index_posts', component: IndexPosts, name: 'indexPosts' },
 		{ path: '/reserved_books', component: ReservedBooks, name: 'bookingBooks' },
 		{ path: '/readed_books', component: ReadedBooks, name: 'readedBooks' },
 		{ path: '/wish_list', component: WishList, name: 'wishList' },
@@ -39,6 +41,7 @@ export default new VueRouter({
 				{ path: 'create', component: CreateBook, name: 'createBook' },
 				{ path: ':id/edit', component: EditBook, name: 'editBook' },
 				{ path: ':id/give_out', component: GiveOutBook, name: 'giveOutBook' },
+				{ path: ':id/', component: ShowBook, name: 'showBookAdmin' },
 			],
 		},
 		{ path: '/admin_users', component: AdminUsers,

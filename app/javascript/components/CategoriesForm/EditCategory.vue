@@ -34,7 +34,7 @@
 </template>
 
 <script>
-	import { backendGetCategory, backendPatchCategory } from '../../api'
+	import { getCategory, patchCategory } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
@@ -49,7 +49,7 @@
 		},
 		methods: {
 			getCategory() {
-				backendGetCategory(this.$route.params.id)
+				getCategory(this.$route.params.id)
 					.then((response) => {
 						this.category = response.data.category
 					})
@@ -62,7 +62,7 @@
 					});
       },
 			updateCategory() {
-				backendPatchCategory(this.category)
+				patchCategory(this.category)
 					.then((response) => {
 						Notify.create({
 							message: "Категория '" + this.category.title + "' отредактирована!",
@@ -83,8 +83,8 @@
 			}
 		},
 		components: {
-			backendGetCategory,
-			backendPatchCategory
+			getCategory,
+			patchCategory
 		}
 	}
 </script>

@@ -1,97 +1,90 @@
 import axios from 'axios'
 
-export function backendCurrentUser () {
+// users
+export function currentUser () {
 	return axios.get('/users/index/me');
 }
 
-export function backendGetUsers () {
+export function getUsers () {
 	return axios.get('/users/index');
 }
 
-export function backendGetUser (id) {
+export function getUser (id) {
 	return axios.get('/users/index/' + id);
 }
 
-export function backendPostUser (params) {
+export function postUser (params) {
 	return axios.post('/users/index', params);
 }
 
-export function backendPatchUser (user) {
+export function patchUser (user) {
 	return axios.patch('/users/index/' + user.id, user);
 }
 
-export function backendDeleteUser (id) {
+export function deleteUser (id) {
 	return axios.delete('/users/index/' + id);
 }
 
-export function backendGetBooks () {
-	return axios.get('/books');
+// books
+export function getBooks (params) {
+	return axios.get('/books', { params: params });
 }
 
-export function backendGetReadingBooks () {
-	return axios.get('/books/reading');
-}
-
-export function backendGetReservedBooks () {
-	return axios.get('/books/reserved');
-}
-
-export function backendGetReadedBooks () {
-	return axios.get('/books/readed');
-}
-
-export function backendGetWishList () {
-	return axios.get('/books/wishlist');
-}
-
-export function backendAddWish (book) {
-	return axios.patch('/books/' + book.id + '/add_wish', book);
-}
-
-export function backendGetBook (id) {
+export function getBook (id) {
 	return axios.get('/books/' + id);
 }
 
-export function backendPostBook (params) {
+export function postBook (params) {
 	return axios.post('/books', params);
 }
 
-export function backendPatchBook (book) {
+export function patchBook (book) {
 	return axios.patch('/books/' + book.id, book);
 }
 
-export function backendDeleteBook (id) {
+export function deleteBook (id) {
 	return axios.delete('/books/' + id);
 }
 
-export function backendGetCategories () {
+export function closeBook (book) {
+	return axios.patch('/books/' + book.id + '/readed');
+}
+
+// categories
+export function getCategories () {
 	return axios.get('/categories');
 }
 
-export function backendGetCategory (id) {
+export function getCategory (id) {
 	return axios.get('/categories/' + id);
 }
 
-export function backendPostCategory (params) {
+export function postCategory (params) {
 	return axios.post('/categories', params);
 }
 
-export function backendPatchCategory (category) {
+export function patchCategory (category) {
 	return axios.patch('/categories/' + category.id, category);
 }
 
-export function backendDeleteCategory (id) {
+export function deleteCategory (id) {
 	return axios.delete('/categories/' + id);
 }
 
-export function backendBookingBook (book) {
-	return axios.patch('/books/' + book.id + '/booking');
+// posts
+export function indexPosts () {
+	return axios.get('/posts');
+}
+export function createPost (params) {
+	return axios.post('/posts', params);
 }
 
-export function backendGiveOutBook (book) {
-	return axios.patch('/books/' + book.id + '/give_out', book);
+// comments
+export function createComment (params) {
+	return axios.post('/comments', params);
 }
 
-export function backendReturnBook (book) {
-	return axios.patch('/books/' + book.id + '/return');
+// ratings
+export function createRating (params) {
+	return axios.post('/ratings', params);
 }

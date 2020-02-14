@@ -1,30 +1,35 @@
 <template lang="pug">
   div
     | {{ user.email }}
-    q-btn(flat round dense icon="account_circle")
+    q-btn(flat round dense icon="account_circle" name="profile")
       q-menu(auto-close transition-show="scale" transition-hide="scale")
-        q-list(style="min-width: 100px")
-          div(v-if="user.admin")
-            q-item(v-close-popup)
-              q-item-section
-                q-btn(
-                  to="/admin_books"
-                  color="negative"
-                  size="10px"
-                  text-color="white"
-                  label="Панель администратора"
-                )
+        q-list(style="min-width: 200px")
           q-item(v-close-popup)
-            q-item-section {{ user.first_name }}
-            q-item-section {{ user.last_name }}
+            q-item-section(class="text-primary") {{ user.first_name }} {{ user.last_name }}
           q-separator
-          q-item(clickable v-close-popup)
-            q-item-section
-              | Item_1
-          q-separator
-          q-item(clickable v-close-popup)
-            q-item-section
-              | Item_2
+          div(v-if="user.admin == true" class="text-negative")
+            q-item(v-close-popup)
+              q-item-section(class="text-negative") АДМИНИСТРИРОВАНИЕ
+            q-item(to="/admin_books" v-ripple)
+              q-item-section(avatar)
+                q-icon(name="library_books")
+              q-item-section
+                | Книги
+            q-item(to="/admin_categories" v-ripple)
+              q-item-section(avatar)
+                q-icon(name="all_inbox")
+              q-item-section
+                | Категории
+            q-item(to="/admin_users" v-ripple)
+              q-item-section(avatar)
+                q-icon(name="supervised_user_circle")
+              q-item-section
+                | Пользователи
+            q-item(to="/index_posts" v-ripple)
+              q-item-section(avatar)
+                q-icon(name="warning")
+              q-item-section
+                | Записи
           q-separator
           q-item(v-close-popup)
             q-item-section
@@ -38,20 +43,29 @@
 </template>
 
 <script>
-	import { backendCurrentUser } from '../api/index'
+	import { currentUser } from '../api/index'
 
 	export default {
 		data: function () {
 			return {
-				user: {}
 			}
 		},
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        },
+        set(value) {
+          this.$store.commit('updateCurrentUser', value)
+        }
+      }
+    },
 		created() {
 			this.fetchUser();
 		},
 		methods: {
 			fetchUser() {
-				backendCurrentUser()
+				currentUser()
 					.then((response) => {
 						this.user = response.data.user
 					})
@@ -65,14 +79,13 @@
 			}
 		},
 		components: {
-			backendCurrentUser
 		}
 	}
 </script>
 
 <style scoped>
-  p {
-    font-size: 2em;
-    text-align: center;
+  my-menu-link {
+    color: white;
+    background: #F2C037;
   }
 </style>

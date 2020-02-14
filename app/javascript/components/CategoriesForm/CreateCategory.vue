@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { backendPostCategory } from '../../api'
+  import { postCategory } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
@@ -49,7 +49,7 @@
 		},
 		methods: {
 			addCategory() {
-        backendPostCategory(this.category)
+        postCategory(this.category)
 					.then((response) => {
 						Notify.create({
 							message: "Категория '" + this.category.title + "' создана!",
@@ -71,7 +71,7 @@
       }
 		},
 		components: {
-			backendPostCategory,
+			postCategory,
       Notify
 		}
 	}

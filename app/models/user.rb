@@ -10,7 +10,12 @@ class User < ApplicationRecord
             :last_name,
             :email, presence: true
 
-  has_many :books
-  has_many :readings
-  has_many :wishes
+  has_many :posts, dependent: :destroy
+  has_many :books, through: :posts
+  has_many :comments
+  has_many :ratings
+
+  def voted?(book)
+    book.ratings.where(user_id: id).exists?
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_24_064233) do
+ActiveRecord::Schema.define(version: 2020_01_19_172311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2019_12_24_064233) do
     t.string "title", null: false
     t.string "author", null: false
     t.text "description", null: false
-    t.string "image", null: false
     t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -49,8 +48,8 @@ ActiveRecord::Schema.define(version: 2019_12_24_064233) do
   end
 
   create_table "books_categories", force: :cascade do |t|
-    t.bigint "book_id", null: false
-    t.bigint "category_id", null: false
+    t.bigint "book_id"
+    t.bigint "category_id"
     t.index ["book_id"], name: "index_books_categories_on_book_id"
     t.index ["category_id"], name: "index_books_categories_on_category_id"
   end
@@ -61,13 +60,36 @@ ActiveRecord::Schema.define(version: 2019_12_24_064233) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "readings", force: :cascade do |t|
-    t.bigint "user_id"
+  create_table "comments", force: :cascade do |t|
     t.bigint "book_id"
+    t.bigint "user_id"
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_readings_on_book_id"
-    t.index ["user_id"], name: "index_readings_on_user_id"
+    t.index ["book_id"], name: "index_comments_on_book_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title", null: false
+    t.boolean "active", default: true
+    t.bigint "book_id"
+    t.bigint "user_id"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_posts_on_book_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.bigint "book_id"
+    t.bigint "user_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_ratings_on_book_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -85,20 +107,6 @@ ActiveRecord::Schema.define(version: 2019_12_24_064233) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "wishes", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "book_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_wishes_on_book_id"
-    t.index ["user_id", "book_id"], name: "index_wishes_on_user_id_and_book_id", unique: true
-    t.index ["user_id"], name: "index_wishes_on_user_id"
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "books", "users"
-  add_foreign_key "readings", "books"
-  add_foreign_key "readings", "users"
-  add_foreign_key "wishes", "books"
-  add_foreign_key "wishes", "users"
 end

@@ -65,7 +65,7 @@
 </template>
 
 <script>
-	import { backendGetUser, backendPatchUser } from '../../api'
+	import { getUser, patchUser } from '../../api'
 	import { Notify } from 'quasar'
 
 	export default {
@@ -80,7 +80,7 @@
 		},
 		methods: {
 			getUser() {
-				backendGetUser(this.$route.params.id)
+				getUser(this.$route.params.id)
 					.then((response) => {
 						this.user = response.data.user
 					})
@@ -93,7 +93,7 @@
 					});
       },
 			updateUser() {
-				backendPatchUser(this.user)
+				patchUser(this.user)
 					.then((response) => {
 						Notify.create({
 							message: "Пользователь '" + this.user.email + "' отредактирован!",
@@ -114,8 +114,8 @@
 			}
 		},
 		components: {
-			backendGetUser,
-			backendPatchUser
+			getUser,
+			patchUser
 		}
 	}
 </script>

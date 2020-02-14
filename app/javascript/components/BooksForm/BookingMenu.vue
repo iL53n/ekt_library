@@ -12,17 +12,18 @@
             q-item-section
             h2 {{ this.book.title }}
             q-select(
+              id="Пользователь"
               filled
               label="Пользователь"
               placeholder="Выберите пользователя"
-              v-model="book.user"
+              v-model="book.active_user"
               :options="users"
               option-value="id"
               :option-label="(user) => [user.last_name, user.first_name]"
             )
             q-btn(
               color="primary"
-              label="ВЫДАТЬ"
+              label="Выдать"
               @click="giveOutBook"
               type="submit"
               v-close-popup="hide"
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-  import { backendGetBook, backendGetUsers, backendGiveOutBook } from '../../api'
+  import { getBook, getUsers, createPost } from '../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -54,7 +55,7 @@
     },
     methods: {
       getBook() {
-        backendGetBook(this.$route.params.id)
+        getBook(this.$route.params.id)
           .then((response) => {
             // console.log(response.data)
             this.book = response.data.book
@@ -68,7 +69,7 @@
           });
       },
       getUsers() {
-        backendGetUsers()
+        getUsers()
           .then((response) => {
             // console.log(response.data.users)
             this.users = response.data.users
@@ -82,8 +83,7 @@
           });
       },
       giveOutBook() {
-        this.book.user_id = this.book.user.id
-        backendGiveOutBook(this.book)
+        createPost({ title: 'reading', book_id: this.book.id, user_id: this.book.active_user.id })
           .then((response) => {
             // console.log(response.data.book)
             Notify.create({
