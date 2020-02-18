@@ -42,6 +42,15 @@
                   template(v-slot:append)
                     q-icon(v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer")
                     q-icon(name="search")
+            template(v-slot:body-cell-image="props")
+              q-td(align="left")
+                //img(src="../../../images/Logo" width="32" height="32")
+                | >
+                q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
+                | |
+                img(src="props.row.image_url" style="height: 140px; max-width: 150px")
+                | <
+                p {{ props.row.image_name }}
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 div
