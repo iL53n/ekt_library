@@ -40,6 +40,13 @@
             div(class="text-h6 text-grey-9") Описание:
             div(class="text-body1") {{ this.book.description }}
           q-card-section
+            q-btn(type="a" :href="this.flibusta_link" target="_blank" outline no-caps icon="get_app" label="Flibusta")
+              q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
+                | Найти и скачать с Флибуста — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 365 395 томов, 645 гигабайт
+            q-btn(type="a" :href="this.librusec_link" target="_blank" outline no-caps icon="get_app" label="Librusec")
+              q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
+                | Найти и скачать с Либрусек — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 226 000 томов, 374 гигабайт
+          q-card-section
             div(v-for="category in this.book.categories")
               q-badge {{ category.title }}
         q-separator
@@ -81,6 +88,14 @@
         input_rating: 0
 			}
 		},
+    computed: {
+      flibusta_link() {
+        return "http://flibusta.is/booksearch?ask=" + this.book.title
+      },
+      librusec_link() {
+        return "https://librusec.pro/poisk/?navsrcq=" + this.book.title
+      }
+    },
 		created() {
 		},
 		methods: {
