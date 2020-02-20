@@ -28,7 +28,9 @@ feature 'Admin can delete book', %q{
 
       click_on 'Удалить'
 
-      # confirm
+      within '.q-dialog-plugin' do
+        click_on 'Да'
+      end
 
       within '.q-table' do
         expect(page).to_not have_content book.title.upcase

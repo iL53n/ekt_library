@@ -22,6 +22,13 @@ feature 'Admin can delete user', %q{
       within '.q-table' do
         expect(page).to have_content user.email
         page.all('tr')[2].click_button 'Удалить'
+      end
+
+      within '.q-dialog-plugin' do
+        click_on 'Да'
+      end
+
+      within '.q-table' do
         expect(page).to_not have_content user.email
       end
     end

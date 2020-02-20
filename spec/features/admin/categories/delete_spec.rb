@@ -24,7 +24,13 @@ feature 'Admin can delete category', %q{
         expect(page).to have_content category.title
 
         click_on 'Удалить'
+      end
 
+      within '.q-dialog-plugin' do
+        click_on 'Да'
+      end
+
+      within '.q-table' do
         expect(page).to_not have_content category.title
       end
     end

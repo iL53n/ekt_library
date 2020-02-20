@@ -47,10 +47,10 @@
                 //img(src="../../../images/Logo" width="32" height="32")
                 | >
                 q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
-                | |
-                img(src="props.row.image_url" style="height: 140px; max-width: 150px")
+                //| |
+                //img(src="props.row.image_url" style="height: 140px; max-width: 150px")
                 | <
-                p {{ props.row.image_name }}
+                //p {{ props.row.image_name }}
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 div

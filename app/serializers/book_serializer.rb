@@ -10,7 +10,7 @@ class BookSerializer < ActiveModel::Serializer
              :user_id,
              :active_user,
              :image_url,
-             :image_name,
+             #:image_name,
              :image,
              :current_rating
 
@@ -38,7 +38,7 @@ class BookSerializer < ActiveModel::Serializer
     # object.image.variant(resize: "100x100>").processed.service_url
   end
 
-  def image_name
-    object.image.filename.to_s
-  end
+  # def image_name
+  #   object.image.filename.to_s
+  # end
 end
