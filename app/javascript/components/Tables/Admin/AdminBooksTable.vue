@@ -187,18 +187,37 @@
         this.$router.push({ name: 'giveOutBook', params: { id: book.id } })
       },
       deleteBook(book) {
-        deleteBook(book.id)
-          .then((response) => {
-            this.fetchBooks();
-            Notify.create({
-              message: "Книга '" + book.title + "' удалена!",
-              color: 'negative'
-            })
-          })
-					.catch((error) => {
-						console.log(error);
-						this.error = true
-					});
+        this.$q.dialog({
+          title: "Удалить книгу '" + book.title + "' ?",
+          message: "Вы собираетесь безвозвратно удалить книгу '" + book.title + "' !",
+          ok: {
+            outline: true,
+            color: 'negative',
+            label: 'Да'
+          },
+          cancel: {
+            flat: true,
+            color: 'black',
+            label: 'Нет'
+          }
+        }).onOk(() => {
+          deleteBook(book.id)
+              .then((response) => {
+                this.fetchBooks();
+                Notify.create({
+                  message: "Книга '" + book.title + "' удалена!",
+                  color: 'negative'
+                })
+              })
+              .catch((error) => {
+                console.log(error);
+                this.error = true
+              });
+        }).onCancel(() => {
+          // console.log('Cancel')
+        }).onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
       },
       getCategories() {
         getCategories()

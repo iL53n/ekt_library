@@ -90,19 +90,38 @@
         this.$router.push({ name: 'editUser', params: { id: user.id } })
       },
       deleteUser(user) {
-        deleteUser(user.id)
-          .then((response) => {
-            this.fetchUsers();
-            Notify.create({
-              message: "Пользователь '" + user.email + "' удален!",
-              color: 'negative'
+        this.$q.dialog({
+          title: "Удалить пользователя '" + user.email + "' ?",
+          message: "Вы собираетесь безвозвратно удалить пользователя '" + user.first_name + " " + user.last_name + "' !",
+          ok: {
+            outline: true,
+            color: 'negative',
+            label: 'Да'
+          },
+          cancel: {
+            flat: true,
+            color: 'black',
+            label: 'Нет'
+          }
+        }).onOk(() => {
+          deleteUser(user.id)
+            .then((response) => {
+              this.fetchUsers();
+              Notify.create({
+                message: "Пользователь '" + user.email + "' удален!",
+                color: 'negative'
+              })
             })
-          })
-					.catch((error) => {
-						console.log(error);
-						this.error = true
-					});
-      }
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            });
+        }).onCancel(() => {
+          // console.log('Cancel')
+        }).onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
+      },
     },
     components: {
       NewUser,

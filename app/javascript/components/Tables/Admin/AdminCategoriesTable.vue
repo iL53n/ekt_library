@@ -92,19 +92,38 @@
         this.$router.push({ name: 'editCategory', params: { id: category.id } })
       },
       deleteCategory(category) {
-        deleteCategory(category.id)
-          .then((response) => {
-            this.fetchCategories();
-            Notify.create({
-              message: "Категория '" + category.title + "' удалена!",
-              color: 'negative'
+        this.$q.dialog({
+          title: "Удалить категорию '" + category.title + "' ?",
+          message: "Вы собираетесь безвозвратно удалить категорию '" + category.title + "' !",
+          ok: {
+            outline: true,
+            color: 'negative',
+            label: 'Да'
+          },
+          cancel: {
+            flat: true,
+            color: 'black',
+            label: 'Нет'
+          }
+        }).onOk(() => {
+          deleteCategory(category.id)
+            .then((response) => {
+              this.fetchCategories();
+              Notify.create({
+                message: "Категория '" + category.title + "' удалена!",
+                color: 'negative'
+              })
             })
-          })
-					.catch((error) => {
-						console.log(error);
-						this.error = true
-					});
-      }
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            });
+        }).onCancel(() => {
+          // console.log('Cancel')
+        }).onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        })
+      },
     },
     components: {
       NewCategory,

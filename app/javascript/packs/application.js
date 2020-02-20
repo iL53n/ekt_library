@@ -67,7 +67,8 @@ import {
     QFab,
     QFabAction,
     QUploader,
-    QIntersection
+    QIntersection,
+    Dialog
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -137,7 +138,8 @@ Vue.use(Quasar, {
     },
     iconSet: iconSet,
     plugins: {
-        Notify
+        Notify,
+        Dialog
     },
 });
 
