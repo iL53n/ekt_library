@@ -5,9 +5,9 @@
         header-component
 
         q-page-container
-          q-page(padding style="padding-top: 20px")
+          //q-page(padding style="padding-top: 20px")
 
-            router-view
+          router-view
 
           q-page-scroller(position="bottom")
             q-btn(fab icon="keyboard_arrow_up" color="red")
