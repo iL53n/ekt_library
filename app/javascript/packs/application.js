@@ -68,7 +68,10 @@ import {
     QFabAction,
     QUploader,
     QIntersection,
-    Dialog
+    Dialog,
+    QCarousel,
+    QCarouselControl,
+    QCarouselSlide
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -130,7 +133,10 @@ Vue.use(Quasar, {
         QFab,
         QFabAction,
         QUploader,
-        QIntersection
+        QIntersection,
+        QCarousel,
+        QCarouselControl,
+        QCarouselSlide
     },
     directives: {
         Ripple,

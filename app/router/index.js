@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
+import Index from '../javascript/components/Index'
 import AdminBooks from '../javascript/components/Tables/Admin/AdminBooksTable'
 import AdminUsers from '../javascript/components/Tables/Admin/AdminUsersTable'
 import AdminCategories from '../javascript/components/Tables/Admin/AdminCategoriesTable'
@@ -24,7 +25,8 @@ export default new VueRouter({
 	mode: 'history',
 	hashbang: false,
 	routes: [
-		{ path: '/', redirect: '/list_books' },
+		{ path: '/', redirect: '/index' },
+		{ path: '/index', component: Index },
 		{
 			path: '/list_books', component: Books,
 			children: [

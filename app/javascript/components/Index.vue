@@ -7,7 +7,7 @@
       div(v-if="error")
         p Error!
       div(v-else)
-        div(class="q-pa-md")
+        div
           q-carousel(
           animated
           v-model="slide"
@@ -18,61 +18,32 @@
           transition-prev="slide-right"
           transition-next="slide-left")
             q-carousel-slide(:name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg")
+              div(class="absolute-bottom custom-caption")
+                div(class="text-h2") Third stop
+                div(class="text-subtitle1") Famous Bridge
             q-carousel-slide(:name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg")
+              div(class="absolute-bottom custom-caption")
+                div(class="text-h2") Third stop
+                div(class="text-subtitle1") Famous Bridge
             q-carousel-slide(:name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg")
+              div(class="absolute-bottom custom-caption")
+                div(class="text-h2") Third stop
+                div(class="text-subtitle1") Famous Bridge
             q-carousel-slide(:name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg")
-
+              div(class="absolute-bottom custom-caption")
+                div(class="text-h2") Third stop
+                div(class="text-subtitle1") Famous Bridge
 </template>
 
 <script>
-  import { getBooks, getCategories} from '../../../api'
-  import { Notify } from 'quasar'
-
   export default {
     data() {
       return {
         slide: 1
       }
-      // error: {}
-    },
-    created() {
-      this.fetchBooks();
-    },
-    methods: {
-      fetchBooks() {
-        getBooks({ filter: 'wishes' })
-            .then((response) => {
-              this.data = response.data.books
-            })
-            .catch((error) => {
-              console.log(error);
-              this.error = true
-            })
-            .finally(() => {
-              this.loading = false
-            });
-      },
-      getCategories() {
-        getCategories()
-            .then((response) => {
-              this.categories = response.data.categories.map(cat => cat.title)
-            })
-            .catch((error) => {
-              console.log(error);
-              this.errors = true
-            })
-            .finally(() => {
-              this.loading = false
-            });
-      },
-      showBook(book) {
-        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/wish_list' } })
-      },
-    },
-    components: {
-      Notify
     }
   }
+      // error: {}
 </script>
 
 <style>
@@ -86,5 +57,11 @@
     white-space: normal;
     color: #555;
     margin-top: 4px;
+  }
+  .custom-caption {
+    text-align: right;
+    padding: 24px;
+    color: white;
+    background-color: rgba(0, 0, 0, .3)
   }
 </style>
