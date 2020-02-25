@@ -18,10 +18,12 @@
           q-btn(dense flat icon="close" v-close-popup)
 
         div(class="q-pa-md")
-          q-card-section
-            div(class="text-h2") {{ this.book.title }}
-              q-btn(name="add_to_wish" flat round color="green" size="25px" icon="favorite_border" @click="addWish()")
-            div(class="text-h5 text-grey-9") {{ this.book.author }}
+          q-card-section(horizontal)
+            q-img(:src="this.book.image_src" style="max-width: 350px")
+            q-card-section
+              div(class="text-h2") {{ this.book.title }}
+                q-btn(name="add_to_wish" flat round color="green" size="25px" icon="favorite_border" @click="addWish()")
+              div(class="text-h5 text-grey-9") {{ this.book.author }}
           q-card-section
             q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
             q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")

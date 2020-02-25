@@ -44,13 +44,8 @@
                     q-icon(name="search")
             template(v-slot:body-cell-image="props")
               q-td(align="left")
-                //img(src="../../../images/Logo" width="32" height="32")
-                | >
-                q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
-                //| |
-                //img(src="props.row.image_url" style="height: 140px; max-width: 150px")
-                | <
-                //p {{ props.row.image_name }}
+                //q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
+                q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 div
@@ -210,4 +205,10 @@
 </script>
 
 <style>
+  .scale {
+    transition: 1s; /* Время эффекта */
+  }
+  .scale:hover {
+    transform: scale(1.3); /* Увеличиваем масштаб */
+  }
 </style>

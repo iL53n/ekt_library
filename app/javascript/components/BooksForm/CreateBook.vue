@@ -32,7 +32,15 @@
               ref="cover"
               style="width: auto"
               label="Обложка книги *")
-            input(type="file" ref="cover" @change="uploadFile()")
+            //input(type="file" ref="cover" @change="uploadFile()")
+            q-input(
+              filled
+              ref="image_src"
+              label="Ссылка на обложку"
+              placeholder="Внешняя ссылка на обложку"
+              v-model="book.image_src"
+              type="text"
+            )
             q-input(
               filled
               ref="description"
@@ -55,6 +63,7 @@
               option-label="title"
             )
             q-select(
+              disable
               filled
               id="Статус"
               label="Статус"
@@ -104,12 +113,12 @@
 			addBook() {
         this.book.category_ids = this.selectCategories.map(cat => cat.id)
 
-        let formData = new FormData()
-        Object.entries(this.book).forEach(
-            ([key, value]) => formData.append(key, value)
-        );
+        // let formData = new FormData()
+        // Object.entries(this.book).forEach(
+        //     ([key, value]) => formData.append(key, value)
+        // );
 
-        postBook(formData)
+        postBook(this.book)
 					.then((response) => {
 						Notify.create({
 							message: "Книга '" + this.book.title + "' создана!",
