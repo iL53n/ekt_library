@@ -179,7 +179,7 @@
             });
       },
       showBook(book) {
-        this.$router.push({ name: 'showBook', params: { id: book.id, url: '/list_books' } })
+        this.$router.push({ name: 'showBook', params: { id: book.id } })
       },
       getCategories() {
         getCategories()

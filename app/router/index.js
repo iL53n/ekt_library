@@ -26,14 +26,17 @@ export default new VueRouter({
 	hashbang: false,
 	routes: [
 		{ path: '/', redirect: '/index' },
-		{ path: '/index', component: Index },
-		{
-			path: '/list_books', component: Books,
+		{ path: '/index', component: Index,
+			children: [
+				{ path: ':id/', component: ShowBook, name: 'showBookIndex' },
+			],
+		},
+		{ path: '/list_books', component: Books,
 			children: [
 				{ path: ':id/', component: ShowBook, name: 'showBook' },
 			],
 		},
-		{ path: '/index_posts', component: IndexPosts, name: 'indexPosts' },
+		{ path: '/index_posts', component: IndexPosts, name: 'indexPosts'	},
 		{ path: '/reserved_books', component: ReservedBooks, name: 'bookingBooks' },
 		{ path: '/readed_books', component: ReadedBooks, name: 'readedBooks' },
 		{ path: '/wish_list', component: WishList, name: 'wishList' },
