@@ -26,12 +26,20 @@
               v-model="book.author"
               type="text"
             )
-            q-input(
+            //q-input(
               filled
               ref="image"
               label="Изображение *"
               placeholder="ВРЕМЕННОЕ поле_изм_статусы - реализация в другой итерации"
               v-model="book.image"
+              type="text"
+            //)
+            q-input(
+              filled
+              ref="image_src"
+              label="Ссылка на обложку"
+              placeholder="Внешняя ссылка на обложку"
+              v-model="book.image_src"
               type="text"
             )
             q-input(

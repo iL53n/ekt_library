@@ -55,7 +55,7 @@
 
         q-card-section
           div(class="text-h6 text-grey-9 q-pa-md") Комментарии ({{ this.book.comments.length }})
-          q-intersection(v-for="comment in book.comments", :key="comment", transition="flip-right")
+          q-intersection(v-for="comment in book.comments", :key="comment", once, transition="flip-right")
             q-list
               q-item(v-ripple)
                 q-item-section
