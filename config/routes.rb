@@ -19,5 +19,5 @@ Rails.application.routes.draw do
   resources :comments, only: :create
   resources :ratings, only: :create
 
-  get '/*slug', to: 'application#index'
+  get '/*slug', to: 'application#index', constraints: ->(request) { !request.fullpath.include?('rails/active_storage') }
 end
