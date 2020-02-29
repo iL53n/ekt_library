@@ -16,7 +16,7 @@
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
                   q-badge(color="green" floating) NEW
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
-                  q-tooltip(:delay="500" anchor="center right" self="center left" content-style="font-size: 12px")
+                  q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
 
@@ -25,10 +25,10 @@
           div(class="q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
               q-card
-                q-img(:src="book.image_src")
+                q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
                   q-badge(color="blue" floating) HIT
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px")
+                  q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
 
@@ -37,18 +37,23 @@
           div(class="q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
               q-card
-                q-img(:src="book.image_src")
+                q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
+                  q-badge(color="orange" floating) {{ book.current_rating }}
+                    q-icon(name="star")
+                    //q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="book.current_rating")
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
 
-          q-toolbar(class="bg-red-3")
-            q-toolbar-title(align="middle") Популярные книги
+          q-toolbar(class="bg-grey-4")
+            q-toolbar-title(align="middle") Самые обсуждаемые
           div(class="q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
               q-card
-                q-img(:src="book.image_src")
+                q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
+                  q-badge(color="grey" floating) {{ book.comments.length }}
+                    q-icon(name="chat_bubble_outline")
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}

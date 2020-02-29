@@ -209,6 +209,6 @@
     transition: 1s; /* Время эффекта */
   }
   .scale:hover {
-    transform: scale(1.3); /* Увеличиваем масштаб */
+    transform: scale(1.07); /* Увеличиваем масштаб */
   }
 </style>
