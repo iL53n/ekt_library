@@ -31,7 +31,7 @@ export default new VueRouter({
 				{ path: ':id/', component: ShowBook, name: 'showBookIndex' },
 			],
 		},
-		{ path: '/list_books', component: Books,
+		{ path: '/list_books', component: Books, name: 'ListBooks',
 			children: [
 				{ path: ':id/', component: ShowBook, name: 'showBook' },
 			],

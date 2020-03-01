@@ -9,15 +9,13 @@
         q-toolbar-title БИБЛИОТЕКА ЕКТ
           q-badge(align="top" color="orange") v1.0.0b
 
-
-
-        div(class="toolbar-input-container justify-center")
-          q-input(dark dense standout v-model="search_text" input-class="text-left" class="q-ml-md")
+        //div(class="toolbar-input-container justify-center")
+          q-input(dark dense standout placeholder="Книга, автор" v-model="search_text" input-class="text-left" class="q-ml-md")
             template(v-slot:append)
-              q-icon(v-if="search_text === ''" name="search")
-              q-icon(v-else name="clear" class="cursor-pointer" @click="search_text = ''")
-
-        q-space
+              q-btn(v-if="search_text === ''" flat disabled icon="search") Найти
+              div(v-else)
+                q-btn(flat icon="search" @click="search") Найти
+        //q-space
 
         div
           profile-menu
@@ -56,6 +54,10 @@
 		created() {
 		},
 		methods: {
+		  // search() {
+      //   this.$router.push({ name: 'ListBooks', params: { filter: this.search_text } })
+      //   this.search_text = ''
+      // }
 		},
 		components: {
       ProfileMenu,

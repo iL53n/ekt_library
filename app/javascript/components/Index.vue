@@ -8,6 +8,28 @@
         p Error!
       div(v-else)
         div
+          q-carousel(
+            v-model="slide"
+            transition-prev="scale"
+            transition-next="scale"
+            animated
+            control-color="primary"
+            navigation
+            padding
+            autoplay
+            arrows
+            height="323px"
+            class="bg-white text-primary"
+            )
+            q-carousel-slide(:name="1" class="column no-wrap flex-center")
+              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
+                q-img(class="rounded-borders col-2 full-height",
+                      src="https://cache3.youla.io/files/images/720_720_out/5c/bb/5cbb6cbb80e08e40e62bf842.jpg")
+            //q-carousel-slide(:name="2" class="column no-wrap flex-center")
+              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
+              q-icon(name="style" size="56px")
+              div(class="q-mt-md text-center") 2 text text text text text text text text text text text text
+
           q-toolbar(class="bg-green-3")
             q-toolbar-title(align="middle") Новинки
           div(class="q-pa-md row justify-center q-gutter-sm")
