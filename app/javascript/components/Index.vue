@@ -100,7 +100,7 @@
     },
     methods: {
       fetchBooks() {
-        getBooks({filter: 'all', category_ids: this.select_categories})
+        getBooks({filter: 'commented', category_ids: this.select_categories})
             .then((response) => {
               this.data = response.data.books
             })

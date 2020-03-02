@@ -16,6 +16,14 @@ class Book < ApplicationRecord
     ratings.sum(&:value) / ratings.count if ratings.any?
   end
 
+  def calculate_readed
+    posts.where(title: 'reading', active: false).count if posts.any?
+  end
+
+  def calculate_commented
+    comments.count if comments.any?
+  end
+
   def available?
     !posts.where(active: true).exists?
   end

@@ -1,10 +1,12 @@
 class FilterBooks
   attr_accessor :initial_scope
-  
+
+  QUANTITY_INDEX = 8.freeze
   DATA_LIST = { booking: ['booking', true],
                 reading: ['reading', true],
                 readed: ['reading', false],
                 wishes: ['wish', false] }.freeze
+  CHARACTER = { new: [], popular: [], top: [], commented: [] }.freeze
 
   def initialize(initial_scope, current_user, params)
     @initial_scope = initial_scope
@@ -34,15 +36,51 @@ class FilterBooks
     filter = @params[:filter].to_sym
 
     if DATA_LIST.keys.include?(filter)
-      return_filtered_arr(DATA_LIST[filter][0], DATA_LIST[filter][1])
+      return_filtered_arr_by_posts(DATA_LIST[filter][0], DATA_LIST[filter][1])
+    elsif CHARACTER.keys.include?(filter)
+      return_arr_by_character(filter)
     else
       initial_scope
     end
   end
 
-  def return_filtered_arr(title, active)
+  def return_filtered_arr_by_posts(title, active)
     initial_scope.joins(:posts).where(posts: { title: title,
                                                user: @current_user,
                                                active: active })
+  end
+
+  def return_arr_by_character(filter)
+    case filter
+    when :new
+      new
+    when :popular
+      popular
+    when :top
+      top
+    when :commented
+      commented
+    else
+      # type code here
+    end
+  end
+
+  def new
+    initial_scope.sort_by(&:created_at).last(QUANTITY_INDEX)
+  end
+
+  def popular
+    books = initial_scope.joins(:posts).where(posts: { title: 'reading', active: false })
+    books.sort_by(&:calculate_readed).last(QUANTITY_INDEX)
+  end
+
+  def top
+    books = initial_scope.joins(:ratings).where.not(ratings: nil)
+    books.sort_by(&:calculate_rating).last(QUANTITY_INDEX)
+  end
+
+  def commented
+    books = initial_scope.joins(:comments).where.not(comments: nil)
+    books.sort_by(&:calculate_commented).last(QUANTITY_INDEX)
   end
 end
