@@ -1,7 +1,7 @@
 class FilterBooks
   attr_accessor :initial_scope
 
-  QUANTITY_INDEX = 8.freeze
+  QUANTITY_INDEX = 8
   DATA_LIST = { booking: ['booking', true],
                 reading: ['reading', true],
                 readed: ['reading', false],

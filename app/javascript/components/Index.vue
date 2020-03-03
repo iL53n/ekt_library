@@ -33,7 +33,7 @@
           q-toolbar(class="bg-green-3")
             q-toolbar-title(align="middle") Новинки
           div(class="q-pa-md row justify-center q-gutter-sm")
-            q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
+            q-intersection(v-for="book in new_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
                   q-badge(color="green" floating) NEW
@@ -45,7 +45,7 @@
           q-toolbar(class="bg-blue-3")
             q-toolbar-title(align="middle") Популярные книги
           div(class="q-pa-md row justify-center q-gutter-sm")
-            q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
+            q-intersection(v-for="book in popular_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
                   q-badge(color="blue" floating) HIT
@@ -57,7 +57,7 @@
           q-toolbar(class="bg-orange-3")
             q-toolbar-title(align="middle") Лучшие оценки
           div(class="q-pa-md row justify-center q-gutter-sm")
-            q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
+            q-intersection(v-for="book in top_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
                   q-badge(color="orange" floating) {{ book.current_rating }}
@@ -71,7 +71,7 @@
           q-toolbar(class="bg-grey-4")
             q-toolbar-title(align="middle") Самые обсуждаемые
           div(class="q-pa-md row justify-center q-gutter-sm")
-            q-intersection(v-for="book in data", :key="book", class="card", once, transition="scale")
+            q-intersection(v-for="book in commented_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
                   q-badge(color="grey" floating) {{ book.comments.length }}
@@ -80,7 +80,7 @@
                   q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
-        router-view()
+        router-view(@refresh-list="fetchBooks")
 
 </template>
 
@@ -92,7 +92,10 @@
     data() {
       return {
         slide: 1,
-        data: []
+        new_data: [],
+        popular_data: [],
+        top_data: [],
+        commented_data: []
       }
     },
     created() {
@@ -100,9 +103,42 @@
     },
     methods: {
       fetchBooks() {
-        getBooks({filter: 'commented', category_ids: this.select_categories})
+        getBooks({ filter: 'new' })
             .then((response) => {
-              this.data = response.data.books
+              this.new_data = response.data.books
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+        getBooks({ filter: 'popular' })
+            .then((response) => {
+              this.popular_data = response.data.books
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+        getBooks({ filter: 'top' })
+            .then((response) => {
+              this.top_data = response.data.books
+            })
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+            })
+            .finally(() => {
+              this.loading = false
+            });
+        getBooks({ filter: 'commented' })
+            .then((response) => {
+              this.commented_data = response.data.books
             })
             .catch((error) => {
               console.log(error);
