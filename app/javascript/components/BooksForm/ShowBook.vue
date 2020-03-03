@@ -7,67 +7,71 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     )
-      q-card(class="text-grey-10")
+
+      q-card(class="text-grey-10" style="width: 700px; max-width: 80vw;")
         q-bar(class="bg-primary text-white")
           div {{ this.book.author }} - {{ this.book.title }}
 
           q-space
 
-          q-btn(dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle")
-          q-btn(dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle")
+          //q-btn(dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle")
+          //q-btn(dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle")
           q-btn(dense flat icon="close" v-close-popup)
 
         div(class="q-pa-md")
-          q-card-section(horizontal)
-            q-img(:src="this.book.image_src" style="max-width: 350px")
+          q-card-section
+            q-item
+              q-img(:src="this.book.image_src" style="max-width: 350px")
+                div(style="border-radius: 50%")
+                  q-btn(name="add_to_wish" round flat text-color="white" size="20px" icon="favorite_border" @click="addWish()")
+              q-card-section(align="middle")
+                q-card-section
+                  div(class="text-h3") {{ this.book.title }}
+                  div(class="text-h5 text-grey-9") {{ this.book.author }}
+                q-card-section
+                  q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
+                  q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
+                q-card-section
+                  div(class="text-h5")
+                    div(:class="[status_arr[this.book.status][1]]" size="lg") {{ status_arr[this.book.status][0] }}
+                q-btn-group()
+                  div(v-if="this.book.status == 'available'")
+                    q-btn(class="text-white bg-green" size="md" icon="bookmark" label="Зарезервировать" @click="bookingBook()")
+                  div(v-if="this.book.status == 'booking'")
+                    q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
+                  div(v-if="this.book.status == 'reading'")
+                    q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
+          q-card-section
             q-card-section
-              div(class="text-h2") {{ this.book.title }}
-                q-btn(name="add_to_wish" flat round color="green" size="25px" icon="favorite_border" @click="addWish()")
-              div(class="text-h5 text-grey-9") {{ this.book.author }}
-          q-card-section
-            q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
-            q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
-          q-card-section
-            div(class="text-h5")
-              div(:class="[status_arr[this.book.status][1]]" size="lg") {{ status_arr[this.book.status][0] }}
-          q-card-section
-            q-btn-group()
-              div(v-if="this.book.status == 'available'")
-                q-btn(class="text-white bg-green" size="md" icon="bookmark" label="Зарезервировать" @click="bookingBook()")
-              div(v-if="this.book.status == 'booking'")
-                q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
-              div(v-if="this.book.status == 'reading'")
-                q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
-          q-card-section
-            div(class="text-h6 text-grey-9") Описание:
-            div(class="text-body1") {{ this.book.description }}
-          q-card-section
-            q-btn(type="a" :href="this.flibusta_link" target="_blank" outline no-caps icon="get_app" label="Flibusta")
-              q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
-                | Найти и скачать с Флибуста — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 365 395 томов, 645 гигабайт
-            q-btn(type="a" :href="this.librusec_link" target="_blank" outline no-caps icon="get_app" label="Librusec")
-              q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
-                | Найти и скачать с Либрусек — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 226 000 томов, 374 гигабайт
-          q-card-section
-            div(v-for="category in this.book.categories")
-              q-badge {{ category.title }}
-        q-separator
+              span(v-for="category in this.book.categories")
+                q-badge(:label="category.title")
+              div(class="text-h6 text-grey-9") Описание:
+              div(class="text-body1") {{ this.book.description }}
+            q-card-section
+              q-btn(type="a" :href="this.flibusta_link" target="_blank" outline no-caps icon="get_app" label="Flibusta")
+                q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
+                  | Найти и скачать с Флибуста — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 365 395 томов, 645 гигабайт
+              q-btn(type="a" :href="this.librusec_link" target="_blank" outline no-caps icon="get_app" label="Librusec")
+                q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
+                  | Найти и скачать с Либрусек — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 226 000 томов, 374 гигабайт
 
-        q-card-section
-          div(class="text-h6 text-grey-9 q-pa-md") Комментарии ({{ this.book.comments.length }})
-          q-intersection(v-for="comment in book.comments", :key="comment", once, transition="flip-right")
-            q-list
-              q-item(v-ripple)
-                q-item-section
-                  q-item-label(caption lines="1") {{ comment.author }}
-                  q-item-label(v-html="comment.body")
-                q-item-section(side)
-                  | {{ comment.created }}
-              q-separator(spaced inset)
+          q-separator
 
-          q-card-section(class="text-black")
-            q-editor(v-model="new_comment", text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="primary")
-            q-btn(text-color="white" color="primary" label="Добавить комментарий" @click="addComment")
+          q-card-section
+            div(class="text-h6 text-grey-9 q-pa-md") Комментарии ({{ this.book.comments.length }})
+            q-intersection(v-for="comment in book.comments", :key="comment", once, transition="flip-right")
+              q-list
+                q-item(v-ripple)
+                  q-item-section
+                    q-item-label(caption lines="1") {{ comment.author }}
+                    q-item-label(v-html="comment.body")
+                  q-item-section(side)
+                    | {{ comment.created }}
+                q-separator(spaced inset)
+
+            q-card-section(class="text-black")
+              q-editor(v-model="new_comment", text-color="black", toolbar-text-color="white", toolbar-toggle-color="black", toolbar-bg="primary")
+              q-btn(text-color="white" color="primary" label="Добавить комментарий" @click="addComment")
 </template>
 
 <script>

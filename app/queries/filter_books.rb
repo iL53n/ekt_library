@@ -66,21 +66,21 @@ class FilterBooks
   end
 
   def new
-    initial_scope.sort_by(&:created_at).last(QUANTITY_INDEX)
+    initial_scope.sort_by(&:created_at).uniq.last(QUANTITY_INDEX)
   end
 
   def popular
     books = initial_scope.joins(:posts).where(posts: { title: 'reading', active: false })
-    books.sort_by(&:calculate_readed).last(QUANTITY_INDEX)
+    books.sort_by(&:calculate_readed).uniq.last(QUANTITY_INDEX)
   end
 
   def top
     books = initial_scope.joins(:ratings).where.not(ratings: nil)
-    books.sort_by(&:calculate_rating).last(QUANTITY_INDEX)
+    books.sort_by(&:calculate_rating).uniq.last(QUANTITY_INDEX)
   end
 
   def commented
     books = initial_scope.joins(:comments).where.not(comments: nil)
-    books.sort_by(&:calculate_commented).last(QUANTITY_INDEX)
+    books.sort_by(&:calculate_commented).uniq.last(QUANTITY_INDEX)
   end
 end

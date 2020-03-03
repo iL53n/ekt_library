@@ -64,7 +64,7 @@
                     q-icon(name="star")
                     //q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="book.current_rating")
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px")
+                  q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
 
@@ -77,7 +77,7 @@
                   q-badge(color="grey" floating) {{ book.comments.length }}
                     q-icon(name="chat_bubble_outline")
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px")
+                  q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
         router-view(@refresh-list="fetchBooks")
