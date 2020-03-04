@@ -7,7 +7,7 @@ class BooksController < ApplicationController
     filter_books = FilterBooks.new(Book.all, current_user, params)
     @books = filter_books.call(filter_permitted_params)
 
-    render json: @books
+    render json: @books, root: 'books'
   end
 
   def create

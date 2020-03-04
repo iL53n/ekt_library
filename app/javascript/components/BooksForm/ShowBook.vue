@@ -21,13 +21,13 @@
         div(class="q-pa-md")
           q-card-section
             q-item
-              q-img(:src="this.book.image_src" style="max-width: 350px")
+              q-img(:src="this.book.image_src" class="shadow-20" style="max-width: 350px")
                 div(style="border-radius: 50%")
                   q-btn(name="add_to_wish" round flat text-color="white" size="20px" icon="favorite_border" @click="addWish()")
               q-card-section(align="middle")
                 q-card-section
-                  div(class="text-h3") {{ this.book.title }}
-                  div(class="text-h5 text-grey-9") {{ this.book.author }}
+                  div(class="text-h5") {{ this.book.title }}
+                  div(class="text-body1 text-grey-9") {{ this.book.author }}
                 q-card-section
                   q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
                   q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
