@@ -9,26 +9,35 @@
       div(v-else)
         div
           q-carousel(
-            v-model="slide"
-            transition-prev="scale"
-            transition-next="scale"
             animated
-            control-color="primary"
+            v-model="slide"
             navigation
-            padding
+            infinite
             autoplay
             arrows
+            transition-prev="scale"
+            transition-next="scale"
+            control-color="primary"
+            padding
             height="323px"
             class="bg-white text-primary"
             )
             q-carousel-slide(:name="1" class="column no-wrap flex-center")
               div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
-                q-img(class="rounded-borders col-2 full-height",
+                q-img(class="rounded-borders col-2 full-height scale",
                       src="https://cache3.youla.io/files/images/720_720_out/5c/bb/5cbb6cbb80e08e40e62bf842.jpg")
-            //q-carousel-slide(:name="2" class="column no-wrap flex-center")
+                q-item(align="middle")
+                  q-item-section
+                    div(class="text-h2") Здесь могла быть ваша цитата, объявление, ну или картинка...
+                    div(class="text-h5 text-grey-9") ...и еще много, много, много текста... пусть Татьяна Михайловна придумает :)
+            q-carousel-slide(:name="2" class="column no-wrap flex-center")
               div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
-              q-icon(name="style" size="56px")
-              div(class="q-mt-md text-center") 2 text text text text text text text text text text text text
+                q-img(class="rounded-borders col-2 full-height scale",
+                  src="https://cache3.youla.io/files/images/720_720_out/5c/bb/5cbb6cbb80e08e40e62bf842.jpg")
+                q-item(align="middle")
+                  q-item-section
+                    div(class="text-h2") Здесь могла быть ваша цитата, объявление, ну или картинка...
+                    div(class="text-h5 text-grey-9") ...и еще много, много, много текста... пусть Татьяна Михайловна придумает :)
 
           q-toolbar(class="bg-green-3")
             q-toolbar-title(align="middle") Новинки
@@ -80,7 +89,7 @@
                   q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
                     div(class="text-body2") {{ book.description }}
-        router-view(@refresh-list="fetchBooks")
+        router-view(@add-comment="fetchBooks" @add-vote="fetchBooks")
 
 </template>
 

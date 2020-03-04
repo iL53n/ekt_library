@@ -157,6 +157,7 @@
               position: 'top'
             });
             this.getBook()
+            this.$emit('add-vote');
           })
           .catch((error) => {
             console.log(error)
@@ -181,6 +182,7 @@
             });
             this.new_comment = ''
             this.getBook()
+            this.$emit('add-comment');
           })
           .catch((error) => {
             console.log(error);
