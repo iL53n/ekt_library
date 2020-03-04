@@ -18,6 +18,9 @@
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет прочитанных книг :( ")
+            template(v-slot:body-cell-image="props")
+              q-td(align="center")
+                q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
@@ -65,7 +68,6 @@
       fetchBooks() {
         getBooks({ filter: 'readed' })
             .then((response) => {
-              console.log(response.data.books)
               this.data = response.data.books
             })
             .catch((error) => {
