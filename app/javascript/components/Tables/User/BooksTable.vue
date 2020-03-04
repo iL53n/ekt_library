@@ -99,7 +99,7 @@
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
           { name: 'title', align: 'left', label: 'Наименование', field: row => [row.title, row.author], sortable: true },
-          { name: 'rating', label: 'Рейтинг', align: 'center', field: row => row.rating, format: val => '${val}', sortable: true },
+          { name: 'rating', label: 'Рейтинг', align: 'center', field: row => row.rating, sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: 'categories' },
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
           { name: 'user', align: 'center', label: 'Пользователь', field: 'user', sortable: true },

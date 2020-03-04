@@ -49,6 +49,7 @@
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
+          { name: 'start_date_post', align: 'center', label: 'Начал читать', field: 'start_date_post', sortable: true },
         ],
         data: [],
         title: '',

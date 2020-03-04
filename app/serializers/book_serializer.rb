@@ -13,7 +13,8 @@ class BookSerializer < ActiveModel::Serializer
              #:image_name,
              :image,
              :current_rating,
-             :image_src
+             :image_src,
+             :start_date_post
 
   has_many :categories
   has_many :users
@@ -37,4 +38,8 @@ class BookSerializer < ActiveModel::Serializer
   # def image_name
   #   object.image.filename.to_s
   # end
+
+  def start_date_post
+    object.active_post&.created_at&.to_date
+  end
 end
