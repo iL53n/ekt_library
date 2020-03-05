@@ -34,6 +34,9 @@
               q-td(align="center")
                 div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
+            template(v-slot:body-cell-status="props")
+              q-td(align="center")
+                div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
             //template(v-slot:body-cell-wishlist="props")
               q-td
                 q-btn(flat round color="red-5" size="12px" icon="delete_forever" @click="removeWish(props.row)")
@@ -51,6 +54,7 @@
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
           { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
           { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
+          { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
           //{ name: 'wishlist', align: 'center' },
         ],
@@ -59,6 +63,11 @@
         categories: this.getCategories(),
         loading: true,
         ratingModel: 3,
+        status_arr: {
+          'booking': ['Зарезервирована', 'text-blue-grey'],
+          'reading': ['На руках', 'text-grey'],
+          'available': ['Доступна', 'text-green text-weight-bolder']
+        },
         pagination: {
           rowsPerPage: 10
         },
