@@ -33,11 +33,11 @@
             q-carousel-slide(:name="2" class="column no-wrap flex-center")
               div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
                 q-img(class="rounded-borders col-2 full-height scale",
-                  src="https://cache3.youla.io/files/images/720_720_out/5c/bb/5cbb6cbb80e08e40e62bf842.jpg")
+                  src="https://lh3.googleusercontent.com/proxy/CQ5JtcU08KpNcvBp7-z2gHBXJtT7CZnaNWg5-J7ZjP3KUoLPSS0E-wLG_XID1jRgmcnRl7VGAcjxzXhELZnnAzgOh-oOsw0gffW-sICB43MQgsASHkx-N4FUCA")
                 q-item(align="middle")
                   q-item-section
-                    div(class="text-h2") Здесь могла быть ваша цитата, объявление, ну или картинка...
-                    div(class="text-h5 text-grey-9") ...и еще много, много, много текста... пусть Татьяна Михайловна придумает :)
+                    div(class="text-h2") Еще поле для творчества... таких может быть бесконечно много!
+                    div(class="text-h5 text-grey-9") ...текст, текст, еще текст... думаем, девочки, думаем! :)
 
           q-toolbar(class="bg-green-3")
             q-toolbar-title(align="middle") Новинки

@@ -55,29 +55,29 @@
         get() {
           return this.$store.state.currentUser
         },
-        set(value) {
-          this.$store.commit('updateCurrentUser', value)
-        }
+        // set(value) {
+        //   this.$store.commit('updateCurrentUser', value)
+        // }
       }
     },
-		created() {
-			this.fetchUser();
-		},
-		methods: {
-			fetchUser() {
-				currentUser()
-					.then((response) => {
-						this.user = response.data.user
-					})
-					.catch((error) => {
-						console.log(error);
-						this.error = true
-					})
-					.finally(() => {
-						this.loading = false
-					});
-			}
-		},
+		// created() {
+		// 	this.fetchUser();
+		// },
+		// methods: {
+		// 	fetchUser() {
+		// 		currentUser()
+		// 			.then((response) => {
+		// 				this.user = response.data.user
+		// 			})
+		// 			.catch((error) => {
+		// 				console.log(error);
+		// 				this.error = true
+		// 			})
+		// 			.finally(() => {
+		// 				this.loading = false
+		// 			});
+		// 	}
+		// },
 		components: {
 		}
 	}
