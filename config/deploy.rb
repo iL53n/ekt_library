@@ -1,5 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.12.1"
+# set :rvm_type, :user
+# set :rvm_ruby_version, '2.6.3'
 
 set :application, "ekt_library"
 set :repo_url, "git@github.com:iL53n/ekt_library.git"
