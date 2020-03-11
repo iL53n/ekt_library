@@ -44,7 +44,7 @@
           q-card-section
             q-card-section
               span(v-for="category in this.book.categories")
-                q-badge(:label="category.title")
+                q-chip(square color="primary" text-color="white" :label="category.title")
               div(class="text-h6 text-grey-9") Описание:
               div(class="text-body1") {{ this.book.description }}
             q-card-section
