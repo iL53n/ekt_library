@@ -35,6 +35,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'rvm1-capistrano3', require: false
   gem 'capistrano-passenger', require: false
 end
 
