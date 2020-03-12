@@ -10,6 +10,7 @@ gem 'devise'
 gem 'image_processing'
 gem 'jbuilder', '~> 2.5'
 gem 'mini_magick'
+gem 'mini_racer'
 gem 'oj'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
@@ -18,7 +19,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker', '~> 4.x'
-gem 'mini_racer'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
