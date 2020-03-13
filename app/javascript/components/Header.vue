@@ -3,10 +3,11 @@
     q-header(elevated class="bg-primary text-white" view="hHh lpR fFf" container)
       q-toolbar(class="toolbar")
         q-btn(flat round dense icon="menu" @click="left = !left")
+        q-item
         a(href="/")
-          img(src="../images/Logo.png" alt="EKTlibrary" width="50" align="middle")
+          img(src="../images/logo_book_4.png" alt="EKTlibrary" width="60" align="middle")
 
-        q-toolbar-title БИБЛИОТЕКА ЕКТ
+        q-toolbar-title БИБЛИОТЕКА
           q-badge(align="top" color="orange") v1.0.0b
 
         //div(class="toolbar-input-container justify-center")
