@@ -163,19 +163,7 @@
 					});
       },
       returnBook(book) {
-        closeBook(book)
-          .then((response) => {
-            this.fetchBooks();
-            Notify.create({
-              message: "Книга '" + book.title + "' возвращена!",
-              color: 'positive',
-              position: 'top'
-            })
-          })
-          .catch((error) => {
-            console.log(error);
-            this.error = true
-          });
+        this.$router.push({ name: 'voteBook', params: { id: book.id } })
       },
       newBook() {
 				this.$router.push({ name: 'createBook'})
@@ -188,6 +176,9 @@
       },
       giveOutBook(book) {
         this.$router.push({ name: 'giveOutBook', params: { id: book.id } })
+      },
+      voteBook(book) {
+        this.$router.push({ name: 'voteBook', params: { id: book.id } })
       },
       deleteBook(book) {
         this.$q.dialog({
