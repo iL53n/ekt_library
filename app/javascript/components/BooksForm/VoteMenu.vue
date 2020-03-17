@@ -11,7 +11,7 @@
           q-card-section(class="q-gutter-y-md column")
             q-item-section
             h2 {{ this.book.title }}
-            div(align="center")
+            div(v-if="visible" align="center")
               q-rating(
                 size="4em"
                 color="orange"
@@ -55,7 +55,8 @@
         book: this.getBook(),
         input_rating: '',
         errors: {},
-        hide: true
+        hide: true,
+        visible: true
       }
     },
     created() {
@@ -85,6 +86,7 @@
               color: 'positive',
               position: 'top'
             });
+            this.visible = false;
             this.$emit('refresh-list');
           })
           .catch((error) => {
@@ -94,6 +96,7 @@
               color: 'negative',
               position: 'top'
             });
+            this.visible = false;
             this.input_rating = ''
           })
           .finally(() => {
