@@ -24,6 +24,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 3.8'
+  gem 'rubocop', require: false
 end
 
 group :development do
@@ -49,6 +50,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'webdrivers'
+  gem 'fuubar'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
