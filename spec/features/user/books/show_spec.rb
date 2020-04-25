@@ -55,7 +55,7 @@ feature 'User can see show books form', %q{
       expect(page).to have_content book.title.upcase
     end
 
-    scenario 'can cast a vote' do
+    xscenario 'can cast a vote' do
       within '.q-card' do
         first('.q-rating__icon').click
         expect(page).to have_content 'Оценки 1'
@@ -63,7 +63,7 @@ feature 'User can see show books form', %q{
       expect(page).to have_content 'Ваша оценка 1'
     end
 
-    scenario 'can not cast a vote again' do
+    xscenario 'can not cast a vote again' do
       within '.q-card' do
         first('.q-rating__icon').click
         first('.q-rating__icon').click
