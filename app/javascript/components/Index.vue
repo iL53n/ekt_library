@@ -49,7 +49,7 @@
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
                   q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
-                    div(class="text-body2") {{ book.description }}
+                    div(class="text-body2") {{ book.short_description }}
 
           q-toolbar(class="bg-blue-3")
             q-toolbar-title(align="middle") Популярные книги
@@ -61,7 +61,7 @@
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
                   q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
-                    div(class="text-body2") {{ book.description }}
+                    div(class="text-body2") {{ book.short_description }}
 
           q-toolbar(class="bg-orange-3")
             q-toolbar-title(align="middle") Лучшие оценки
@@ -75,7 +75,7 @@
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
                   q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
-                    div(class="text-body2") {{ book.description }}
+                    div(class="text-body2") {{ book.short_description }}
 
           q-toolbar(class="bg-grey-4")
             q-toolbar-title(align="middle") Самые обсуждаемые
@@ -88,7 +88,7 @@
                   div(class="absolute-bottom text-body1 text-center") {{ book.title }}
                   q-tooltip(:delay="700" anchor="center right" self="center left" content-style="font-size: 12px")
                     div(class="text-h6") {{ book.title }}
-                    div(class="text-body2") {{ book.description }}
+                    div(class="text-body2") {{ book.short_description }}
         router-view(@add-comment="fetchBooks" @add-vote="fetchBooks")
 
 </template>

@@ -28,7 +28,8 @@ class BookSerializer < ActiveModel::Serializer
   end
 
   def short_description
-    object.description.truncate(80)
+    descr = object.description
+    descr.length <= 300 ? descr : descr.slice(0, 297).concat('...')
   end
 
   def image_url
