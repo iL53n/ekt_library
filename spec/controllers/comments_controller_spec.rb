@@ -1,12 +1,25 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe CommentsController, type: :controller do
   before { login(create(:user)) }
 
   describe 'POST #create' do
     let(:book) { create(:book) }
-    let(:request_params) { { method: :post, action: :create, options: { comment: attributes_for(:comment), book_id: book }, format: :json } }
-    let(:request_invalid_params) { { method: :post, action: :create, options: { comment: attributes_for(:comment, :invalid), book_id: book }, format: :json } }
+    let(:request_params) do
+      { method: :post,
+        action: :create,
+        options: { comment: attributes_for(:comment), book_id: book },
+        format: :json }
+    end
+    let(:request_invalid_params) do
+      { method: :post,
+        action: :create,
+        options: { comment: attributes_for(:comment, :invalid), book_id: book },
+        format: :json }
+    end
 
     context 'with valid attributes' do
       it 'return :created' do
@@ -15,7 +28,8 @@ RSpec.describe CommentsController, type: :controller do
       end
 
       it 'save new comment in the database' do
-        expect { do_request(request_params) }.to change(Comment, :count).by(1)
+        expect { do_request(request_params) }
+          .to change(Comment, :count).by(1)
       end
     end
 
@@ -26,8 +40,10 @@ RSpec.describe CommentsController, type: :controller do
       end
 
       it 'does not save new comment in the database' do
-        expect { do_request(request_invalid_params) }.to_not change(Comment, :count)
+        expect { do_request(request_invalid_params) }
+          .to_not change(Comment, :count)
       end
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
