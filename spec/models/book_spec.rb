@@ -30,10 +30,18 @@ RSpec.describe Book, type: :model do
     end
 
     it '#calculate_rating' do
-      book.ratings.create(value: 5, user: (create :user))
-      book.ratings.create(value: 3, user: (create :user))
-      book.ratings.create(value: 1, user: (create :user))
-      expect(book.calculate_rating).to eq(3)
+      1.upto(3) { |num| create(:rating, value: num, book: book) }
+      expect(book.calculate_rating).to eq(2)
+    end
+
+    it '#calculate_readed' do
+      5.times { create(:post, :readed, book: book) }
+      expect(book.calculate_readed).to eq(5)
+    end
+
+    it '#calculate_commented' do
+      5.times { create(:comment, book: book) }
+      expect(book.calculate_commented).to eq(5)
     end
 
     it '#available?' do

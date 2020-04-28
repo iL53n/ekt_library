@@ -13,5 +13,10 @@ FactoryBot.define do
     trait :invalid do
       title { nil }
     end
+
+    trait :readed do
+      title { 'reading' }
+      active { false }
+    end
   end
 end
