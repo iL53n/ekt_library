@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Book, type: :model do
   it { should validate_presence_of :title }
   it { should validate_presence_of :author }
@@ -19,7 +22,12 @@ RSpec.describe Book, type: :model do
     let(:book) { create(:book) }
     let(:book_booked) { create(:book) }
     let(:user) { create(:user) }
-    let!(:post_booking) { create(:post, title: 'booking', active: true, book_id: book_booked.id, user_id: user.id) }
+    let!(:post_booking) do
+      create(:post, title: 'booking',
+                    active: true,
+                    book_id: book_booked.id,
+                    user_id: user.id)
+    end
 
     it '#calculate_rating' do
       book.ratings.create(value: 5, user: (create :user))
@@ -48,3 +56,4 @@ RSpec.describe Book, type: :model do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
