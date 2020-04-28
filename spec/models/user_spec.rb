@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -12,7 +14,9 @@ RSpec.describe User, type: :model do
   describe 'Methods' do
     let(:book) { create(:book) }
     let(:user) { create(:user) }
-    let!(:rating) { create(:rating, book_id: book.id, user_id: user.id, value: '5') }
+    let!(:rating) do
+      create(:rating, book_id: book.id, user_id: user.id, value: '5')
+    end
 
     it '#voted(book)' do
       expect(user.voted?(book)).to eq true
