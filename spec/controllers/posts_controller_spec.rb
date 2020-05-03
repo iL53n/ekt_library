@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe PostsController, type: :controller do
   let(:user) { create(:user) }
   before { login(user) }
@@ -21,8 +24,18 @@ RSpec.describe PostsController, type: :controller do
 
   describe 'POST #create' do
     let(:book) { create(:book) }
-    let(:request_params) { { method: :post, action: :create, options: { title: 'reading', book_id: book.id, user_id: user.id }, format: :json } }
-    let(:request_invalid_params) { { method: :post, action: :create, options: { title: '', book_id: book.id, user_id: user.id }, format: :json } }
+    let(:request_params) do
+      { method: :post,
+        action: :create,
+        options: { title: 'reading', book_id: book.id, user_id: user.id },
+        format: :json }
+    end
+    let(:request_invalid_params) do
+      { method: :post,
+        action: :create,
+        options: { title: '', book_id: book.id, user_id: user.id },
+        format: :json }
+    end
 
     context 'callbacks' do
       before { do_request(request_params) }
@@ -49,7 +62,8 @@ RSpec.describe PostsController, type: :controller do
       end
 
       it 'save new post in the database' do
-        expect { do_request(request_params) }.to change(Post, :count).by(1)
+        expect { do_request(request_params) }
+          .to change(Post, :count).by(1)
       end
     end
 
@@ -60,7 +74,8 @@ RSpec.describe PostsController, type: :controller do
       end
 
       it 'does not save new post in the database' do
-        expect { do_request(request_invalid_params) }.to_not change(Post, :count)
+        expect { do_request(request_invalid_params) }
+          .to_not change(Post, :count)
       end
     end
   end
@@ -73,8 +88,15 @@ RSpec.describe PostsController, type: :controller do
     end
 
     let!(:post) { create(:post) }
-    let(:book) { create(:book, status: 'reading', user_id: user.id, posts: [post]) }
-    let(:request_params) { { method: :patch, action: :close_reading_post, options: { book_id: book.id }, format: :json } }
+    let(:book) do
+      create(:book, status: 'reading', user_id: user.id, posts: [post])
+    end
+    let(:request_params) do
+      { method: :patch,
+        action: :close_reading_post,
+        options: { book_id: book.id },
+        format: :json }
+    end
 
     before { do_request(request_params) }
 
@@ -91,3 +113,4 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe CategoriesController, type: :controller do
   before { login(create(:user)) }
 
@@ -21,8 +24,18 @@ RSpec.describe CategoriesController, type: :controller do
   describe 'POST #create' do
     let!(:category) { attributes_for(:category) }
     let!(:category_invalid) { attributes_for(:category, :invalid) }
-    let(:request_params) { { method: :post, action: :create, options: category, format: :json } }
-    let(:request_invalid_params) { { method: :post, action: :create, options: category_invalid, format: :json } }
+    let(:request_params) do
+      { method: :post,
+        action: :create,
+        options: category,
+        format: :json }
+    end
+    let(:request_invalid_params) do
+      { method: :post,
+        action: :create,
+        options: category_invalid,
+        format: :json }
+    end
 
     context 'with valid attributes' do
       it 'return :created' do
@@ -31,7 +44,8 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it 'save new category in the database' do
-        expect { post :create, params: category, format: :js }.to change(Category, :count).by(1)
+        expect { post :create, params: category, format: :js }
+          .to change(Category, :count).by(1)
       end
     end
 
@@ -42,7 +56,8 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it 'does not save new category in the database' do
-        expect { post :create, params: category_invalid, format: :js }.to_not change(Category, :count)
+        expect { post :create, params: category_invalid, format: :js }
+          .to_not change(Category, :count)
       end
     end
   end
@@ -65,18 +80,24 @@ RSpec.describe CategoriesController, type: :controller do
     let!(:category) { create(:category) }
 
     it 'return :success' do
-      patch :update, params: { id: category.id, category: attributes_for(:category) }, format: :json
+      patch :update,
+            params: { id: category.id, category: attributes_for(:category) },
+            format: :json
       expect(response).to have_http_status(:success)
     end
 
     context 'with valid attributes' do
       it 'assigns the requested category to @category' do
-        patch :update, params: { id: category.id, category: attributes_for(:category) }, format: :json
+        patch :update,
+              params: { id: category.id, category: attributes_for(:category) },
+              format: :json
         expect(assigns(:category)).to eq(category)
       end
 
       it 'changes category attributes' do
-        patch :update, params: { id: category.id, title: 'new_title' }, format: :json
+        patch :update,
+              params: { id: category.id, title: 'new_title' },
+              format: :json
         category.reload
 
         expect(category.title).to eq('new_title')
@@ -85,7 +106,10 @@ RSpec.describe CategoriesController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not changes category attributes' do
-        patch :update, params: { id: category.id, category: attributes_for(:category, :invalid) }, format: :json
+        patch :update,
+              params: { id: category.id,
+                        category: attributes_for(:category, :invalid) },
+              format: :json
         category.reload
 
         expect(category.title).to_not eq(nil)
@@ -102,7 +126,9 @@ RSpec.describe CategoriesController, type: :controller do
     end
 
     it 'deletes the category' do
-      expect { delete :destroy, params: { id: category } }.to change(Category, :count).by(-1)
+      expect { delete :destroy, params: { id: category } }
+        .to change(Category, :count).by(-1)
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Users::IndexController, type: :controller do
   let(:admin) { create(:user, admin: 'true') }
   before { login(admin) }
@@ -36,8 +39,12 @@ RSpec.describe Users::IndexController, type: :controller do
   describe 'POST #create' do
     let!(:user) { attributes_for(:user) }
     let!(:user_invalid) { attributes_for(:user, :invalid) }
-    let(:request_params) { { method: :post, action: :create, options: user, format: :json } }
-    let(:request_invalid_params) { { method: :post, action: :create, options: user_invalid, format: :json } }
+    let(:request_params) do
+      { method: :post, action: :create, options: user, format: :json }
+    end
+    let(:request_invalid_params) do
+      { method: :post, action: :create, options: user_invalid, format: :json }
+    end
 
     context 'with valid attributes' do
       it 'return :created' do
@@ -46,7 +53,8 @@ RSpec.describe Users::IndexController, type: :controller do
       end
 
       it 'save new user in the database' do
-        expect { post :create, params: user, format: :js }.to change(User, :count).by(1)
+        expect { post :create, params: user, format: :js }
+          .to change(User, :count).by(1)
       end
     end
 
@@ -57,7 +65,8 @@ RSpec.describe Users::IndexController, type: :controller do
       end
 
       it 'does not save new user in the database' do
-        expect { post :create, params: user_invalid, format: :js }.to_not change(User, :count)
+        expect { post :create, params: user_invalid, format: :js }
+          .to_not change(User, :count)
       end
     end
   end
@@ -80,18 +89,26 @@ RSpec.describe Users::IndexController, type: :controller do
     let!(:user) { create(:user) }
 
     it 'return :success' do
-      patch :update, params: { id: user.id, user: attributes_for(:user) }, format: :json
+      patch :update,
+            params: { id: user.id, user: attributes_for(:user) },
+            format: :json
       expect(response).to have_http_status(:success)
     end
 
     context 'with valid attributes' do
       it 'assigns the requested user to @user' do
-        patch :update, params: { id: user.id, user: attributes_for(:user) }, format: :json
+        patch :update,
+              params: { id: user.id, user: attributes_for(:user) },
+              format: :json
         expect(assigns(:user)).to eq(user)
       end
 
       it 'changes user attributes' do
-        patch :update, params: { id: user.id, first_name: 'new_first_name', email: 'new@test.com' }, format: :json
+        patch :update,
+              params: { id: user.id,
+                        first_name: 'new_first_name',
+                        email: 'new@test.com' },
+              format: :json
         user.reload
 
         expect(user.first_name).to eq('new_first_name')
@@ -101,7 +118,9 @@ RSpec.describe Users::IndexController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not changes user attributes' do
-        patch :update, params: { id: user.id, user: attributes_for(:user, :invalid) }, format: :json
+        patch :update,
+              params: { id: user.id, user: attributes_for(:user, :invalid) },
+              format: :json
         user.reload
 
         expect(user.first_name).to_not eq(nil)
@@ -119,7 +138,9 @@ RSpec.describe Users::IndexController, type: :controller do
     end
 
     it 'deletes the user' do
-      expect { delete :destroy, params: { id: user } }.to change(User, :count).by(-1)
+      expect { delete :destroy, params: { id: user } }
+        .to change(User, :count).by(-1)
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
