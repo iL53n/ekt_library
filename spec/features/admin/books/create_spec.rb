@@ -29,8 +29,9 @@ feature 'Admin can create new book', %q{
 
       all('#Категории').first.click
       find('.q-item__label', text: "#{category.title}").click
-      all('#Статус').first.click
-      find('.q-item__label', text: 'available').click
+      # Add if start status available
+      # all('#Статус').first.click
+      # find('.q-item__label', text: 'available').click
 
       click_on 'СОХРАНИТЬ'
 
