@@ -34,7 +34,8 @@
           q-item(v-close-popup)
             q-item-section
               q-btn(
-                to="/users/sign_out"
+                type="a"
+                href="/users/sign_out"
                 color="primary"
                 size="10px"
                 text-color="white"
