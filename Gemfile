@@ -19,6 +19,10 @@ gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker', '~> 4.x'
 
+# for deploy
+gem 'ed25519', '>= 1.2', '< 2.0'
+gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
@@ -32,6 +36,7 @@ group :development do
   gem 'better_errors'
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
+  gem "capistrano-yarn"
   gem 'capistrano-npm'
   gem 'capistrano-passenger', require: false
   gem 'capistrano-rails', require: false

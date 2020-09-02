@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server "library.ekt.by", user: "gribko", roles: %w{app db web}, primary: true
+server "library.ekt.by", user: "deployer", roles: %w{app db web}, primary: true
 set :rails_env, :production
 
 # Custom SSH Options
@@ -15,9 +15,10 @@ set :rails_env, :production
 # Global options
 # --------------
  set :ssh_options, {
-   keys: %w(/Users/ilyagribko/.ssh/id_rsa),
+   keys: %w(/home/ilsegribko/.ssh/id_rsa),
    forward_agent: true,
-   auth_methods: %w(publickey password)
+   auth_methods: %w(publickey password),
+   port: 2223
  }
 
 # set :ssh_options, {
