@@ -64,6 +64,9 @@
             template(v-slot:body-cell-status="props")
               q-td(align="center")
                 div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
+            template(v-slot:body-cell-count="props")
+              q-td(align="center")
+                | {{ props.row.number_of }} шт.
             template(v-slot:body-cell-user="props")
               q-td(align="center")
                 div(v-if="props.row.active_user")
@@ -94,7 +97,7 @@
     data() {
       return {
         filter: '',
-        visibleColumns: ['id', 'image', 'title', 'author', 'rating', 'categories', 'status', 'user', 'booking', 'wishlist'],
+        visibleColumns: ['id', 'image', 'title', 'author', 'rating', 'categories', 'status', 'count', 'user', 'booking', 'wishlist'],
         columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
@@ -102,6 +105,7 @@
           { name: 'rating', label: 'Рейтинг', align: 'center', field: row => row.rating, sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: 'categories' },
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
+          { name: 'count', align: 'center', label: 'Доступно', field: 'count' },
           { name: 'user', align: 'center', label: 'Пользователь', field: 'user', sortable: true },
           { name: 'booking', align: 'center' },
           { name: 'wishlist', align: 'center' },

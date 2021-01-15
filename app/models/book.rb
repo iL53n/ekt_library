@@ -3,7 +3,8 @@ class Book < ApplicationRecord
   validates :title,
             :author,
             :description,
-            :status, presence: true
+            :status,
+            :number_of, presence: true
 
   has_and_belongs_to_many :categories
   has_one_attached :image
@@ -25,7 +26,8 @@ class Book < ApplicationRecord
   end
 
   def available?
-    !posts.where(active: true).exists?
+    # !posts.where(active: true).exists?
+    self.number_of > 0
   end
 
   def active_user

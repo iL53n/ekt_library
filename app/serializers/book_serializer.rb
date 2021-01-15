@@ -14,7 +14,8 @@ class BookSerializer < ActiveModel::Serializer
              :image,
              :current_rating,
              :image_src,
-             :start_date_post
+             :start_date_post,
+             :number_of
 
   has_many :categories
   has_many :users
