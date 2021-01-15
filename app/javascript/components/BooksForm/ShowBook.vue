@@ -34,6 +34,7 @@
                 q-card-section
                   div(class="text-h5")
                     div(:class="[status_arr[this.book.status][1]]" size="lg") {{ status_arr[this.book.status][0] }}
+                    div(class="text-body1 text-grey-9") В наличии: {{ this.book.number_of }}шт.
                 q-btn-group()
                   div(v-if="this.book.status == 'available'")
                     q-btn(class="text-white bg-green" size="md" icon="bookmark" label="Зарезервировать" @click="bookingBook()")
