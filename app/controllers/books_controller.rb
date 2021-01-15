@@ -55,6 +55,7 @@ class BooksController < ApplicationController
                   :status,
                   :image,
                   :image_src,
+                  :number_of,
                   :category_ids,
                   category_ids: [])
   end

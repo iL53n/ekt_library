@@ -62,6 +62,14 @@
               option-value="id"
               option-label="title"
             )
+            q-input(
+              filled
+              ref="number_of"
+              label="Количество"
+              placeholder="Количество книг(по умолчанию 1шт)"
+              v-model="book.number_of"
+              type="number"
+            )
             q-select(
               filled
               label="Статус"
