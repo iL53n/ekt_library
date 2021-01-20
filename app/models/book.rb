@@ -30,15 +30,28 @@ class Book < ApplicationRecord
     self.number_of > 0
   end
 
-  def active_user
-    active_post&.user
+  # def active_user
+  #   active_post&.user
+  # end
+
+  def active_users
+    active_posts&.map { |post| post.user }
   end
 
-  def active_post
-    posts.where(active: true).first
+  # def active_post
+  #   posts.where(active: true).first
+  # end
+
+  def active_posts
+    posts.where(active: true)
   end
 
-  def close_active_post
-    active_post&.update!(active: false, end_date: Time.now)
+  # def close_active_post
+  #   active_post&.update!(active: false, end_date: Time.now)
+  # end
+
+  def close_active_post(user_id)
+    post = active_posts&.where(user_id: user_id)
+    post.update(active: false, end_date: Time.now)
   end
 end
