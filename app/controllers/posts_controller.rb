@@ -14,8 +14,8 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     @post.user = @user
-    # закрываем старую активную запись(post) к книге, чтобы создать новую(одновременно не может быть более одной активной)
-    @book.close_active_post unless wish?
+    @book.minus_number_of unless wish?
+
     # создаем новую запись к книге
     @post.book = @book
 

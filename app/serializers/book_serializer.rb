@@ -8,13 +8,12 @@ class BookSerializer < ActiveModel::Serializer
              :short_description,
              :status,
              :user_id,
-             :active_user,
+             :active_users,
              :image_url,
              #:image_name,
              :image,
              :current_rating,
              :image_src,
-             :start_date_post,
              :number_of
 
   has_many :categories
@@ -41,7 +40,8 @@ class BookSerializer < ActiveModel::Serializer
   #   object.image.filename.to_s
   # end
 
-  def start_date_post
-    object.active_post&.created_at&.to_date
-  end
+  # ToDo: where we use it?
+  # def start_date_post
+  #   object.active_post&.created_at&.to_date
+  # end
 end

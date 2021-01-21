@@ -54,4 +54,12 @@ class Book < ApplicationRecord
     post = active_posts&.where(user_id: user_id)
     post.update(active: false, end_date: Time.now)
   end
+
+  def plus_number_of
+    self.number_of += 1
+  end
+
+  def minus_number_of
+    self.number_of -= 1
+  end
 end
