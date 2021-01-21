@@ -12,11 +12,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-
     @post.user = @user
-    @book.minus_number_of unless wish?
-
-    # создаем новую запись к книге
     @post.book = @book
 
     if @post.save
@@ -42,7 +38,12 @@ class PostsController < ApplicationController
   end
 
   def update_book
-    @book.update(status: params[:title], user_id: @user.id) unless wish?
+    unless wish?
+      @book.minus_number_of
+
+      status = @book.available? ? 'available' : params[:title]
+      @book.update(status: status, user_id: @user.id)
+    end
   end
 
   def wish?
