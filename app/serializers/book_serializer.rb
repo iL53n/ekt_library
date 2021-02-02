@@ -7,14 +7,19 @@ class BookSerializer < ActiveModel::Serializer
              :description,
              :short_description,
              :status,
+             :booking,
+             :reading,
+             :readed,
+             :all_amount,
              :user_id,
-             :active_user,
+             :active_users,
+             :string_users,
+             :booking_users_str,
              :image_url,
              #:image_name,
              :image,
              :current_rating,
              :image_src,
-             :start_date_post,
              :number_of
 
   has_many :categories
@@ -41,7 +46,29 @@ class BookSerializer < ActiveModel::Serializer
   #   object.image.filename.to_s
   # end
 
-  def start_date_post
-    object.active_post&.created_at&.to_date
+  # ToDo: where we use it?
+  # def start_date_post
+  #   object.active_post&.created_at&.to_date
+  # end
+
+  def string_users
+    arr = []
+
+    object.active_users.each do |user|
+      string_user = "#{user.last_name} #{user.first_name}"
+      arr << string_user
+    end
+
+    arr
+
+    arr.join(', ')
+  end
+
+  def booking_users_str
+    object.booking.map { |post| "#{post.user.last_name} #{post.user.first_name} <#{post.user.email}>" }
+  end
+
+  def status
+    object.available? ? 'available' : 'not_available'
   end
 end

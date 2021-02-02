@@ -11,12 +11,16 @@
           q-card-section(class="q-gutter-y-md column")
             q-item-section
             h2 {{ this.book.title }}
+            q-td(align="center")
+              | Резервы:
+              div(v-for="email in this.book.booking_users_str")
+                q-chip(size="md" icon="bookmark") {{ email }}
             q-select(
               id="Пользователь"
               filled
               label="Пользователь"
               placeholder="Выберите пользователя"
-              v-model="book.active_user"
+              v-model="user"
               :options="users"
               option-value="id"
               :option-label="(user) => [user.last_name, user.first_name]"
@@ -44,6 +48,7 @@
     data: function () {
       return {
         book: this.getBook(),
+        user: false,
         users: this.getUsers(),
         errors: {},
         hide: true
@@ -83,7 +88,7 @@
           });
       },
       giveOutBook() {
-        createPost({ title: 'reading', book_id: this.book.id, user_id: this.book.active_user.id })
+        createPost({ title: 'reading', book_id: this.book.id, user_id: this.user.id })
           .then((response) => {
             // console.log(response.data.book)
             Notify.create({

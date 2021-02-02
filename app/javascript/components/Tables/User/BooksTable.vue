@@ -66,19 +66,13 @@
                 div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
             template(v-slot:body-cell-count="props")
               q-td(align="center")
-                | {{ props.row.number_of }} шт.
-            template(v-slot:body-cell-user="props")
-              q-td(align="center")
-                div(v-if="props.row.active_user")
-                  | {{ props.row.active_user.last_name }} {{ props.row.active_user.first_name }}
+                | {{ props.row.all_amount }} шт.
             template(v-slot:body-cell-booking="props")
               q-td
                 q-btn-group(flat)
-                  div(v-if="props.row.status == 'available'")
+                  div(v-if="props.row.all_amount > 0")
                     q-btn(flat color="white" text-color="primary" size="12px" icon="book" label="Зарезервировать"  @click="bookingBook(props.row)")
-                  div(v-if="props.row.status == 'booking'")
-                    q-btn(flat color="grey" text-color="grey" size="12px" icon="book" label="Зарезервировать" disable)
-                  div(v-if="props.row.status == 'reading'")
+                  div(v-else)
                     q-btn(flat color="grey" text-color="grey" size="12px" icon="book" label="Зарезервировать" disable)
             template(v-slot:body-cell-wishlist="props")
               q-td
@@ -106,14 +100,12 @@
           { name: 'categories', label: 'Категории', align: 'center', field: 'categories' },
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
           { name: 'count', align: 'center', label: 'Доступно', field: 'count' },
-          { name: 'user', align: 'center', label: 'Пользователь', field: 'user', sortable: true },
           { name: 'booking', align: 'center' },
           { name: 'wishlist', align: 'center' },
         ],
         status_arr: {
-          'booking': ['Зарезервирована', 'text-blue-grey'],
-          'reading': ['На руках', 'text-grey'],
-          'available': ['Доступна', 'text-green text-weight-bolder']
+          'not_available':   ['Не доступна', 'text-grey'],
+          'available': ['Доступна',    'text-green']
         },
         data: [],
         title: '',
