@@ -48,9 +48,9 @@
                       q-icon(name="search")
               template(v-slot:body-cell-image="props")
                 q-td(align="center")
-                  q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
+                  q-img(:src="props.row.image_src" style="max-width: 80px" class="scale")
               template(v-slot:body-cell-title="props")
-                q-td(align="left")
+                q-td(align="center")
                   div
                     q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
                       q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
@@ -59,7 +59,7 @@
                     q-chip(square outline color="blue-grey-6" :label="props.row.author")
               template(v-slot:body-cell-rating="props")
                 q-td(align="center")
-                  q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="props.row.current_rating")
+                  q-rating(readonly, size="1.1em", color="orange", icon="star_border", icon-selected="star" v-model="props.row.current_rating")
               template(v-slot:body-cell-categories="props")
                 q-td(align="center")
                   div(v-for="category in props.row.categories")
@@ -69,20 +69,22 @@
                   | {{ status_arr[props.row.status] }}
               template(v-slot:body-cell-count="props")
                 q-td(align="center")
-                  | {{ props.row.number_of }} шт.
-              template(v-slot:body-cell-user="props")
+                  div {{ props.row.number_of }}({{ props.row.all_amount }}) шт.
+              template(v-slot:body-cell-user_booking="props")
                 q-td(align="center")
-                  div(v-if="props.row.active_user")
-                    | {{ props.row.active_user.last_name }} {{ props.row.active_user.first_name }}
+                  div {{ props.row.booking.length }}
+              template(v-slot:body-cell-user_on_hands="props")
+                q-td(align="center")
+                  div {{ props.row.reading.length }}
               template(v-slot:body-cell-booking="props")
                 q-td
                   q-btn-group(flat)
-                    div(v-if="props.row.status == 'available' || props.row.status == 'booking' ")
+                    div(v-if="props.row.all_amount > 0")
                       q-btn(flat color="white" text-color="primary" size="12px" icon="eject" label="Выдать" @click="giveOutBook(props.row)")
-                      q-btn(flat color="white" text-color="grey" size="12px" icon="get_app" label="Вернуть книгу" disable)
-                    div(v-if="props.row.status == 'reading'")
+                      q-btn(flat color="white" text-color="grey" size="12px" icon="get_app" label="Вернуть" disable)
+                    div(v-else)
                       q-btn(flat color="white" text-color="grey" size="12px" icon="eject" label="Выдать" disable)
-                      q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть книгу" @click="returnBook(props.row)")
+                      q-btn(flat color="white" text-color="primary" size="12px" icon="get_app" label="Вернуть" @click="returnBook(props.row)")
               template(v-slot:body-cell-action="props")
                 q-td
                   q-btn(name="Подменю" flat dense color="blue-grey-6" icon="menu_open")
@@ -108,22 +110,23 @@
 		data() {
 			return {
         filter: '',
-        visibleColumns: ['id', 'image', 'title', 'author', 'rating', 'categories', 'status', 'count', 'user', 'booking', 'action'],
+        visibleColumns: ['id', 'image', 'title', 'author', 'rating', 'categories', 'status', 'count', 'user_booking', 'user_on_hands', 'booking', 'action'],
 				columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', align: 'left', label: 'Наименование', field: row => [row.title, row.author], sortable: true },
+          { name: 'title', align: 'center', label: 'Наименование', field: row => [row.title, row.author], sortable: true },
           { name: 'rating', label: 'Рейтинг', align: 'center', field: row => row.rating, format: val => '${val}', sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: 'categories' },
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
-          { name: 'count', align: 'center', label: 'Доступно', field: 'count' },
-          { name: 'user', align: 'center', label: 'Пользователь', field: 'user', sortable: true },
+          { name: 'count', align: 'center', label: 'Всего(Доступно)', field: 'count' },
+          { name: 'user_booking', align: 'center', label: 'Резерв', field: 'user_booking' },
+          { name: 'user_on_hands', align: 'center', label: 'Выдано', field: 'user_on_hands' },
           { name: 'booking', align: 'center' },
 					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
         status_arr: {
-          'booking': 'Зарезервирована',
-          'reading': 'На руках',
+          'booking': 'Не доступна',
+          'reading': 'Не доступна',
           'available': 'Доступна'
         },
 				data: [],
@@ -251,5 +254,15 @@
     white-space: normal;
     color: #555;
     margin-top: 4px;
+  }
+
+  .q-table thead th {
+    width: 40px;
+    white-space: normal;
+  }
+
+  .q-table tbody td {
+    width: 40px;
+    white-space: normal;
   }
 </style>

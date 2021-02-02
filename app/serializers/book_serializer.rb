@@ -7,8 +7,13 @@ class BookSerializer < ActiveModel::Serializer
              :description,
              :short_description,
              :status,
+             :booking,
+             :reading,
+             :readed,
+             :all_amount,
              :user_id,
              :active_users,
+             :string_users,
              :image_url,
              #:image_name,
              :image,
@@ -44,4 +49,17 @@ class BookSerializer < ActiveModel::Serializer
   # def start_date_post
   #   object.active_post&.created_at&.to_date
   # end
+
+  def string_users
+    arr = []
+
+    object.active_users.each do |user|
+      string_user = "#{user.last_name} #{user.first_name}"
+      arr << string_user
+    end
+
+    arr
+
+    arr.join(', ')
+  end
 end

@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :load_user, only: :create
   before_action :load_book, only: %i[create close_reading_post]
-  after_action :update_book, only: :create
+  # after_action :update_book, only: :create
 
   def index
     @posts = Post.all
@@ -16,16 +16,17 @@ class PostsController < ApplicationController
     @post.book = @book
 
     if @post.save
+      @book.close_booking_post(@user.id) if params[:title] == 'reading'
       render json: @post, status: :created
     else
       render json: { errors: @post.errors }, status: :unprocessable_entity
     end
   end
 
-  def close_reading_post
-    @book.update(status: 'available', user_id: nil)
-    @book.close_active_post
-  end
+  # def close_reading_post
+  #   @book.update(status: 'available', user_id: nil)
+  #   @book.close_active_post
+  # end
 
   private
 
@@ -37,18 +38,20 @@ class PostsController < ApplicationController
     @book = Book.find(params[:book_id])
   end
 
-  def update_book
-    unless wish?
-      @book.minus_number_of
+  # def update_book
+  #   unless wish?
+  #     status = @book.available? ? 'available' : params[:title]
+  #     @book.update(status: status, user_id: @user.id)
+  #   end
+  # end
 
-      status = @book.available? ? 'available' : params[:title]
-      @book.update(status: status, user_id: @user.id)
-    end
+  def booking?
+    params[:title] == 'booking'
   end
 
-  def wish?
-    params[:title] == 'wish'
-  end
+  # def wish?
+  #   params[:title] == 'wish'
+  # end
 
   def post_params
     params.permit(:title, :end_date, :active)
