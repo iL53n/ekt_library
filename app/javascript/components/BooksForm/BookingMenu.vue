@@ -11,6 +11,10 @@
           q-card-section(class="q-gutter-y-md column")
             q-item-section
             h2 {{ this.book.title }}
+            q-td(align="center")
+              | Резервы:
+              div(v-for="email in this.book.booking_users_str")
+                q-chip(size="md" icon="bookmark") {{ email }}
             q-select(
               id="Пользователь"
               filled

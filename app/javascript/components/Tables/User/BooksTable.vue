@@ -104,8 +104,7 @@
           { name: 'wishlist', align: 'center' },
         ],
         status_arr: {
-          'booking':   ['Не доступна', 'text-grey'],
-          'reading':   ['Не доступна', 'text-grey'],
+          'not_available':   ['Не доступна', 'text-grey'],
           'available': ['Доступна',    'text-green']
         },
         data: [],

@@ -125,8 +125,7 @@
 					{ name: 'action', align: 'center', field: ['edit', 'delete'] }
         ],
         status_arr: {
-          'booking': 'Не доступна',
-          'reading': 'Не доступна',
+          'not_available': 'Не доступна',
           'available': 'Доступна'
         },
 				data: [],

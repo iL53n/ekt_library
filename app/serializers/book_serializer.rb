@@ -14,6 +14,7 @@ class BookSerializer < ActiveModel::Serializer
              :user_id,
              :active_users,
              :string_users,
+             :booking_users_str,
              :image_url,
              #:image_name,
              :image,
@@ -61,5 +62,13 @@ class BookSerializer < ActiveModel::Serializer
     arr
 
     arr.join(', ')
+  end
+
+  def booking_users_str
+    object.booking.map { |post| "#{post.user.last_name} #{post.user.first_name} <#{post.user.email}>" }
+  end
+
+  def status
+    object.available? ? 'available' : 'not_available'
   end
 end
