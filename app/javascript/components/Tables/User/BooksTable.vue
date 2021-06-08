@@ -45,7 +45,12 @@
             template(v-slot:body-cell-image="props")
               q-td(align="center")
                 //q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
-                q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
+                q-img(
+                  :src="props.row.image_src"
+                  style="max-width: 120px"
+                  class="scale"
+                  @click="showBook(props.row)"
+                  )
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 div
@@ -56,7 +61,15 @@
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
             template(v-slot:body-cell-rating="props")
               q-td(align="center")
-                q-rating(readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star" v-model="props.row.current_rating")
+                q-rating(
+                  v-if="props.row.current_rating !== null"
+                  readonly
+                  size="1.5em"
+                  color="orange"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="props.row.current_rating"
+                  )
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
                 div(v-for="category in props.row.categories")
@@ -91,7 +104,7 @@
     data() {
       return {
         filter: '',
-        visibleColumns: ['id', 'image', 'title', 'author', 'rating', 'categories', 'status', 'count', 'user', 'booking', 'wishlist'],
+        visibleColumns: ['id', 'image', 'title', 'rating', 'categories', 'status', 'count', 'booking', 'wishlist'],
         columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
           { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
@@ -99,24 +112,24 @@
           { name: 'rating', label: 'Рейтинг', align: 'center', field: row => row.rating, sortable: true },
           { name: 'categories', label: 'Категории', align: 'center', field: 'categories' },
           { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
-          { name: 'count', align: 'center', label: 'Доступно', field: 'count' },
+          { name: 'count', align: 'center', label: 'Доступно', field: 'all_amount', sortable: true  },
           { name: 'booking', align: 'center' },
-          { name: 'wishlist', align: 'center' },
+          { name: 'wishlist', align: 'center' }
         ],
         status_arr: {
-          'not_available':   ['Не доступна', 'text-grey'],
-          'available': ['Доступна',    'text-green']
+          'not_available': ['Не доступна', 'text-grey'],
+          'available': ['Доступна', 'text-green']
         },
         data: [],
         title: '',
         select_categories: [],
         categories: this.getCategories(),
         loading: true,
+        error: false,
         pagination: {
           rowsPerPage: 10
         },
       }
-      //error: {}
     },
     created() {
       this.fetchBooks();
@@ -168,7 +181,7 @@
             .catch((error) => {
               this.error = true
               Notify.create({
-                message: "Ошибка: '" + book.errors + "'.",
+                message: "Ошибка: '" + book.error + "'.",
                 color: 'positive',
                 position: 'top'
               })
@@ -184,7 +197,7 @@
             })
             .catch((error) => {
               console.log(error);
-              this.errors = true
+              this.error = true
             })
             .finally(() => {
               this.loading = false

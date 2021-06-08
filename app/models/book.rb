@@ -62,16 +62,11 @@ class Book < ApplicationRecord
     post.update(active: false, end_date: Time.now)
   end
 
-
-
-
   ###
 
   def include_reading?(user_id)
     self.posts.where(user_id: user_id)
   end
-
-
 
   def close_reading(user_id)
     post = active_posts&.where(title: 'reading', active: true, user_id: user_id)
