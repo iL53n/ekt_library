@@ -10,7 +10,7 @@
 
       q-card(class="text-grey-10" style="width: 700px; max-width: 80vw;")
         q-bar(class="bg-primary text-white")
-          div {{ book.author }} - {{ book.title }}
+          div {{ book.short_title }}
 
           q-space
 

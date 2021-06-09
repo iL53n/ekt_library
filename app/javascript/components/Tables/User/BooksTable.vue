@@ -51,7 +51,7 @@
                 q-img(
                   :src="props.row.image_src"
                   style="max-width: 60px"
-                  class="scale"
+                  class="high-scale"
                   @click="showBook(props.row)"
                   )
             // Наименование(название, автор, кол-во коммент)
@@ -79,11 +79,14 @@
                   icon-selected="star"
                   v-model="props.row.current_rating"
                 )
-                q-badge(
+                q-rating(
                   v-else
-                  outline
+                  readonly
+                  size="1.5em"
                   color="grey"
-                  label="Никто еще не оценил книгу"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="props.row.current_rating"
                 )
             // Категории
             template(v-slot:body-cell-categories="props")
@@ -149,15 +152,15 @@
         filter: '',
         visibleColumns: ['id', 'image', 'title', 'rating', 'categories', 'status', 'count', 'booking', 'wishlist'],
         columns: [
-          { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'image', align: 'center', label: 'ОБЛОЖКА', field: 'image' },
-          { name: 'title', align: 'left', label: 'НАИМЕНОВАНИЕ', field: row => [row.title, row.author], sortable: true },
-          { name: 'rating', label: 'РЕЙТИНГ', align: 'center', field: row => row.rating, sortable: true },
-          { name: 'categories', label: 'КАТЕГОРИИ', align: 'center', field: 'categories' },
-          { name: 'status', align: 'center', label: 'СТАТУС', field: 'status', sortable: true },
-          { name: 'count', align: 'center', label: 'ДОСТУПНО', field: 'all_amount', sortable: true  },
-          { name: 'booking', align: 'center' },
-          { name: 'wishlist', align: 'center' }
+          { name: 'id',         align: 'left',   label: 'ID',           field: 'id',                           sortable: true },
+          { name: 'image',      align: 'center', label: 'ОБЛОЖКА',      field: 'image' },
+          { name: 'title',      align: 'left',   label: 'НАИМЕНОВАНИЕ', field: row => [row.title, row.author], sortable: true },
+          { name: 'rating',     align: 'center', label: 'РЕЙТИНГ',      field: row => row.rating,              sortable: true },
+          { name: 'categories', align: 'center', label: 'КАТЕГОРИИ',    field: 'categories' },
+          { name: 'status',     align: 'center', label: 'СТАТУС',       field: 'status',                       sortable: true },
+          { name: 'count',      align: 'center', label: 'ДОСТУПНО',     field: 'all_amount',                   sortable: true },
+          { name: 'booking',    align: 'center' },
+          { name: 'wishlist',   align: 'center' }
         ],
         status_arr: {
           'not_available': ['НЕ ДОСТУПНА', 'text-grey'],
@@ -166,7 +169,7 @@
         data: [],
         title: '',
         select_categories: [],
-        categories: [],
+        categories: this.getCategories(),
         loading: true,
         error: false,
         pagination: {
@@ -254,10 +257,11 @@
 </script>
 
 <style>
-  .scale {
+  .high-scale {
     transition: 1s;
   }
-  .scale:hover {
+  .high-scale:hover {
+    box-shadow: 0 0 5px;
     transform: scale(2.5);
     z-index: 10;
   }

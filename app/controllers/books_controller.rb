@@ -4,7 +4,13 @@ class BooksController < ApplicationController
   before_action :load_book, only: %i[show update destroy]
 
   def index
-    filter_books = FilterBooks.new(Book.all, current_user, params)
+    filter_books = FilterBooks.new(Book.includes(:categories,
+                                                 :users,
+                                                 :posts,
+                                                 :comments,
+                                                 :ratings),
+                                   current_user,
+                                   params)
     @books = filter_books.call(filter_permitted_params)
 
     render json: @books, root: 'books'
