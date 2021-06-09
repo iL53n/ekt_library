@@ -17,9 +17,10 @@
             :columns="columns",
             :visible-columns="visibleColumns"
             :pagination.sync="pagination",
-            :rows-per-page-options="[10, 25, 100]",
+            :rows-per-page-options="[25, 100]",
             row-key="id"
             no-data-label="Нет информации о книгах!")
+            // Отбор по категории
             template(v-slot:top-right)
               q-space
               div(style="min-width: 250px; max-width: 400px")
@@ -36,29 +37,37 @@
                   label="Отбор по категории")
                   template(v-if="select_categories" v-slot:append)
                     q-icon(name="cancel" @click.stop="select_categories = null" class="cursor-pointer")
+            // Поиск
             template(v-slot:top-left)
               div(style="width: 250px; max-width: 400px")
                 q-input(debounce="300" v-model="filter" label="Поиск")
                   template(v-slot:append)
                     q-icon(v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer")
                     q-icon(name="search")
+            // Обложка
             template(v-slot:body-cell-image="props")
               q-td(align="center")
                 //q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
                 q-img(
                   :src="props.row.image_src"
-                  style="max-width: 120px"
+                  style="max-width: 60px"
                   class="scale"
                   @click="showBook(props.row)"
                   )
+            // Наименование(название, автор, кол-во коммент)
             template(v-slot:body-cell-title="props")
               q-td(align="left")
                 div
                   q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
                     q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
-                    q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
+                    q-tooltip(
+                      anchor="center right"
+                      self="center left"
+                      content-style="font-size: 12px"
+                    ) {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
+            // Рейтинг
             template(v-slot:body-cell-rating="props")
               q-td(align="center")
                 q-rating(
@@ -69,27 +78,61 @@
                   icon="star_border"
                   icon-selected="star"
                   v-model="props.row.current_rating"
-                  )
+                )
+                q-badge(
+                  v-else
+                  outline
+                  color="grey"
+                  label="Никто еще не оценил книгу"
+                )
+            // Категории
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
                 div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
+            // Статус
             template(v-slot:body-cell-status="props")
               q-td(align="center")
                 div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
+            // Доступно
             template(v-slot:body-cell-count="props")
               q-td(align="center")
                 | {{ props.row.all_amount }} шт.
+            // Управляющие кнопки
             template(v-slot:body-cell-booking="props")
               q-td
                 q-btn-group(flat)
                   div(v-if="props.row.all_amount > 0")
-                    q-btn(flat color="white" text-color="primary" size="12px" icon="book" label="Зарезервировать"  @click="bookingBook(props.row)")
+                    q-btn(
+                      flat color="white"
+                      text-color="primary"
+                      size="12px"
+                      icon="book"
+                      label="Зарезервировать"
+                      @click="bookingBook(props.row)"
+                    )
                   div(v-else)
-                    q-btn(flat color="grey" text-color="grey" size="12px" icon="book" label="Зарезервировать" disable)
+                    q-btn(
+                      flat
+                      color="grey"
+                      text-color="grey"
+                      size="12px"
+                      icon="book"
+                      label="Зарезервировать"
+                      disable
+                    )
+            // Добавить в избранное
             template(v-slot:body-cell-wishlist="props")
               q-td
-                q-btn(name="add_to_wish" flat round color="green-5" size="12px" icon="favorite_border" @click="addWish(props.row)")
+                q-btn(
+                  name="add_to_wish"
+                  flat
+                  round
+                  color="green-5"
+                  size="12px"
+                  icon="favorite_border"
+                  @click="addWish(props.row)"
+                )
         router-view(@refresh-list="fetchBooks")
 </template>
 
@@ -107,23 +150,23 @@
         visibleColumns: ['id', 'image', 'title', 'rating', 'categories', 'status', 'count', 'booking', 'wishlist'],
         columns: [
           { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', align: 'left', label: 'Наименование', field: row => [row.title, row.author], sortable: true },
-          { name: 'rating', label: 'Рейтинг', align: 'center', field: row => row.rating, sortable: true },
-          { name: 'categories', label: 'Категории', align: 'center', field: 'categories' },
-          { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
-          { name: 'count', align: 'center', label: 'Доступно', field: 'all_amount', sortable: true  },
+          { name: 'image', align: 'center', label: 'ОБЛОЖКА', field: 'image' },
+          { name: 'title', align: 'left', label: 'НАИМЕНОВАНИЕ', field: row => [row.title, row.author], sortable: true },
+          { name: 'rating', label: 'РЕЙТИНГ', align: 'center', field: row => row.rating, sortable: true },
+          { name: 'categories', label: 'КАТЕГОРИИ', align: 'center', field: 'categories' },
+          { name: 'status', align: 'center', label: 'СТАТУС', field: 'status', sortable: true },
+          { name: 'count', align: 'center', label: 'ДОСТУПНО', field: 'all_amount', sortable: true  },
           { name: 'booking', align: 'center' },
           { name: 'wishlist', align: 'center' }
         ],
         status_arr: {
-          'not_available': ['Не доступна', 'text-grey'],
-          'available': ['Доступна', 'text-green']
+          'not_available': ['НЕ ДОСТУПНА', 'text-grey'],
+          'available': ['ДОСТУПНА', 'text-green']
         },
         data: [],
         title: '',
         select_categories: [],
-        categories: this.getCategories(),
+        categories: [],
         loading: true,
         error: false,
         pagination: {
@@ -198,9 +241,6 @@
             .catch((error) => {
               console.log(error);
               this.error = true
-            })
-            .finally(() => {
-              this.loading = false
             });
       },
     },
@@ -215,9 +255,10 @@
 
 <style>
   .scale {
-    transition: 1s; /* Время эффекта */
+    transition: 1s;
   }
   .scale:hover {
-    transform: scale(1.07); /* Увеличиваем масштаб */
+    transform: scale(2.5);
+    z-index: 10;
   }
 </style>
