@@ -32,7 +32,8 @@ class Book < ApplicationRecord
 
   # calculating
   def all_amount
-    number_of - (booking.count + reading.count)
+    # number_of - (booking.count + reading.count)
+    number_of - reading.count
   end
 
   def calculate_rating

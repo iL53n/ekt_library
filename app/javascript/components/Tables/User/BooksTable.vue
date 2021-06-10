@@ -17,7 +17,7 @@
             :columns="columns",
             :visible-columns="visibleColumns"
             :pagination.sync="pagination",
-            :rows-per-page-options="[25, 100]",
+            :rows-per-page-options="[25, 50, 100]",
             row-key="id"
             no-data-label="Нет информации о книгах!")
             // Отбор по категории
@@ -50,7 +50,7 @@
                 //q-img(v-bind:src="props.row.image_url" style="height: 140px; max-width: 150px")
                 q-img(
                   :src="props.row.image_src"
-                  style="max-width: 60px"
+                  style="max-width: 60px; box-shadow: 0 0 5px;"
                   class="high-scale"
                   @click="showBook(props.row)"
                   )
@@ -101,6 +101,10 @@
             template(v-slot:body-cell-count="props")
               q-td(align="center")
                 | {{ props.row.all_amount }} шт.
+              //div(class="q-pa-md q-gutter-sm")
+              //  q-chip
+              //    q-avatar(size="lg" color="teal" text-color="white") {{ props.row.all_amount }}
+              //    | шт.
             // Управляющие кнопки
             template(v-slot:body-cell-booking="props")
               q-td
@@ -126,14 +130,14 @@
                     )
             // Добавить в избранное
             template(v-slot:body-cell-wishlist="props")
-              q-td
+              q-td(align="center")
                 q-btn(
                   name="add_to_wish"
                   flat
                   round
                   color="green-5"
                   size="12px"
-                  icon="favorite_border"
+                  icon="favorite"
                   @click="addWish(props.row)"
                 )
         router-view(@refresh-list="fetchBooks")
@@ -174,7 +178,7 @@
         loading: true,
         error: false,
         pagination: {
-          rowsPerPage: 10
+          rowsPerPage: 25
         },
       }
     },
@@ -262,7 +266,6 @@
     transition: 1s;
   }
   .high-scale:hover {
-    box-shadow: 0 0 5px;
     transform: scale(2.5);
     z-index: 10;
   }
