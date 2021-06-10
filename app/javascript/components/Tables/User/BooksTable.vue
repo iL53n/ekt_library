@@ -86,7 +86,7 @@
                   color="grey"
                   icon="star_border"
                   icon-selected="star"
-                  v-model="props.row.current_rating"
+                  v-model="null_rating"
                 )
             // Категории
             template(v-slot:body-cell-categories="props")
@@ -153,10 +153,10 @@
         visibleColumns: ['id', 'image', 'title', 'rating', 'categories', 'status', 'count', 'booking', 'wishlist'],
         columns: [
           { name: 'id',         align: 'left',   label: 'ID',           field: 'id',                           sortable: true },
-          { name: 'image',      align: 'center', label: 'ОБЛОЖКА',      field: 'image' },
+          { name: 'image',      align: 'center', label: 'ОБЛОЖКА',      field: 'image'                                        },
           { name: 'title',      align: 'left',   label: 'НАИМЕНОВАНИЕ', field: row => [row.title, row.author], sortable: true },
-          { name: 'rating',     align: 'center', label: 'РЕЙТИНГ',      field: row => row.rating,              sortable: true },
-          { name: 'categories', align: 'center', label: 'КАТЕГОРИИ',    field: 'categories' },
+          { name: 'rating',     align: 'center', label: 'РЕЙТИНГ',      field: row => row.current_rating,      sortable: true },
+          { name: 'categories', align: 'center', label: 'КАТЕГОРИИ',    field: 'categories'                                   },
           { name: 'status',     align: 'center', label: 'СТАТУС',       field: 'status',                       sortable: true },
           { name: 'count',      align: 'center', label: 'ДОСТУПНО',     field: 'all_amount',                   sortable: true },
           { name: 'booking',    align: 'center' },
@@ -170,6 +170,7 @@
         title: '',
         select_categories: [],
         categories: this.getCategories(),
+        null_rating: 0,
         loading: true,
         error: false,
         pagination: {
