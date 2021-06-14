@@ -3,7 +3,6 @@ class PostsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :load_user, only: :create
   before_action :load_book, only: %i[create close_reading_post]
-  # after_action :update_book, only: :create
 
   def index
     @posts = Post.all
@@ -28,6 +27,11 @@ class PostsController < ApplicationController
   #   @book.close_active_post
   # end
 
+  def destroy
+    post = Post.find(params[:id])
+    post.destroy
+  end
+
   private
 
   def load_user
@@ -38,22 +42,7 @@ class PostsController < ApplicationController
     @book = Book.find(params[:book_id])
   end
 
-  # def update_book
-  #   unless wish?
-  #     status = @book.available? ? 'available' : params[:title]
-  #     @book.update(status: status, user_id: @user.id)
-  #   end
-  # end
-
-  def booking?
-    params[:title] == 'booking'
-  end
-
-  # def wish?
-  #   params[:title] == 'wish'
-  # end
-
   def post_params
-    params.permit(:title, :end_date, :active)
+    params.permit(:id, :title, :end_date, :active)
   end
 end

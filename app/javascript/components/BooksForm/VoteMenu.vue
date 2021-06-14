@@ -19,9 +19,6 @@
                 icon-selected="star"
                 v-model="input_rating"
               )
-              div(class="text-subtitle1")
-                | Оценка пользователя:
-                | {{ this.book.active_user.last_name }} {{ this.book.active_user.first_name }}
               div(v-if="input_rating != ''" )
                 q-btn(
                   flat
@@ -54,7 +51,8 @@
       return {
         book: this.getBook(),
         input_rating: '',
-        errors: {},
+        user: false,
+        error: false,
         hide: true,
         visible: true
       }
@@ -67,19 +65,18 @@
       getBook() {
         getBook(this.$route.params.id)
           .then((response) => {
-            // console.log(response.data)
             this.book = response.data.book
           })
           .catch((error) => {
             console.log(error);
-            this.errors = true
+            this.error = true
           })
           .finally(() => {
             this.loading = false
           });
       },
       addVote() {
-        createRating({ value: this.input_rating, book_id: this.book.id, user_id: this.book.active_user.id })
+        createRating({ value: this.input_rating, book_id: this.book.id, user_id: this.user.id })
           .then((response) => {
             Notify.create({
               message: "Добавлена оценка: " + this.input_rating,
@@ -104,7 +101,7 @@
           });
       },
       returnBook() {
-        closeBook(this.book)
+        closeBook({ book_id: this.book.id, user_id: this.user.id })
           .then((response) => {
             Notify.create({
               message: "Книга '" + this.book.title + "' возвращена!",

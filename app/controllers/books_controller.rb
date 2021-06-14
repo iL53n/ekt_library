@@ -5,8 +5,8 @@ class BooksController < ApplicationController
 
   def index
     filter_books = FilterBooks.new(Book.includes(:categories,
-                                                 :users,
                                                  :posts,
+                                                 :users,
                                                  :comments,
                                                  :ratings),
                                    current_user,

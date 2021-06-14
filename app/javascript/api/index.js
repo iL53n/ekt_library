@@ -79,6 +79,10 @@ export function createPost (params) {
 	return axios.post('/posts', params);
 }
 
+export function deletePost (id) {
+	return axios.delete('/posts/' + id);
+}
+
 // comments
 export function createComment (params) {
 	return axios.post('/comments', params);

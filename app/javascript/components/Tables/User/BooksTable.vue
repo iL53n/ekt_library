@@ -100,7 +100,7 @@
             // Доступно
             template(v-slot:body-cell-count="props")
               q-td(align="center")
-                | {{ props.row.all_amount }} шт.
+                | {{ props.row.all_amount_with_booking }} шт.
               //div(class="q-pa-md q-gutter-sm")
               //  q-chip
               //    q-avatar(size="lg" color="teal" text-color="white") {{ props.row.all_amount }}
@@ -109,7 +109,7 @@
             template(v-slot:body-cell-booking="props")
               q-td
                 q-btn-group(flat)
-                  div(v-if="props.row.all_amount > 0")
+                  div(v-if="props.row.all_amount_with_booking > 0")
                     q-btn(
                       flat color="white"
                       text-color="primary"
