@@ -10,7 +10,7 @@
 
       q-card(class="text-grey-10" style="width: 700px; max-width: 80vw;")
         q-bar(class="bg-primary text-white")
-          div {{ this.book.author }} - {{ this.book.title }}
+          div {{ book.short_title }}
 
           q-space
 
@@ -21,45 +21,45 @@
         div(class="q-pa-md")
           q-card-section
             q-item
-              q-img(:src="this.book.image_src" class="shadow-20" style="max-width: 350px")
+              q-img(:src="book.image_src" class="shadow-20" style="max-width: 350px")
                 div(style="border-radius: 50%")
                   q-btn(name="add_to_wish" round flat text-color="white" size="20px" icon="favorite_border" @click="addWish()")
               q-card-section(align="middle")
                 q-card-section
-                  div(class="text-h5") {{ this.book.title }}
-                  div(class="text-body1 text-grey-9") {{ this.book.author }}
+                  div(class="text-h5") {{ book.title }}
+                  div(class="text-body1 text-grey-9") {{ book.author }}
                 q-card-section
-                  q-item-label(caption lines="1") Оценки {{ this.book.ratings.length }}
+                  q-item-label(caption lines="1") Оценки {{ book.ratings.length }}
                   q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
                 q-card-section
                   div(class="text-h5")
-                    div(:class="[status_arr[this.book.status][1]]" size="lg") {{ status_arr[this.book.status][0] }}
-                    div(class="text-body1 text-grey-9") В наличии: {{ this.book.number_of }}шт.
+                    div(:class="[status_arr[book.status][1]]" size="lg") {{ status_arr[book.status][0] }}
+                    div(class="text-body1 text-grey-9") В наличии: {{ book.number_of }}шт.
                 q-btn-group()
-                  div(v-if="this.book.status == 'available'")
+                  div(v-if="book.status == 'available'")
                     q-btn(class="text-white bg-green" size="md" icon="bookmark" label="Зарезервировать" @click="bookingBook()")
-                  div(v-if="this.book.status == 'booking'")
+                  div(v-if="book.status == 'booking'")
                     q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
-                  div(v-if="this.book.status == 'reading'")
+                  div(v-if="book.status == 'reading'")
                     q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
           q-card-section
             q-card-section
-              span(v-for="category in this.book.categories")
+              span(v-for="category in book.categories")
                 q-chip(square color="primary" text-color="white" :label="category.title")
               div(class="text-h6 text-grey-9") Описание:
-              div(class="text-body1") {{ this.book.description }}
+              div(class="text-body1") {{ book.description }}
             q-card-section
-              q-btn(type="a" :href="this.flibusta_link" target="_blank" outline no-caps icon="get_app" label="Flibusta")
+              q-btn(type="a" :href="flibusta_link" target="_blank" outline no-caps icon="get_app" label="Flibusta")
                 q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
                   | Найти и скачать с Флибуста — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 365 395 томов, 645 гигабайт
-              q-btn(type="a" :href="this.librusec_link" target="_blank" outline no-caps icon="get_app" label="Librusec")
+              q-btn(type="a" :href="librusec_link" target="_blank" outline no-caps icon="get_app" label="Librusec")
                 q-tooltip(anchor="bottom right" self="top right" transition-show="scale" transition-hide="scale" content-style="font-size: 12px")
                   | Найти и скачать с Либрусек — бесплатная некоммерческая онлайн-библиотека. Всего книг в библиотеке: 226 000 томов, 374 гигабайт
 
           q-separator
 
           q-card-section
-            div(class="text-h6 text-grey-9 q-pa-md") Комментарии ({{ this.book.comments.length }})
+            div(class="text-h6 text-grey-9 q-pa-md") Комментарии ({{ book.comments.length }})
             q-intersection(v-for="comment in book.comments", :key="comment", once, transition="flip-right")
               q-list
                 q-item(v-ripple)
@@ -80,15 +80,23 @@
   import { Notify } from 'quasar'
 
 	export default {
-		data: function () {
+		data () {
 			return {
-				book: this.getBook(),
+				book: {
+				  title: '',
+          author: '',
+          status: '',
+          image_src: '',
+          ratings: [],
+          comments: []
+        },
         status_arr: {
           'booking': ['Зарезервирована', 'text-blue-grey'],
           'reading': ['На руках', 'text-grey'],
-          'available': ['Доступна', 'text-green text-weight-bolder']
+          'available': ['Доступна', 'text-green text-weight-bolder'],
+          'not_available': ['Не доступна', 'text-grey']
         },
-				errors: {},
+				error: false,
 				hide: true,
         maximizedToggle: false,
         new_comment: '',
@@ -104,17 +112,19 @@
       }
     },
 		created() {
+		  this.getBook();
 		},
 		methods: {
 			getBook() {
 				getBook(this.$route.params.id)
 					.then((response) => {
 						this.book = response.data.book
+            console.log(this.book);
             this.input_rating = this.book.current_rating
 					})
 					.catch((error) => {
 						console.log(error);
-						this.errors = true
+						this.error = true
 					})
 					.finally(() => {
 						this.loading = false
@@ -187,7 +197,7 @@
           })
           .catch((error) => {
             console.log(error);
-            this.errors = true
+            this.error = true
           })
           .finally(() => {
             this.loading = false

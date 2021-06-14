@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   validates :title, presence: true
-  validates :title, inclusion: { in: %w[booking reading readed wish] } # ToDo: why readed?
+  validates :title, inclusion: { in: %w[booking reading wish] }
 
   belongs_to :book
   belongs_to :user

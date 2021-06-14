@@ -168,6 +168,14 @@
 </script>
 
 <style>
+  .scale {
+    transition: 1s;
+  }
+  .scale:hover {
+    box-shadow: 0 0 5px;
+    transform: scale(1.2);
+    z-index: 10;
+  }
   .slider {
     text-align: right;
     padding: 24px;

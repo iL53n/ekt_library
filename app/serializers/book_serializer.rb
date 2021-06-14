@@ -3,6 +3,7 @@ class BookSerializer < ActiveModel::Serializer
 
   attributes :id,
              :title,
+             :short_title,
              :author,
              :description,
              :short_description,
@@ -14,7 +15,6 @@ class BookSerializer < ActiveModel::Serializer
              :user_id,
              :active_users,
              :string_users,
-             :booking_users_str,
              :image_url,
              #:image_name,
              :image,
@@ -25,17 +25,22 @@ class BookSerializer < ActiveModel::Serializer
   has_many :categories
   has_many :users
   has_many :posts
-  has_one :image
+  has_one  :image
   has_many :comments, serializer: CommentSerializer
   has_many :ratings
 
-  def current_rating
-    object.calculate_rating
+  def short_title
+    title = object.title.length <= 45 ? object.title : object.title.slice(0, 42).concat('...')
+    "#{object.author} - #{title}"
   end
 
   def short_description
     descr = object.description
     descr.length <= 300 ? descr : descr.slice(0, 297).concat('...')
+  end
+
+  def current_rating
+    object.calculate_rating
   end
 
   def image_url
@@ -62,10 +67,6 @@ class BookSerializer < ActiveModel::Serializer
     arr
 
     arr.join(', ')
-  end
-
-  def booking_users_str
-    object.booking.map { |post| "#{post.user.last_name} #{post.user.first_name} <#{post.user.email}>" }
   end
 
   def status

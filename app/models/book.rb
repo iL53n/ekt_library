@@ -13,6 +13,20 @@ class Book < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :ratings, dependent: :destroy
 
+  #
+  def close_booking_post(user_id)
+    active_booking_posts = active_posts&.where(title: 'booking', user_id: user_id)
+    active_booking_posts&.each { |p| p.update!(active: false, end_date: Time.now) }
+  end
+
+  def reading_users
+    reading&.map { |post| post.user }
+  end
+  # # data
+  # def booking_users_str
+  #   booking.map { |post| "#{post.user.last_name} #{post.user.first_name} \" #{post.created_at.to_date} \"" }
+  # end
+
   # scopes_by_status
   def booking
     scope_by_status('booking', true)
@@ -32,6 +46,10 @@ class Book < ApplicationRecord
 
   # calculating
   def all_amount
+    number_of - reading.count
+  end
+
+  def all_amount_with_booking
     number_of - (booking.count + reading.count)
   end
 
@@ -53,25 +71,11 @@ class Book < ApplicationRecord
     self.all_amount > 0
   end
 
-  def include_booking?(user_id) # if we want blocker any booking post
-    posts.where(user_id: user_id)
-  end
-
-  def close_booking_post(user_id)
-    post = active_posts&.where(title: 'booking', active: true, user_id: user_id)
-    post.update(active: false, end_date: Time.now)
-  end
-
-
-
-
   ###
 
   def include_reading?(user_id)
     self.posts.where(user_id: user_id)
   end
-
-
 
   def close_reading(user_id)
     post = active_posts&.where(title: 'reading', active: true, user_id: user_id)

@@ -29,7 +29,6 @@
 
 .idea
 
-
 /public/packs
 /public/packs-test
 yarn-debug.log*
