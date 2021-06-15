@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   before_action :load_user, only: :create
-  before_action :load_book, only: %i[create close_reading_post]
+  before_action :load_book, only: :create
+  before_action :load_post, only: %i[close_reading_post destroy]
 
   def index
     @posts = Post.all
@@ -22,17 +23,19 @@ class PostsController < ApplicationController
     end
   end
 
-  # def close_reading_post
-  #   @book.update(status: 'available', user_id: nil)
-  #   @book.close_active_post
-  # end
+  def close_reading_post
+    @post&.update!(active: false, end_date: Time.now)
+  end
 
   def destroy
-    post = Post.find(params[:id])
-    post.destroy
+    @post.destroy
   end
 
   private
+
+  def load_post
+    @post = Post.find(params[:post_id])
+  end
 
   def load_user
     @user = params[:user_id].nil? ? current_user : User.find(params[:user_id])

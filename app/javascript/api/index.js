@@ -46,10 +46,6 @@ export function deleteBook (id) {
 	return axios.delete('/books/' + id);
 }
 
-export function closeBook (book) {
-	return axios.patch('/books/' + book.id + '/readed');
-}
-
 // categories
 export function getCategories () {
 	return axios.get('/categories');
@@ -81,6 +77,10 @@ export function createPost (params) {
 
 export function deletePost (id) {
 	return axios.delete('/posts/' + id);
+}
+
+export function closePost (id) {
+	return axios.patch('/posts/' + id + '/readed');
 }
 
 // comments

@@ -13,7 +13,8 @@
             div(class="text-subtitle2") {{ book.author }}
           q-separator
           q-card-section(align="center")
-            div(class="text-h6" v-show="book.booking.length !== 0") Резервы({{ book.booking.length }}):
+            div(class="text-subtitle1") Всего доступно книг: {{ book.all_amount }}
+            div(class="text-subtitle1" v-show="book.booking.length !== 0") Из них резервы({{ book.booking.length }}):
             div(v-for="post in book.booking")
               q-chip(removable size="md" icon="perm_identity" @remove="deletePost(post)")
                 | {{ (users.find(user => user.id === post.user_id)).full_name_str }} -- {{ new Date(post.created_at).toDateString() }}
@@ -29,6 +30,7 @@
               :options="users"
               option-value="id"
               :option-label="(user) => [user.last_name + ' ' + user.first_name]"
+              v-show="book.booking.all_amount !== 0"
             )
           q-card-actions
             q-btn(
@@ -37,6 +39,7 @@
               @click="giveOutBook"
               type="submit"
               v-close-popup="hide"
+              v-show="book.booking.all_amount !== 0"
             )
             q-btn(
               flat
@@ -47,7 +50,7 @@
 </template>
 
 <script>
-import {getBook, getUsers, createPost, deletePost, deleteBook} from '../../api'
+import {getBook, getUsers, createPost, deletePost} from '../../api'
   import { Notify } from 'quasar'
 
   export default {

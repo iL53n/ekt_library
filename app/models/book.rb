@@ -50,7 +50,11 @@ class Book < ApplicationRecord
   end
 
   def all_amount_with_booking
-    number_of - (booking.count + reading.count)
+    number_of - not_available
+  end
+
+  def not_available
+    booking.count + reading.count
   end
 
   def calculate_rating
@@ -94,8 +98,8 @@ class Book < ApplicationRecord
   #   active_post&.update!(active: false, end_date: Time.now)
   # end
 
-  def close_active_post(user_id)
-    post = active_posts&.where(user_id: user_id)
-    post.update(active: false, end_date: Time.now)
-  end
+  # def close_active_post(user_id)
+  #   post = active_posts&.where(user_id: user_id)
+  #   post.update(active: false, end_date: Time.now)
+  # end
 end

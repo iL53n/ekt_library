@@ -109,7 +109,8 @@
             template(v-slot:body-cell-booking="props")
               q-td
                 q-btn-group(flat)
-                  div(v-if="props.row.all_amount_with_booking > 0")
+                  div
+                    | {{ props.row.all_amount_wb }}
                     q-btn(
                       flat color="white"
                       text-color="primary"
@@ -117,16 +118,7 @@
                       icon="book"
                       label="Зарезервировать"
                       @click="bookingBook(props.row)"
-                    )
-                  div(v-else)
-                    q-btn(
-                      flat
-                      color="grey"
-                      text-color="grey"
-                      size="12px"
-                      icon="book"
-                      label="Зарезервировать"
-                      disable
+                      :disabled="props.row.all_amount_with_booking <= 0"
                     )
             // Добавить в избранное
             template(v-slot:body-cell-wishlist="props")

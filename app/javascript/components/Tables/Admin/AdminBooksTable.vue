@@ -119,8 +119,7 @@
               template(v-slot:body-cell-booking="props")
                 q-td
                   q-btn-group(flat)
-                    // ToDO: Поправить
-                    div(v-if="props.row.all_amount > 0")
+                    div
                       q-btn(
                         flat
                         color="white"
@@ -129,25 +128,7 @@
                         icon="eject"
                         label="Выдать"
                         @click="giveOutBook(props.row)"
-                      )
-                      q-btn(
-                        flat
-                        color="white"
-                        text-color="grey"
-                        size="11px"
-                        icon="get_app"
-                        label="Вернуть"
-                        disable
-                      )
-                    div(v-else)
-                      q-btn(
-                        flat
-                        color="white"
-                        text-color="grey"
-                        size="11px"
-                        icon="eject"
-                        label="Выдать"
-                        disable
+                        :disabled="props.row.all_amount === 0"
                       )
                       q-btn(
                         flat
@@ -157,6 +138,7 @@
                         icon="get_app"
                         label="Вернуть"
                         @click="returnBook(props.row)"
+                        :disabled="props.row.reading.length === 0"
                       )
               // Подменю - редактирование, удаление
               template(v-slot:body-cell-action="props")

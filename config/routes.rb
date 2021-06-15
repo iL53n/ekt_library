@@ -10,11 +10,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :books do
+  resources :posts do
     patch :readed, to: 'posts#close_reading_post'
   end
 
-  resources :posts
+  resources :books
   resources :categories
   resources :comments, only: :create
   resources :ratings, only: :create
