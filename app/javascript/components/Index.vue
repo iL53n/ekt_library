@@ -11,37 +11,44 @@
           q-carousel(
             animated
             v-model="slide"
-            navigation
             infinite
-            autoplay
             arrows
+            padding
             transition-prev="scale"
             transition-next="scale"
             control-color="primary"
-            padding
             height="323px"
             class="bg-white text-primary"
             )
             q-carousel-slide(:name="1" class="column no-wrap flex-center")
-              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
-                q-img(class="rounded-borders col-2 full-height scale",
-                  src="https://cache3.youla.io/files/images/720_720_out/5c/bb/5cbb6cbb80e08e40e62bf842.jpg")
-                q-item(align="middle")
+              div(class="row fit justify-end items-center q-gutter-xs q-col-gutter no-wrap")
+                q-item(align="left")
                   q-item-section
-                    div(class="text-h2") Здесь могла быть ваша цитата, объявление, ну или картинка...
-                    div(class="text-h5 text-grey-9") ...и еще много, много, много текста... текст, текст, много текста :)
+                    div(class="text-h3 text-green-7") "Там,где есть книга,
+                    div(class="text-h5 text-grey-9") человек уже не остаётся наедине с самим собой, в четырех стенах своего кругозора, он приобщается ко всем свершениям прошлого и настоящего."©
+                    div(class="text-h5 text-green-7" align="right") Стефан Цвейг
+                q-img(:src="require('../images/slide_1.png')" class="full-height")
             q-carousel-slide(:name="2" class="column no-wrap flex-center")
-              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
-                q-img(class="rounded-borders col-2 full-height scale",
-                  src="https://cache3.youla.io/files/images/720_720_out/5c/bb/5cbb6cbb80e08e40e62bf842.jpg")
-                q-item(align="middle")
+              div(class="row fit justify-between items-center q-gutter-xs q-col-gutter no-wrap")
+                q-img(:src="require('../images/slide_2 (left).png')" class="full-height")
+                q-item(align="left")
                   q-item-section
-                    div(class="text-h2") Еще поле для творчества... таких может быть бесконечно много!
-                    div(class="text-h5 text-grey-9") ...и еще много, много, много текста... текст, текст, много текста :)
+                    div(class="text-h3 text-light-blue-8") "Все хорошие книги,
+                    div(class="text-h5 text-grey-9") сходны в одном, - когда вы дочитаете до конца, вам кажется, что все это случилось с вами, и так оно при вас и останется: хорошее или плохое, восторги, печали и сожаления, люди и места, и какая была погода."©
+                    div(class="text-h5 text-light-blue-8" align="right") Эрнест М. Хемингуэй
+                q-img(:src="require('../images/slide_2 (right).png')"  class="full-height")
+            q-carousel-slide(:name="3" class="column no-wrap flex-center")
+              div(class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap")
+                q-img(:src="require('../images/slide_3.png')"  class="full-height")
+                q-item(align="right")
+                  q-item-section
+                    div(class="text-h3 text-orange-10") "Скажи, что ты читаешь,
+                    div(class="text-h5 text-grey-9") и я скажу, кто ты", - это верно. Но я лучше узнаю тебя, если ты скажешь, что ты перечитываешь.©
+                    div(class="text-h5 text-orange-10" align="right") Франсуа Мориак
 
           q-toolbar(class="bg-green-3")
             q-toolbar-title(align="middle") Новинки
-          div(class="q-pa-md row justify-center q-gutter-sm")
+          div(class="fit no-wrap q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in new_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
@@ -53,7 +60,7 @@
 
           q-toolbar(class="bg-blue-3")
             q-toolbar-title(align="middle") Популярные книги
-          div(class="q-pa-md row justify-center q-gutter-sm")
+          div(class="fit no-wrap q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in popular_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
@@ -65,7 +72,7 @@
 
           q-toolbar(class="bg-orange-3")
             q-toolbar-title(align="middle") Лучшие оценки
-          div(class="q-pa-md row justify-center q-gutter-sm")
+          div(class="fit no-wrap q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in top_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
@@ -79,7 +86,7 @@
 
           q-toolbar(class="bg-grey-4")
             q-toolbar-title(align="middle") Самые обсуждаемые
-          div(class="q-pa-md row justify-center q-gutter-sm")
+          div(class="fit no-wrap q-pa-md row justify-center q-gutter-sm")
             q-intersection(v-for="book in commented_data", :key="book", class="card", once, transition="scale")
               q-card
                 q-img(:src="book.image_src", clickable, class="scale", @click="showBook(book)")
