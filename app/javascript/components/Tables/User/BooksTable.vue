@@ -96,7 +96,7 @@
             // Статус
             template(v-slot:body-cell-status="props")
               q-td(align="center")
-                div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
+                div(:class="[status_arr[props.row.available][1]]") {{ status_arr[props.row.available][0] }}
             // Доступно
             template(v-slot:body-cell-count="props")
               q-td(align="center")
@@ -159,8 +159,8 @@
           { name: 'wishlist',   align: 'center' }
         ],
         status_arr: {
-          'not_available': ['НЕ ДОСТУПНА', 'text-grey'],
-          'available': ['ДОСТУПНА', 'text-green']
+          'false': ['НЕ ДОСТУПНА', 'text-grey'],
+          'true': ['ДОСТУПНА', 'text-green']
         },
         data: [],
         title: '',

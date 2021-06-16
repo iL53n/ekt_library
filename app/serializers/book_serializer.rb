@@ -7,7 +7,7 @@ class BookSerializer < ActiveModel::Serializer
              :author,
              :description,
              :short_description,
-             :status,
+             :available,
              :booking,
              :reading,
              :readed,
@@ -30,6 +30,10 @@ class BookSerializer < ActiveModel::Serializer
   has_many :comments, serializer: CommentSerializer
   has_many :ratings
 
+  def available
+    object.available?
+  end
+
   def short_title
     title = object.title.length <= 45 ? object.title : object.title.slice(0, 42).concat('...')
     "#{object.author} - #{title}"
@@ -50,11 +54,6 @@ class BookSerializer < ActiveModel::Serializer
 
   # def image_name
   #   object.image.filename.to_s
-  # end
-
-  # ToDo: where we use it?
-  # def start_date_post
-  #   object.active_post&.created_at&.to_date
   # end
 
   def string_users

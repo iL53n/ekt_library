@@ -70,13 +70,6 @@
               v-model="book.number_of"
               type="number"
             )
-            q-select(
-              filled
-              label="Статус"
-              placeholder="Выберите статус"
-              v-model="book.status"
-              :options="statuses"
-            )
             q-btn(
               color="primary"
               label="СОХРАНИТЬ"

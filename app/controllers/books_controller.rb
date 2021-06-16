@@ -58,7 +58,6 @@ class BooksController < ApplicationController
                   :title,
                   :description,
                   :author,
-                  :status,
                   :image,
                   :image_src,
                   :number_of,

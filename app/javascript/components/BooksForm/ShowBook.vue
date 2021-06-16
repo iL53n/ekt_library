@@ -33,14 +33,12 @@
                   q-rating(size="2em" color="orange" icon="star_border" icon-selected="star" v-model="input_rating" @click="addVote()")
                 q-card-section
                   div(class="text-h5")
-                    div(:class="[status_arr[book.status][1]]" size="lg") {{ status_arr[book.status][0] }}
-                    div(class="text-body1 text-grey-9") В наличии: {{ book.number_of }}шт.
+                    div(:class="[status_arr[book.available][1]]" size="lg") {{ status_arr[book.available][0] }}
+                    div(class="text-body1 text-grey-9") В наличии: {{ book.all_amount_with_booking }} шт.
                 q-btn-group()
-                  div(v-if="book.status == 'available'")
+                  div(v-if="book.available")
                     q-btn(class="text-white bg-green" size="md" icon="bookmark" label="Зарезервировать" @click="bookingBook()")
-                  div(v-if="book.status == 'booking'")
-                    q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
-                  div(v-if="book.status == 'reading'")
+                  div(v-else)
                     q-btn(class="text-white bg-grey" size="md" icon="bookmark" label="Зарезервировать" disable)
           q-card-section
             q-card-section
@@ -91,10 +89,8 @@
           comments: []
         },
         status_arr: {
-          'booking': ['Зарезервирована', 'text-blue-grey'],
-          'reading': ['На руках', 'text-grey'],
-          'available': ['Доступна', 'text-green text-weight-bolder'],
-          'not_available': ['Не доступна', 'text-grey']
+          'false': ['НЕ ДОСТУПНА', 'text-grey'],
+          'true': ['ДОСТУПНА', 'text-green']
         },
 				error: false,
 				hide: true,

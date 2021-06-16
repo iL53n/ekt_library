@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2020_12_15_140017) do
     t.string "title", null: false
     t.string "author", null: false
     t.text "description", null: false
-    t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"

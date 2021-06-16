@@ -3,7 +3,6 @@ class Book < ApplicationRecord
   validates :title,
             :author,
             :description,
-            # :status,
             :number_of, presence: true
 
   has_and_belongs_to_many :categories
@@ -13,21 +12,7 @@ class Book < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :ratings, dependent: :destroy
 
-  #
-  def close_booking_post(user_id)
-    active_booking_posts = active_posts&.where(title: 'booking', user_id: user_id)
-    active_booking_posts&.each { |p| p.update!(active: false, end_date: Time.now) }
-  end
-
-  def reading_users
-    reading&.map { |post| post.user }
-  end
-  # # data
-  # def booking_users_str
-  #   booking.map { |post| "#{post.user.last_name} #{post.user.first_name} \" #{post.created_at.to_date} \"" }
-  # end
-
-  # scopes_by_status
+  # scopes_by_posts_status
   def booking
     scope_by_status('booking', true)
   end
@@ -69,13 +54,23 @@ class Book < ApplicationRecord
     comments.count if comments.any?
   end
 
-  #
-
-  def available?
-    self.all_amount > 0
+  ###
+  def close_booking_post(user_id)
+    active_booking_posts = active_posts&.where(title: 'booking', user_id: user_id)
+    active_booking_posts&.each { |p| p.update!(active: false, end_date: Time.now) }
   end
 
-  ###
+  def reading_users
+    reading&.map { |post| post.user }
+  end
+
+  # def booking_users_str
+  #   booking.map { |post| "#{post.user.last_name} #{post.user.first_name} \" #{post.created_at.to_date} \"" }
+  # end
+
+  def available?
+    self.all_amount_with_booking > 0
+  end
 
   def include_reading?(user_id)
     self.posts.where(user_id: user_id)
@@ -93,13 +88,4 @@ class Book < ApplicationRecord
   def active_posts
     posts.where(active: true)
   end
-
-  # def close_active_post
-  #   active_post&.update!(active: false, end_date: Time.now)
-  # end
-
-  # def close_active_post(user_id)
-  #   post = active_posts&.where(user_id: user_id)
-  #   post.update(active: false, end_date: Time.now)
-  # end
 end
