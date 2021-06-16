@@ -38,7 +38,7 @@
               label="Выдать"
               @click="giveOutBook"
               type="submit"
-              v-close-popup="hide"
+              v-close-popup
               v-show="book.booking.all_amount !== 0"
             )
             q-btn(
@@ -60,7 +60,6 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
         user: null,
         users: this.getUsers(),
         errors: {},
-        hide: true
       }
     },
     created() {
@@ -118,7 +117,6 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
                   message: "Резервирование удалено!",
                   color: 'negative'
                 });
-                this.$emit('give-out-book');
               })
               .catch((error) => {
                 console.log(error);
@@ -139,7 +137,6 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
               color: 'positive',
               position: 'top'
             });
-            this.$emit('give-out-book');
           })
           .catch((error) => {
             console.log(error);
@@ -147,7 +144,8 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
           });
       },
       afterShow() {
-        this.$router.push("/admin_books");
+        this.$emit('give-out-book');
+        this.$router.go(-1);
       }
     },
     components: {

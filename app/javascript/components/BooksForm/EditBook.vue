@@ -82,7 +82,7 @@
               label="СОХРАНИТЬ"
               @click="updateBook"
               type="submit"
-              v-close-popup="hide"
+              v-close-popup
             )
             q-btn(
               flat
@@ -102,8 +102,7 @@
 				book: this.getBook(),
         categories: this.getCategories(),
         selectCategories: [],
-        statuses: ['available', 'booking', 'reading'],
-				hide: true
+        statuses: ['available', 'booking', 'reading']
 			}
 		},
 		created() {
@@ -121,7 +120,7 @@
 					})
 					.catch((error) => {
 						console.log(error);
-						this.errors = true
+						// this.errors = true
 					})
 					.finally(() => {
 						this.loading = false
@@ -135,7 +134,7 @@
 					})
 					.catch((error) => {
 						console.log(error);
-						this.errors = true
+						// this.errors = true
 					})
 					.finally(() => {
 						this.loading = false
@@ -150,7 +149,7 @@
 							color: 'positive',
 							position: 'right'
 						});
-						this.$emit('edit-book');
+						// this.$emit('edit-book');
 						this.book = {};
 						this.errors = {};
 						// this.$refs.title.resetValidation();
@@ -160,7 +159,9 @@
 					});
 			},
 			afterShow() {
-				this.$router.push("/admin_books");
+				// this.$router.push("/admin_books");
+        this.$emit('edit-book');
+        this.$router.go(-1);
 			}
 		},
 		components: {

@@ -80,8 +80,8 @@ import {getBook, closePost, createRating, getUsers} from '../../api'
         users: this.getUsers(),
         user: null,
         error: false,
-        hide: true,
-        visible: true
+        // hide: true,
+        // visible: true
       }
     },
     created() {
@@ -158,12 +158,13 @@ import {getBook, closePost, createRating, getUsers} from '../../api'
         }).onOk(() => {
           closePost(post.id)
               .then((response) => {
+                this.$emit('refresh-list');
+                this.$router.go(-1);
                 Notify.create({
                   message: "Книга возвращена!",
                   color: 'positive',
                   position: 'top'
                 })
-                this.$emit('refresh-list');
               })
               .catch((error) => {
                 console.log(error);
@@ -176,7 +177,8 @@ import {getBook, closePost, createRating, getUsers} from '../../api'
         })
       },
       afterShow() {
-        this.$router.push("/admin_books");
+        // this.$router.push("/admin_books");
+        this.$router.go(-1);
       }
     },
     components: {

@@ -10,7 +10,7 @@
           img(src="../images/logo_book_4.png" alt="EKTlibrary" width="60" align="middle")
 
         q-toolbar-title БИБЛИОТЕКА
-          q-badge(align="top" color="orange") v1.0.0b
+          q-badge(align="top" color="orange") v1.1.0b
 
         //div(class="toolbar-input-container justify-center")
           q-input(dark dense standout placeholder="Книга, автор" v-model="search_text" input-class="text-left" class="q-ml-md")
