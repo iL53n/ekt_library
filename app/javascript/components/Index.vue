@@ -11,6 +11,7 @@
           q-carousel(
             animated
             v-model="slide"
+            :autoplay="autoplay"
             infinite
             arrows
             padding
@@ -108,6 +109,7 @@
     data() {
       return {
         slide: 1,
+        autoplay: true,
         new_data: [],
         popular_data: [],
         top_data: [],
