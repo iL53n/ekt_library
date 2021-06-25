@@ -18,42 +18,88 @@
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет зарезервированных книг!")
+            // Обложка
             template(v-slot:body-cell-image="props")
               q-td(align="center")
-                q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
+                q-img(
+                  :src="props.row.image_src"
+                  style="max-width: 60px; box-shadow: 0 0 5px;"
+                  class="high-scale"
+                  @click="showBook(props.row)"
+                )
+            // Наименование(название, автор, кол-во коммент)
             template(v-slot:body-cell-title="props")
               q-td(align="left")
-                q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
+                div
+                  q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                    q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
+                    q-tooltip(
+                      anchor="center right"
+                      self="center left"
+                      content-style="font-size: 12px"
+                    ) {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
-            template(v-slot:body-cell-raiting="props")
+            // Рейтинг
+            template(v-slot:body-cell-rating="props")
               q-td(align="center")
-                q-rating(v-model="ratingModel", readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star")
+                q-rating(
+                  v-if="props.row.current_rating !== null"
+                  readonly
+                  size="1.5em"
+                  color="orange"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="props.row.current_rating"
+                )
+                q-rating(
+                  v-else
+                  readonly
+                  size="1.5em"
+                  color="grey"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="null_rating"
+                )
+            // Категории
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
-                div(v-for="category in props.row.categories")
+                div(v-for="category in props.row.booking")
                   q-badge {{ category.title }}
-            template(v-slot:body-cell-user="props")
+            // Дата резерва
+            template(v-slot:body-cell-start_date_post="props")
               q-td(align="center")
-                div(v-if="props.row.user")
-                  | {{ props.row.user.last_name }} {{ props.row.user.first_name }}
+                | {{ props.row.booking }}
+                | {{ user }}
+            // Закрыть резерв
+            //template(v-slot:body-cell-close_post="props")
+            //  q-td(align="center")
+            //    q-btn(
+            //      name="close_post"
+            //      flat
+            //      round
+            //      color="primary"
+            //      size="12px"
+            //      icon="delete_forever"
+            //      @click="closePost(props.row.booking)"
+            //    )
 </template>
 
 <script>
-  import { getBooks, getCategories} from '../../../api'
+import {getBooks, getCategories, closePost } from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
     data() {
       return {
         columns: [
-          { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
-          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
-          { name: 'start_date_post', align: 'center', label: 'Зарезервировал', field: 'start_date_post', sortable: true },
+          { name: 'id',              label: 'ID',           align: 'left',   field: 'id',                                           sortable: true },
+          { name: 'image',           label: 'Обложка',      align: 'center', field: 'image'                                                        },
+          { name: 'title',           label: 'Наименование', align: 'left',   field: row => row.title,      format: val => '${val}', sortable: true },
+          { name: 'rating',          label: 'Рейтинг',      align: 'center', field: row => row.rating,     format: val => '${val}', sortable: true },
+          { name: 'categories',      label: 'Категории',    align: 'center', field: row => row.categories, format: val => '${val}'                 },
+          { name: 'start_date_post', label: 'Дата резерва', align: 'center', field: 'start_date',                                   sortable: true },
+          { name: 'close_post',                             align: 'center'                                                                        }
         ],
         data: [],
         title: '',
@@ -69,6 +115,13 @@
     created() {
       this.fetchBooks();
     },
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        },
+      },
+    },
     methods: {
       fetchBooks() {
         getBooks({ filter: 'booking' })
@@ -81,6 +134,25 @@
             })
             .finally(() => {
               this.loading = false
+            });
+      },
+      closePost(post) {
+        closePost(post.id)
+            .then((response) => {
+              this.fetchBooks();
+              Notify.create({
+                message: "Книга снята с резерва!",
+                color: 'positive',
+                position: 'top'
+              })
+            })
+            .catch((error) => {
+              this.error = true
+              Notify.create({
+                message: "Ошибка: '" + post.error + "'.",
+                color: 'positive',
+                position: 'top'
+              })
             });
       },
       getCategories() {
