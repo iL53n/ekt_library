@@ -7,6 +7,8 @@
       div(v-if="error")
         p Error!
       div(v-else)
+        q-toolbar(class="bg-light-blue-1")
+          q-toolbar-title(align="middle") #врезерве
         div(class='q-pa-md')
           q-table(
             separator="cell"
@@ -64,25 +66,24 @@
             // Категории
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
-                div(v-for="category in props.row.booking")
+                div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
             // Дата резерва
             template(v-slot:body-cell-start_date_post="props")
               q-td(align="center")
-                | {{ props.row.booking }}
-                | {{ user }}
+                | {{ new Date(props.row.booking.find(post => post.user_id === user.id).created_at).toDateString() }}
             // Закрыть резерв
-            //template(v-slot:body-cell-close_post="props")
-            //  q-td(align="center")
-            //    q-btn(
-            //      name="close_post"
-            //      flat
-            //      round
-            //      color="primary"
-            //      size="12px"
-            //      icon="delete_forever"
-            //      @click="closePost(props.row.booking)"
-            //    )
+            template(v-slot:body-cell-close_post="props")
+              q-td(align="center")
+                q-btn(
+                  name="close_post"
+                  flat
+                  round
+                  color="primary"
+                  size="15px"
+                  icon="highlight_off"
+                  @click="closePost(props.row.booking.find(post => post.user_id === user.id))"
+                )
 </template>
 
 <script>
@@ -105,12 +106,12 @@ import {getBooks, getCategories, closePost } from '../../../api'
         title: '',
         categories: this.getCategories(),
         loading: true,
+        error: false,
         ratingModel: 3,
         pagination: {
           rowsPerPage: 10
         },
       }
-      // error: {}
     },
     created() {
       this.fetchBooks();
@@ -137,6 +138,7 @@ import {getBooks, getCategories, closePost } from '../../../api'
             });
       },
       closePost(post) {
+        this.loading = true
         closePost(post.id)
             .then((response) => {
               this.fetchBooks();
@@ -145,6 +147,7 @@ import {getBooks, getCategories, closePost } from '../../../api'
                 color: 'positive',
                 position: 'top'
               })
+              this.loading = false
             })
             .catch((error) => {
               this.error = true
@@ -162,7 +165,7 @@ import {getBooks, getCategories, closePost } from '../../../api'
             })
             .catch((error) => {
               console.log(error);
-              this.errors = true
+              this.error = true
             })
             .finally(() => {
               this.loading = false
@@ -179,15 +182,5 @@ import {getBooks, getCategories, closePost } from '../../../api'
 </script>
 
 <style>
-  .book-description {
-    font-size: 0.85em;
-    font-style: italic;
-    max-width: 400px;
-    /*width: auto;*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    white-space: normal;
-    color: #555;
-    margin-top: 4px;
-  }
+
 </style>
