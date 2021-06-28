@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :posts
-  patch 'posts/:id/readed', to: 'posts#close_reading_post'
+  patch 'posts/:id/close', to: 'posts#close_post'
 
   resources :books
   resources :categories

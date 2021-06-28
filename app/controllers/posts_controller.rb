@@ -23,7 +23,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def close_reading_post
+  def close_post
     @post&.update!(active: false, end_date: Time.now)
   end
 

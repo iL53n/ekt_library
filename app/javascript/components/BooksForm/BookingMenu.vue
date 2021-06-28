@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {getBook, getUsers, createPost, deletePost} from '../../api'
+  import {getBook, getUsers, createPost, closePost} from '../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -97,8 +97,8 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
       },
       deletePost(post) {
         this.$q.dialog({
-          title: "Удалить резервирование?",
-          message: "Вы собираетесь безвозвратно удалить резервирование!",
+          title: "Закрыть резервирование?",
+          message: "Вы собираетесь безвозвратно закрыть резервирование книги пользователем!",
           ok: {
             outline: true,
             color: 'negative',
@@ -110,11 +110,11 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
             label: 'Нет'
           }
         }).onOk(() => {
-          deletePost(post.id)
+          closePost(post.id)
               .then((response) => {
                 this.getBook();
                 Notify.create({
-                  message: "Резервирование удалено!",
+                  message: "Резервирование закрыто!",
                   color: 'negative'
                 });
               })
