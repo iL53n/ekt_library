@@ -7,6 +7,8 @@
       div(v-if="error")
         p Error!
       div(v-else)
+        q-toolbar(class="bg-light-blue-1")
+          q-toolbar-title(align="middle") #прочитал
         div(class='q-pa-md')
           q-table(
             separator="cell"
@@ -18,22 +20,63 @@
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
             no-data-label="Нет прочитанных книг :( ")
+            // Обложка
             template(v-slot:body-cell-image="props")
               q-td(align="center")
-                q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
+                q-img(
+                  :src="props.row.image_src"
+                  style="max-width: 60px; box-shadow: 0 0 5px;"
+                  class="high-scale"
+                  @click="showBook(props.row)"
+                )
+            // Наименование(название, автор, кол-во коммент)
             template(v-slot:body-cell-title="props")
               q-td(align="left")
-                q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
+                div
+                  q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                    q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
+                    q-tooltip(
+                      anchor="center right"
+                      self="center left"
+                      content-style="font-size: 12px"
+                    ) {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
-            template(v-slot:body-cell-raiting="props")
+            // Рейтинг
+            template(v-slot:body-cell-rating="props")
               q-td(align="center")
-                q-rating(v-model="ratingModel", readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star")
+                q-rating(
+                  v-if="props.row.current_rating !== null"
+                  readonly
+                  size="1.5em"
+                  color="orange"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="props.row.current_rating"
+                )
+                q-rating(
+                  v-else
+                  readonly
+                  size="1.5em"
+                  color="grey"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="null_rating"
+                )
+            // Категории
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
                 div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
+            // Начал
+            template(v-slot:body-cell-start_date_post="props")
+              q-td(align="center")
+                | {{ new Date(props.row.readed.find(post => post.user_id === user.id).created_at).toDateString() }}
+            // Закончил
+            template(v-slot:body-cell-end_date_post="props")
+              q-td(align="center")
+                | {{ new Date(props.row.readed.find(post => post.user_id === user.id).end_date).toDateString() }}
+                //| {{ new Date(props.row.redead.find(post => post.user_id === user.id).end_date).toDateString() }}
 </template>
 
 <script>
@@ -44,25 +87,34 @@
     data() {
       return {
         columns: [
-          { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
-          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' }
+          { name: 'id',              label: 'ID',           align: 'left',   field: 'id',                                           sortable: true },
+          { name: 'image',           label: 'Обложка',      align: 'center', field: 'image'                                                        },
+          { name: 'title',           label: 'Наименование', align: 'left',   field: row => row.title,      format: val => '${val}', sortable: true },
+          { name: 'rating',          label: 'Рейтинг',      align: 'center', field: row => row.rating,     format: val => '${val}', sortable: true },
+          { name: 'categories',      label: 'Категории',    align: 'center', field: row => row.categories, format: val => '${val}'                 },
+          { name: 'start_date_post', label: 'Начал',        align: 'center', field: 'start_date',                                   sortable: true },
+          { name: 'end_date_post',   label: 'Прочитал',     align: 'center', field: 'end_date',                                     sortable: true },
         ],
         data: [],
         title: '',
         categories: this.getCategories(),
         loading: true,
+        error: false,
         ratingModel: 3,
         pagination: {
           rowsPerPage: 10
         },
       }
-      // error: {}
     },
     created() {
       this.fetchBooks();
+    },
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        },
+      },
     },
     methods: {
       fetchBooks() {
@@ -102,15 +154,5 @@
 </script>
 
 <style>
-  .book-description {
-    font-size: 0.85em;
-    font-style: italic;
-    max-width: 400px;
-    /*width: auto;*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    white-space: normal;
-    color: #555;
-    margin-top: 4px;
-  }
+
 </style>

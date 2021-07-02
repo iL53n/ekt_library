@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 2020_12_15_140017) do
     t.boolean "active", default: true
     t.bigint "book_id"
     t.bigint "user_id"
-    t.date "end_date"
+    t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_posts_on_book_id"

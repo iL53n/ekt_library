@@ -5,7 +5,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.boolean :active, default: true
       t.belongs_to :book
       t.belongs_to :user
-      t.date :end_date
+      t.datetime :end_date
 
       t.timestamps
     end

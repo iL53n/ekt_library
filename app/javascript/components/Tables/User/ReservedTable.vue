@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import {getBooks, getCategories, closePost } from '../../../api'
+  import {getBooks, getCategories, closePost } from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
