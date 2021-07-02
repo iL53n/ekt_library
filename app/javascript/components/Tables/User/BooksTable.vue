@@ -208,7 +208,12 @@
             })
             .catch((error) => {
               console.log(error);
-              this.error = true
+              this.fetchBooks();
+              Notify.create({
+                message: "Книга уже была зарезервирована раньше!",
+                color: 'negative',
+                position: 'top'
+              })
             });
       },
       addWish(book) {
@@ -225,7 +230,7 @@
               this.error = true
               Notify.create({
                 message: "Ошибка: '" + book.error + "'.",
-                color: 'positive',
+                color: 'negative',
                 position: 'top'
               })
             });

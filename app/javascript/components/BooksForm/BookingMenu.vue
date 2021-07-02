@@ -16,7 +16,7 @@
             div(class="text-subtitle1") Всего доступно книг: {{ book.all_amount }}
             div(class="text-subtitle1" v-show="book.booking.length !== 0") Из них резервы({{ book.booking.length }}):
             div(v-for="post in book.booking")
-              q-chip(removable size="md" icon="perm_identity" @remove="deletePost(post)")
+              q-chip(removable size="md" icon="perm_identity" @remove="closePost(post)")
                 | {{ (users.find(user => user.id === post.user_id)).full_name_str }} -- {{ new Date(post.created_at).toDateString() }}
             br
             q-separator
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {getBook, getUsers, createPost, deletePost} from '../../api'
+  import {getBook, getUsers, createPost, closePost} from '../../api'
   import { Notify } from 'quasar'
 
   export default {
@@ -95,10 +95,10 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
             this.loading = false
           });
       },
-      deletePost(post) {
+      closePost(post) {
         this.$q.dialog({
-          title: "Удалить резервирование?",
-          message: "Вы собираетесь безвозвратно удалить резервирование!",
+          title: "Закрыть резервирование?",
+          message: "Вы собираетесь безвозвратно закрыть резервирование книги пользователем!",
           ok: {
             outline: true,
             color: 'negative',
@@ -110,11 +110,11 @@ import {getBook, getUsers, createPost, deletePost} from '../../api'
             label: 'Нет'
           }
         }).onOk(() => {
-          deletePost(post.id)
+          closePost(post.id)
               .then((response) => {
                 this.getBook();
                 Notify.create({
-                  message: "Резервирование удалено!",
+                  message: "Резервирование закрыто!",
                   color: 'negative'
                 });
               })

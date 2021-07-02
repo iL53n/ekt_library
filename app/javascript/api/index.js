@@ -80,7 +80,7 @@ export function deletePost (id) {
 }
 
 export function closePost (id) {
-	return axios.patch('/posts/' + id + '/readed');
+	return axios.patch('/posts/' + id + '/close');
 }
 
 // comments
