@@ -26,7 +26,7 @@
                 q-img(
                   :src="props.row.image_src"
                   style="max-width: 60px; box-shadow: 0 0 5px;"
-                  class="high-scale"
+                  class="scale"
                   @click="showBook(props.row)"
                 )
             // Наименование(название, автор, кол-во коммент)
