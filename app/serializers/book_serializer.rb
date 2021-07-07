@@ -11,6 +11,7 @@ class BookSerializer < ActiveModel::Serializer
              :booking,
              :reading,
              :readed,
+             :wish,
              :all_amount,
              :all_amount_with_booking,
              :user_id,

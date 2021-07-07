@@ -25,6 +25,10 @@ class Book < ApplicationRecord
     scope_by_status('reading', false)
   end
 
+  def wish
+    scope_by_status('wish', false)
+  end
+
   def scope_by_status(title, active)
     posts.where(title: title, active: active)
   end

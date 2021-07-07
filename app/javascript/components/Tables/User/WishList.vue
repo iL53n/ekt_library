@@ -7,6 +7,8 @@
       div(v-if="error")
         p Error!
       div(v-else)
+        q-toolbar(class="bg-light-blue-1")
+          q-toolbar-title(align="middle") #избранное
         div(class='q-pa-md')
           q-table(
             separator="cell"
@@ -17,65 +19,113 @@
             :pagination.sync="pagination",
             :rows-per-page-options="[10, 25, 100]",
             row-key="id"
-            no-data-label="Нет избранных книг!")
+            no-data-label="Нет книг в избранном!")
+            // Обложка
             template(v-slot:body-cell-image="props")
               q-td(align="center")
-                q-img(:src="props.row.image_src" style="max-width: 150px" class="scale")
+                q-img(
+                  :src="props.row.image_src"
+                  style="max-width: 60px; box-shadow: 0 0 5px;"
+                  class="scale"
+                  @click="showBook(props.row)"
+                )
+            // Наименование(название, автор, кол-во коммент)
             template(v-slot:body-cell-title="props")
               q-td(align="left")
-                q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
-                  q-tooltip(anchor="center right" self="center left" content-style="font-size: 12px") {{ props.row.description }}
+                div
+                  q-btn(flat color="primary" @click="showBook(props.row)" :label="props.row.title" action="show")
+                    q-badge(color="green" icon="edit" floating) {{ props.row.comments.length }}
+                    q-tooltip(
+                      anchor="center right"
+                      self="center left"
+                      content-style="font-size: 12px"
+                    ) {{ props.row.description }}
                 div
                   q-chip(square outline color="blue-grey-6" :label="props.row.author")
-            template(v-slot:body-cell-raiting="props")
+            // Рейтинг
+            template(v-slot:body-cell-rating="props")
               q-td(align="center")
-                q-rating(v-model="ratingModel", readonly, size="1.5em", color="orange", icon="star_border", icon-selected="star")
+                q-rating(
+                  v-if="props.row.current_rating !== null"
+                  readonly
+                  size="1.5em"
+                  color="orange"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="props.row.current_rating"
+                )
+                q-rating(
+                  v-else
+                  readonly
+                  size="1.5em"
+                  color="grey"
+                  icon="star_border"
+                  icon-selected="star"
+                  v-model="null_rating"
+                )
+            // Категории
             template(v-slot:body-cell-categories="props")
               q-td(align="center")
                 div(v-for="category in props.row.categories")
                   q-badge {{ category.title }}
-            template(v-slot:body-cell-status="props")
+            // Дата добавления
+            template(v-slot:body-cell-start_date_post="props")
               q-td(align="center")
-                div(:class="[status_arr[props.row.status][1]]") {{ status_arr[props.row.status][0] }}
-            //template(v-slot:body-cell-wishlist="props")
-              q-td
-                q-btn(flat round color="red-5" size="12px" icon="delete_forever" @click="removeWish(props.row)")
+                | {{ new Date(props.row.wish.find(post => post.user_id === user.id).created_at).toDateString() }}
+            // Закрыть
+            template(v-slot:body-cell-close_post="props")
+              q-td(align="center")
+                q-btn(
+                  name="close_post"
+                  flat
+                  round
+                  color="primary"
+                  size="15px"
+                  icon="unpublished"
+                  @click="closePost(props.row.wish.find(post => post.user_id === user.id))"
+                )
 </template>
 
 <script>
-  import { getBooks, getCategories} from '../../../api'
+  import { getBooks, getCategories, deletePost } from '../../../api'
   import { Notify } from 'quasar'
 
   export default {
     data() {
       return {
         columns: [
-          { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-          { name: 'image', align: 'center', label: 'Обложка', field: 'image' },
-          { name: 'title', label: 'Наименование', align: 'left', field: row => row.title, format: val => '${val}', sortable: true },
-          { name: 'raiting', label: 'Рейтинг', align: 'center', field: row => row.raiting, format: val => '${val}', sortable: true },
-          { name: 'status', align: 'center', label: 'Статус', field: 'status', sortable: true },
-          { name: 'categories', label: 'Категории', align: 'center', field: row => row.categories, format: val => '${val}' },
-          //{ name: 'wishlist', align: 'center' },
+          { name: 'id',              label: 'ID',              align: 'left',   field: 'id',                                           sortable: true },
+          { name: 'image',           label: 'Обложка',         align: 'center', field: 'image'                                                        },
+          { name: 'title',           label: 'Наименование',    align: 'left',   field: row => row.title,      format: val => '${val}', sortable: true },
+          { name: 'rating',          label: 'Рейтинг',         align: 'center', field: row => row.rating,     format: val => '${val}', sortable: true },
+          { name: 'categories',      label: 'Категории',       align: 'center', field: row => row.categories, format: val => '${val}'                 },
+          { name: 'start_date_post', label: 'Дата добавления', align: 'center', field: 'created_at',                                   sortable: true },
+          { name: 'close_post',                                align: 'center'                                                                        }
         ],
         data: [],
         title: '',
         categories: this.getCategories(),
         loading: true,
+        error: false,
         ratingModel: 3,
-        status_arr: {
-          'booking': ['Зарезервирована', 'text-blue-grey'],
-          'reading': ['На руках', 'text-grey'],
-          'available': ['Доступна', 'text-green text-weight-bolder']
-        },
         pagination: {
           rowsPerPage: 10
         },
+        status_arr: {
+          'false': ['НЕ ДОСТУПНА', 'text-grey'],
+          'true': ['ДОСТУПНА', 'text-green']
+        },
       }
-      // error: {}
     },
     created() {
       this.fetchBooks();
+    },
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        },
+      },
     },
     methods: {
       fetchBooks() {
@@ -89,6 +139,27 @@
             })
             .finally(() => {
               this.loading = false
+            });
+      },
+      closePost(post) {
+        this.loading = true
+        deletePost(post.id)
+            .then((response) => {
+              this.fetchBooks();
+              Notify.create({
+                message: "Книга удалена из избранного!",
+                color: 'positive',
+                position: 'top'
+              })
+              this.loading = false
+            })
+            .catch((error) => {
+              this.error = true
+              Notify.create({
+                message: "Ошибка: '" + post.error + "'.",
+                color: 'positive',
+                position: 'top'
+              })
             });
       },
       getCategories() {
@@ -115,15 +186,5 @@
 </script>
 
 <style>
-  .book-description {
-    font-size: 0.85em;
-    font-style: italic;
-    max-width: 400px;
-    /*width: auto;*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    white-space: normal;
-    color: #555;
-    margin-top: 4px;
-  }
+
 </style>

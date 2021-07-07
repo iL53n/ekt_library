@@ -59,9 +59,11 @@ class PostsController < ApplicationController
   end
 
   def not_uniq?
+    active = @post.title == 'wish' ? false : true
+
     @posts.exists?(title:   @post.title,
                    book_id: @book.id,
                    user_id: @user.id,
-                   active:  true)
+                   active:  active)
   end
 end

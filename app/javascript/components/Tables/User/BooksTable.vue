@@ -227,9 +227,10 @@
               })
             })
             .catch((error) => {
-              this.error = true
+              console.log(error);
+              this.fetchBooks();
               Notify.create({
-                message: "Ошибка: '" + book.error + "'.",
+                message: "Книга уже была добавлена в избранные раньше!",
                 color: 'negative',
                 position: 'top'
               })
