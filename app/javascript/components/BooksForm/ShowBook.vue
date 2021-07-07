@@ -66,6 +66,16 @@
                     q-item-label(v-html="comment.body")
                   q-item-section(side)
                     | {{ comment.created }}
+                    div(v-if="user.admin === true")
+                      q-btn(
+                        name="close_post"
+                        flat
+                        round
+                        color="primary"
+                        size="10px"
+                        icon="close"
+                        @click="destroyComment(comment)"
+                      )
                 q-separator(spaced inset)
 
             q-card-section(class="text-black")
@@ -74,7 +84,7 @@
 </template>
 
 <script>
-	import { getBook, createComment, createRating, createPost } from '../../api'
+	import { getBook, createComment, createRating, createPost, deleteComment } from '../../api'
   import { Notify } from 'quasar'
 
 	export default {
@@ -99,7 +109,15 @@
         input_rating: 0
 			}
 		},
+		created() {
+		  this.getBook();
+		},
     computed: {
+      user: {
+        get() {
+          return this.$store.state.currentUser
+        },
+      },
       flibusta_link() {
         return "http://flibusta.is/booksearch?ask=" + this.book.title
       },
@@ -107,9 +125,6 @@
         return "https://librusec.pro/poisk/?navsrcq=" + this.book.title
       }
     },
-		created() {
-		  this.getBook();
-		},
 		methods: {
 			getBook() {
 				getBook(this.$route.params.id)
@@ -136,10 +151,15 @@
             });
             this.getBook()
           })
-          .catch((error) => {
-            console.log(error);
-            this.error = true
-          });
+            .catch((error) => {
+              console.log(error);
+              this.error = true
+              Notify.create({
+                message: "Книга уже была зарезервирована раньше!",
+                color: 'negative',
+                position: 'top'
+              })
+            });
       },
       addWish() {
         createPost({ title: 'wish', book_id: this.$route.params.id, active: false })
@@ -153,6 +173,11 @@
           .catch((error) => {
             console.log(error);
             this.error = true
+            Notify.create({
+              message: "Книга уже была добавлена в избранные раньше!",
+              color: 'negative',
+              position: 'top'
+            })
           });
       },
       addVote() {
@@ -194,6 +219,35 @@
           .catch((error) => {
             console.log(error);
             this.error = true
+            Notify.create({
+              message: "Ошибка добавления!",
+              color: 'negative',
+              position: 'top'
+            })
+          })
+          .finally(() => {
+            this.loading = false
+          });
+      },
+      destroyComment(comment) {
+        deleteComment(comment.id)
+          .then((response) => {
+            Notify.create({
+              message: "Комментарий уделен!",
+              color: 'positive',
+              position: 'top'
+            });
+            this.getBook()
+            this.$emit('add-comment');
+          })
+          .catch((error) => {
+            console.log(error)
+            this.error = true
+            Notify.create({
+              message: "Ошибка удаления!",
+              color: 'negative',
+              position: 'top'
+            })
           })
           .finally(() => {
             this.loading = false

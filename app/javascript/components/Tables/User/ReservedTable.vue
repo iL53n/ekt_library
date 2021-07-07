@@ -153,7 +153,7 @@
               this.error = true
               Notify.create({
                 message: "Ошибка: '" + post.error + "'.",
-                color: 'positive',
+                color: 'negative',
                 position: 'top'
               })
             });

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :books
   resources :categories
-  resources :comments, only: :create
+  resources :comments
   resources :ratings, only: :create
 
   get '/*slug', to: 'application#index',
