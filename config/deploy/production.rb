@@ -15,7 +15,7 @@ set :rails_env, :production
 # Global options
 # --------------
  set :ssh_options, {
-   keys: %w(/home/ilsegribko/.ssh/id_rsa),
+   keys: %w(/home/gribko/.ssh/id_rsa),
    forward_agent: true,
    auth_methods: %w(publickey password),
    port: 2223

@@ -34,7 +34,7 @@ end
 
 group :development do
   gem 'better_errors'
-  gem 'capistrano', require: false
+  gem 'capistrano', '~> 3.16', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-yarn'
   gem 'capistrano-npm'
